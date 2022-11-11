@@ -13,14 +13,13 @@ public class MixingProxyImpl extends UnicastRemoteObject implements MixingProxyI
 
 
     @Override
-    public boolean receiveCapsule() {
-        return false;
-    }
-
-    @Override
-    public String sendBackSignedHas() {
+    public String receiveCapsule() {
+        // Decrypt the signed Hash
+        // Check validity
+        // Add capsule
         return null;
     }
+
 
     @Override
     public String flushCapsules() {

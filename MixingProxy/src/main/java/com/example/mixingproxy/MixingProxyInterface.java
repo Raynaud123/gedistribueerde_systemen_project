@@ -4,9 +4,7 @@ import java.rmi.Remote;
 
 public interface MixingProxyInterface  extends Remote {
 
-    boolean receiveCapsule();
-
-    String sendBackSignedHas();
+    String receiveCapsule();
 
     String flushCapsules();
 
