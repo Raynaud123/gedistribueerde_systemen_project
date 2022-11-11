@@ -6,6 +6,10 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.rmi.AlreadyBoundException;
+import java.rmi.RemoteException;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
 
 public class HelloApplication extends Application {
     @Override
@@ -18,6 +22,16 @@ public class HelloApplication extends Application {
     }
 
     public static void main(String[] args) {
+        startServer();
         launch();
+    }
+
+    public static void startServer() {
+        try {
+            Registry registry = LocateRegistry.createRegistry(1111);
+            registry.bind("RegistrarService", new RegistrarImpl());
+        } catch (RemoteException | AlreadyBoundException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
