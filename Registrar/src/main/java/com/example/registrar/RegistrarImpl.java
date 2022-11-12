@@ -13,12 +13,12 @@ public class RegistrarImpl extends UnicastRemoteObject implements RegistrarInter
     }
 
     @Override
-    public void register(String CF, String location) {
+    public void register(String CF, String location) throws RemoteException{
         registrar.registerCF(CF, location);
     }
 
     @Override
-    public Map<LocalDate, byte[]> getPseudonyms(String CF, String location, LocalDate startDate, LocalDate endDate) {
+    public Map<LocalDate, byte[]> getPseudonyms(String CF, String location, LocalDate startDate, LocalDate endDate) throws RemoteException{
         return registrar.getPseudonyms(CF, location, startDate, endDate);
     }
 }

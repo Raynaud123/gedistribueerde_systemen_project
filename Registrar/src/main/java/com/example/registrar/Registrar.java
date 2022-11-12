@@ -30,6 +30,9 @@ public class Registrar {
     }
 
     public Map<LocalDate, byte[]> getPseudonyms(String CF, String location, LocalDate startDate, LocalDate endDate) {
+        if (!cateringFacilityMap.containsKey(CF+location)) {
+            return null;
+        }
         CateringFacility cateringFacility = cateringFacilityMap.get(CF+location);
 
         return cateringFacility.getPseudonyms(masterKey, startDate, endDate);

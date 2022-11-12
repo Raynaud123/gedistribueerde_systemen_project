@@ -28,7 +28,7 @@ public class CateringFacility {
     public void generateSecretKeys(SecretKey masterKey, LocalDate startDate, LocalDate endDate) {
         byte[] staticSalt32Byte = new byte[]{(byte) 0xDA, (byte) 0xAC, 0x3E, 0x10, 0x55, (byte) 0xB5, (byte) 0xF1, 0x3E, 0x53, (byte) 0xE4, 0x70, (byte) 0xA8, 0x77, 0x79, (byte) 0x8E, 0x0A, (byte) 0x89, (byte) 0xAE, (byte) 0x96, 0x5F, 0x19, 0x5D, 0x53, 0x62, 0x58, (byte) 0x84, 0x2C, 0x09, (byte) 0xAD, 0x6E, 0x20, (byte) 0xD4};
 
-        for (LocalDate date = startDate; date.isBefore(endDate); date = date.plusDays(1)) {
+        for (LocalDate date = startDate; date.isEqual(endDate); date = date.plusDays(1)) {
             if (secretKeyMap.containsKey(date)) {
                 continue;
             }
@@ -63,7 +63,7 @@ public class CateringFacility {
 
         Map<LocalDate, byte[]> pseudonyms = new HashMap<>();
 
-        for (LocalDate date = startDate; date.isBefore(endDate); date = date.plusDays(1)) {
+        for (LocalDate date = startDate; date.isEqual(endDate); date = date.plusDays(1)) {
             if (pseudonymMap.containsKey(date)) {
                 pseudonyms.put(date, pseudonymMap.get(date));
                 continue;
