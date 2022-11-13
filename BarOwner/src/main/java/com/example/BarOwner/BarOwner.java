@@ -15,8 +15,8 @@ import java.util.Map;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class BarOwner {
-    private final String CF;
-    private final String location;
+    public final String CF;
+    public final String location;
 
     private final Map<LocalDate, byte[]> pseudonymMap;
     private final Map<LocalDate, Integer> randomMap;
