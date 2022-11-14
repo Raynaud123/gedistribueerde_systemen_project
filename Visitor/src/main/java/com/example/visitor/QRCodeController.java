@@ -20,6 +20,8 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.sql.Timestamp;
+import java.util.Date;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.ResourceBundle;
@@ -60,20 +62,21 @@ public class QRCodeController implements Initializable {
         randomNumber = rn.getText();
         cateringFacility = cf.getText();
         hashString = hash.getText();
-        System.out.println("Enter clicked");
 
         Node node = (Node) actionEvent.getSource();
         stage = (Stage) node.getScene().getWindow();
         visitor = (Visitor) stage.getUserData();
 
         if(Objects.equals(randomNumber, "") || Objects.equals(cateringFacility, "") || Objects.equals(hashString, "")){
-            System.out.println("inside if");
             Alert errorDialog = new Alert(Alert.AlertType.ERROR);
             errorDialog.setTitle("Ingegeven waarden kloppen niet");
             errorDialog.setHeaderText("De tekst die u ingegeven hebt is niet volledig, probeer opnieuw");
             errorDialog.show();
 
         }else {
+            Date date = new Date();
+            Timestamp ts = new Timestamp(date.getTime());
+            visitor.addCapsuleInformation(randomNumber,cateringFacility,hashString,ts);
 
         }
     }
