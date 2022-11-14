@@ -22,9 +22,5 @@ public class Visitor {
                 CFs.add(cateringFacility);
                 hashes.add(hashString);
                 timestamps.add(ts);
-                System.out.println(randomNumbers);
-                System.out.println(CFs);
-                System.out.println(hashes);
-                System.out.println(timestamps);
         }
 }

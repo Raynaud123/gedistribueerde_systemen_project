@@ -145,66 +145,26 @@ public class QRCodeController implements Initializable {
 
     private void onQrResult(String scanResult) {
         Platform.runLater(() -> {
-            //if (confirmation.isSelected()) {
-            if (!showingDialog) {
-                showingDialog = true;
-
-                Alert confirmDialog = new Alert(Alert.AlertType.CONFIRMATION);
-                confirmDialog.setTitle("Código QR detectado");
-                confirmDialog.setHeaderText("¿Desea abrir la carpeta: '" + scanResult + "'?");
-
-                ButtonType yes = new ButtonType("Abrir");
-                ButtonType no = new ButtonType("Cancelar", ButtonBar.ButtonData.CANCEL_CLOSE);
-                confirmDialog.getButtonTypes().setAll(no, yes);
-                Optional<ButtonType> result = confirmDialog.showAndWait();
-                if (result.isPresent() && result.get() == yes) {
-                    openFolderInExplorer(scanResult);
+                if (scanResult != null) {
+                    String[] arrOfStr = scanResult.split(" ", -1);
+                    randomNumber = arrOfStr[0];
+                    cateringFacility = arrOfStr[1];
+                    hashString = arrOfStr[2];
+                    try {
+                        int convertedRandomNumber = Integer.parseInt(randomNumber);
+                        Date date = new Date();
+                        Timestamp ts = new Timestamp(date.getTime());
+                        visitor.addCapsuleInformation(convertedRandomNumber,cateringFacility,hashString,ts);
+                    }catch (NumberFormatException e){
+                        Alert errorDialog = new Alert(Alert.AlertType.ERROR);
+                        errorDialog.setTitle("Random Number is geen getal");
+                        errorDialog.setHeaderText("Het random number die u ingegeven hebt is geen getal, probeer opnieuw");
+                        errorDialog.show();
+                    }
                 }
-
-                showingDialog = false;
-            }
-//            } else {
-//                long currentTime = new Date().getTime();
-//                if (lastDirectlyOpenedTime == 0 || (currentTime - lastDirectlyOpenedTime)/1000 > 3) {
-//                    lastDirectlyOpenedTime = currentTime;
-//                    openFolderInExplorer(scanResult);
-//                }
-//            }
         });
     }
 
-    private void openFolderInExplorer(String url) {
-        File directory = new File(url);
-        if (!directory.isDirectory()) {
-            Alert errorDialog = new Alert(Alert.AlertType.ERROR);
-            errorDialog.setTitle("Error");
-            errorDialog.setHeaderText("QR code niet gevonden");
-            errorDialog.showAndWait();
-            return;
-        }
-
-        if (isWindows()) {
-            try {
-                Runtime.getRuntime().exec("explorer.exe " + url);
-            } catch (IOException e) {
-                System.err.println("Given url could not be opened");
-                e.printStackTrace();
-            }
-        } else {
-            try {
-                ProcessBuilder builder = new ProcessBuilder("sh", "-c", "xdg-open " + url);
-                builder.start();
-            } catch (IOException e) {
-                System.err.println("Given url could not be opened");
-                e.printStackTrace();
-            }
-        }
-    }
-
-    private boolean isWindows() {
-        String OS = System.getProperty("os.name").toLowerCase();
-        return (OS.contains("win"));
-    }
 
 
 

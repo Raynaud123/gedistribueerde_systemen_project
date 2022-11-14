@@ -11,6 +11,7 @@ import java.io.File;
 import java.io.IOException;
 
 public class QRDecoder {
+
     public String decodeQRCode(File qrCodeImg) throws IOException {
         BufferedImage bufferedImage = ImageIO.read(qrCodeImg);
         return decodeQRCode(bufferedImage);
