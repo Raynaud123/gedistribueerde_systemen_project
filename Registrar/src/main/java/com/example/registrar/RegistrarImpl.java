@@ -7,9 +7,10 @@ import java.util.Map;
 
 public class RegistrarImpl extends UnicastRemoteObject implements RegistrarInterface {
 
-    Registrar registrar = new Registrar();
+    Registrar registrar;
 
-    protected RegistrarImpl() throws RemoteException {
+    protected RegistrarImpl(Registrar registrar) throws RemoteException {
+        this.registrar = registrar;
     }
 
     @Override

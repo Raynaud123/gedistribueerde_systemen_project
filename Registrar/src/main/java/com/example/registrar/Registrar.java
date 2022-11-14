@@ -1,5 +1,8 @@
 package com.example.registrar;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableMap;
+
 import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
 import java.security.NoSuchAlgorithmException;
@@ -10,7 +13,7 @@ import java.util.Map;
 public class Registrar {
 
     private final SecretKey masterKey;
-    private final Map<String , CateringFacility> cateringFacilityMap;
+    private final ObservableMap<String , CateringFacility> cateringFacilityMap;
 
     public Registrar() {
         KeyGenerator keyGenerator;
@@ -22,22 +25,23 @@ public class Registrar {
         keyGenerator.init(256);
         this.masterKey = keyGenerator.generateKey();
 
-        this.cateringFacilityMap = new HashMap<>();
+        this.cateringFacilityMap = FXCollections.observableMap(new HashMap<>());
     }
 
     public void registerCF(String CF, String location) {
-        cateringFacilityMap.put(CF+location, new CateringFacility(CF, location));
+        cateringFacilityMap.put(CF+","+location, new CateringFacility(CF, location));
     }
 
     public Map<LocalDate, byte[]> getPseudonyms(String CF, String location, LocalDate startDate, LocalDate endDate) {
-        if (!cateringFacilityMap.containsKey(CF+location)) {
+        if (!cateringFacilityMap.containsKey(CF+","+location)) {
             return null;
         }
-        CateringFacility cateringFacility = cateringFacilityMap.get(CF+location);
+        CateringFacility cateringFacility = cateringFacilityMap.get(CF+","+location);
 
         return cateringFacility.getPseudonyms(masterKey, startDate, endDate);
     }
 
-
-
+    public ObservableMap<String, CateringFacility> getCateringFacilityMap() {
+        return cateringFacilityMap;
+    }
 }

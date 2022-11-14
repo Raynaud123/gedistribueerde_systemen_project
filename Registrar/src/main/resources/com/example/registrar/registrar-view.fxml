@@ -1,16 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
 
-<?import javafx.scene.control.Button?>
-<VBox alignment="CENTER" spacing="20.0" xmlns:fx="http://javafx.com/fxml"
-      fx:controller="com.example.registrar.RegistrarGuiController">
-    <padding>
-        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
-    </padding>
 
-    <Label fx:id="welcomeText"/>
-    <Button text="Hello!" onAction="#onHelloButtonClick"/>
-</VBox>
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="569.0" minWidth="645.0" prefHeight="600.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.registrar.RegistrarGuiController">
+   <children>
+      <TableView id="tableSecret" fx:id="tableSecret" layoutX="7.0" layoutY="166.0" prefHeight="200.0" prefWidth="685.0">
+        <columns>
+          <TableColumn id="colSecretDate" fx:id="colSecretDate" prefWidth="90.0" text="Date" />
+          <TableColumn id="colSecretKey" fx:id="colSecretKey" prefWidth="594.0" text="Secret key" />
+        </columns>
+      </TableView>
+      <Label id="labelLocation" fx:id="labelLocation" layoutX="386.0" layoutY="64.0" prefHeight="75.0" prefWidth="300.0" text="Location">
+         <font>
+            <Font size="25.0" />
+         </font>
+      </Label>
+      <Label id="labelCF" fx:id="labelCF" layoutX="14.0" layoutY="64.0" prefHeight="75.0" prefWidth="300.0" text="Unique info">
+         <font>
+            <Font size="25.0" />
+         </font>
+      </Label>
+      <TableView id="tablePseud" fx:id="tablePseud" layoutX="9.0" layoutY="383.0" prefHeight="200.0" prefWidth="685.0">
+        <columns>
+          <TableColumn id="colPseudDate" fx:id="colPseudDate" prefWidth="90.0" text="Date" />
+          <TableColumn id="colPseudPseud" fx:id="colPseudPseud" prefWidth="594.0" text="Pseudonym" />
+        </columns>
+      </TableView>
+      <ComboBox fx:id="selectCF" layoutX="14.0" layoutY="14.0" prefHeight="50.0" prefWidth="200.0" />
+   </children>
+</AnchorPane>

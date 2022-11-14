@@ -12,7 +12,7 @@ public class Main {
         Registry registrarRegistry;
         RegistrarInterface registrarInterface;
         try {
-            registrarRegistry = LocateRegistry.getRegistry("localhost", 1111);
+            registrarRegistry = LocateRegistry.getRegistry("localhost", 1112);
             registrarInterface = (RegistrarInterface) registrarRegistry.lookup("RegistrarService");
 
         } catch (RemoteException | NotBoundException e) {

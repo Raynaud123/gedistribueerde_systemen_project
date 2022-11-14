@@ -42,7 +42,7 @@ public class BarOwner {
             return;
         }
 
-        for (LocalDate date = startDate; date.isEqual(endDate); date = date.plusDays(1)) {
+        for (LocalDate date = startDate; date.isBefore(endDate.plusDays(1)); date = date.plusDays(1)) {
             if (pseudonymMap.containsKey(date)) {
                 continue;
             }
