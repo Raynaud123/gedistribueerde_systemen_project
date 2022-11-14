@@ -81,6 +81,8 @@ public class BarOwner {
 
         byte[] hash = digest.digest(outputStream.toByteArray());
         System.out.println("Base 64 hash: " + Base64.getEncoder().encodeToString(hash));
+        System.out.println("randomNum: " + randomNum);
+        System.out.println("CF: " + CF);
 
         String QRContent = randomNum + " " + CF + " " + Base64.getEncoder().encodeToString(hash);
 

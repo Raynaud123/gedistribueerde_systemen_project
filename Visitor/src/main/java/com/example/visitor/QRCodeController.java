@@ -6,20 +6,21 @@ import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.concurrent.Task;
 import javafx.embed.swing.SwingFXUtils;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonBar;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.Button;
+import javafx.scene.Node;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.WritableImage;
+import javafx.stage.Stage;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.concurrent.atomic.AtomicReference;
@@ -31,21 +32,51 @@ public class QRCodeController implements Initializable {
     public ImageView cameraOutput;
     @FXML
     public Button confirmation;
+    @FXML
+    public TextArea rn;
+    @FXML
+    public TextArea cf;
+    @FXML
+    public TextArea hash;
 
+    private Visitor visitor;
+    private Stage stage;
     private ObjectProperty<Image> imageProperty = new SimpleObjectProperty<>();
-
     private QRDecoder qrDecoder = new QRDecoder();
-
     private Webcam webcam;
     private boolean showingDialog = false;
-    private long lastDirectlyOpenedTime = 0;
+    private String randomNumber;
+    private String cateringFacility;
+    private String hashString;
 
 
-@Override
-public void initialize(URL url, ResourceBundle resourceBundle) {
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        startCameraInput();
 
-    startCameraInput();
-}
+    }
+
+    public void handleButtondEnter(ActionEvent actionEvent) {
+        randomNumber = rn.getText();
+        cateringFacility = cf.getText();
+        hashString = hash.getText();
+        System.out.println("Enter clicked");
+
+        Node node = (Node) actionEvent.getSource();
+        stage = (Stage) node.getScene().getWindow();
+        visitor = (Visitor) stage.getUserData();
+
+        if(Objects.equals(randomNumber, "") || Objects.equals(cateringFacility, "") || Objects.equals(hashString, "")){
+            System.out.println("inside if");
+            Alert errorDialog = new Alert(Alert.AlertType.ERROR);
+            errorDialog.setTitle("Ingegeven waarden kloppen niet");
+            errorDialog.setHeaderText("De tekst die u ingegeven hebt is niet volledig, probeer opnieuw");
+            errorDialog.show();
+
+        }else {
+
+        }
+    }
 
     private void startCameraInput() {
         Task<Void> webCamTask = new Task<Void>() {
@@ -106,23 +137,23 @@ public void initialize(URL url, ResourceBundle resourceBundle) {
     private void onQrResult(String scanResult) {
         Platform.runLater(() -> {
             //if (confirmation.isSelected()) {
-                if (!showingDialog) {
-                    showingDialog = true;
+            if (!showingDialog) {
+                showingDialog = true;
 
-                    Alert confirmDialog = new Alert(Alert.AlertType.CONFIRMATION);
-                    confirmDialog.setTitle("Código QR detectado");
-                    confirmDialog.setHeaderText("¿Desea abrir la carpeta: '" + scanResult + "'?");
+                Alert confirmDialog = new Alert(Alert.AlertType.CONFIRMATION);
+                confirmDialog.setTitle("Código QR detectado");
+                confirmDialog.setHeaderText("¿Desea abrir la carpeta: '" + scanResult + "'?");
 
-                    ButtonType yes = new ButtonType("Abrir");
-                    ButtonType no = new ButtonType("Cancelar", ButtonBar.ButtonData.CANCEL_CLOSE);
-                    confirmDialog.getButtonTypes().setAll(no, yes);
-                    Optional<ButtonType> result = confirmDialog.showAndWait();
-                    if (result.isPresent() && result.get() == yes) {
-                        openFolderInExplorer(scanResult);
-                    }
-
-                    showingDialog = false;
+                ButtonType yes = new ButtonType("Abrir");
+                ButtonType no = new ButtonType("Cancelar", ButtonBar.ButtonData.CANCEL_CLOSE);
+                confirmDialog.getButtonTypes().setAll(no, yes);
+                Optional<ButtonType> result = confirmDialog.showAndWait();
+                if (result.isPresent() && result.get() == yes) {
+                    openFolderInExplorer(scanResult);
                 }
+
+                showingDialog = false;
+            }
 //            } else {
 //                long currentTime = new Date().getTime();
 //                if (lastDirectlyOpenedTime == 0 || (currentTime - lastDirectlyOpenedTime)/1000 > 3) {
@@ -165,6 +196,7 @@ public void initialize(URL url, ResourceBundle resourceBundle) {
         String OS = System.getProperty("os.name").toLowerCase();
         return (OS.contains("win"));
     }
+
 
 
 }
