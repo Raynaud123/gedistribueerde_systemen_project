@@ -17,10 +17,14 @@ public class Visitor {
                 this.timestamps = new ArrayList<Timestamp>();
         }
 
-        public void addCapsuleInformation(String randomNumber, String cateringFacility, String hashString, Timestamp ts){
-                randomNumbers.add(Integer.getInteger(randomNumber));
+        public void addCapsuleInformation(int  randomNumber, String cateringFacility, String hashString, Timestamp ts){
+                randomNumbers.add(randomNumber);
                 CFs.add(cateringFacility);
                 hashes.add(hashString);
                 timestamps.add(ts);
+                System.out.println(randomNumbers);
+                System.out.println(CFs);
+                System.out.println(hashes);
+                System.out.println(timestamps);
         }
 }

@@ -71,13 +71,19 @@ public class QRCodeController implements Initializable {
             Alert errorDialog = new Alert(Alert.AlertType.ERROR);
             errorDialog.setTitle("Ingegeven waarden kloppen niet");
             errorDialog.setHeaderText("De tekst die u ingegeven hebt is niet volledig, probeer opnieuw");
-            errorDialog.show();
-
-        }else {
-            Date date = new Date();
-            Timestamp ts = new Timestamp(date.getTime());
-            visitor.addCapsuleInformation(randomNumber,cateringFacility,hashString,ts);
-
+            errorDialog.show();}
+        else {
+            try {
+                int convertedRandomNumber = Integer.parseInt(randomNumber);
+                Date date = new Date();
+                Timestamp ts = new Timestamp(date.getTime());
+                visitor.addCapsuleInformation(convertedRandomNumber,cateringFacility,hashString,ts);
+            }catch (NumberFormatException e){
+                Alert errorDialog = new Alert(Alert.AlertType.ERROR);
+                errorDialog.setTitle("Random Number is geen getal");
+                errorDialog.setHeaderText("Het random number die u ingegeven hebt is geen getal, probeer opnieuw");
+                errorDialog.show();
+            }
         }
     }
 
