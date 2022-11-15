@@ -29,6 +29,7 @@ public class RegistrarGuiController {
     public Label labelCF;
     public Label labelLocation;
 
+
     public ObservableMap<LocalDate, SecretKey> currentSecretObservableMap;
     public ObservableList<Map.Entry<LocalDate, SecretKey>> dataSecret;
     public MapChangeListener<LocalDate, SecretKey> changeListenerSecret;
@@ -37,13 +38,14 @@ public class RegistrarGuiController {
     public TableColumn<Map.Entry<LocalDate, SecretKey>, String> colSecretDate;
     public TableColumn<Map.Entry<LocalDate, SecretKey>, String> colSecretKey;
 
-    public ObservableMap<LocalDate, byte[]> currentPseudObservableMap;
-    public ObservableList<Map.Entry<LocalDate, byte[]>> dataPseud;
-    public MapChangeListener<LocalDate, byte[]> changeListenerPseud;
 
-    public TableView<Map.Entry<LocalDate, byte[]>> tablePseud;
-    public TableColumn<Map.Entry<LocalDate, byte[]>, String> colPseudDate;
-    public TableColumn<Map.Entry<LocalDate, byte[]>, String> colPseudPseud;
+    public ObservableMap<LocalDate, byte[]> currentPseudonymObservableMap;
+    public ObservableList<Map.Entry<LocalDate, byte[]>> dataPseudonym;
+    public MapChangeListener<LocalDate, byte[]> changeListenerPseudonym;
+
+    public TableView<Map.Entry<LocalDate, byte[]>> tablePseudonym;
+    public TableColumn<Map.Entry<LocalDate, byte[]>, String> colPseudonymDate;
+    public TableColumn<Map.Entry<LocalDate, byte[]>, String> colPseudonymPseudonym;
 
 
     public void initialize() {
@@ -86,21 +88,21 @@ public class RegistrarGuiController {
     }
 
     public void observeCFPseud(CateringFacility cateringFacility) {
-        if (currentPseudObservableMap != null) {
-            currentPseudObservableMap.removeListener(changeListenerPseud);
+        if (currentPseudonymObservableMap != null) {
+            currentPseudonymObservableMap.removeListener(changeListenerPseudonym);
         }
-        currentPseudObservableMap = cateringFacility.getPseudonymMap();
+        currentPseudonymObservableMap = cateringFacility.getPseudonymMap();
 
-        dataPseud = FXCollections.observableArrayList(cateringFacility.getPseudonymMap().entrySet());
-        tablePseud.setItems(dataPseud);
-        colPseudDate.setCellValueFactory((TableColumn.CellDataFeatures<Map.Entry<LocalDate, byte[]>, String> p ) -> new SimpleStringProperty(p.getValue().getKey().format(DateTimeFormatter.ISO_DATE)));
-        colPseudPseud.setCellValueFactory((TableColumn.CellDataFeatures<Map.Entry<LocalDate, byte[]>, String> p ) -> new SimpleStringProperty(Arrays.toString(p.getValue().getValue())));
+        dataPseudonym = FXCollections.observableArrayList(cateringFacility.getPseudonymMap().entrySet());
+        tablePseudonym.setItems(dataPseudonym);
+        colPseudonymDate.setCellValueFactory((TableColumn.CellDataFeatures<Map.Entry<LocalDate, byte[]>, String> p ) -> new SimpleStringProperty(p.getValue().getKey().format(DateTimeFormatter.ISO_DATE)));
+        colPseudonymPseudonym.setCellValueFactory((TableColumn.CellDataFeatures<Map.Entry<LocalDate, byte[]>, String> p ) -> new SimpleStringProperty(Arrays.toString(p.getValue().getValue())));
 
-        changeListenerPseud = change -> {
-            dataPseud.clear();
-            dataPseud.addAll(cateringFacility.getPseudonymMap().entrySet());
+        changeListenerPseudonym = change -> {
+            dataPseudonym.clear();
+            dataPseudonym.addAll(cateringFacility.getPseudonymMap().entrySet());
         };
-        currentPseudObservableMap.addListener(changeListenerPseud);
+        currentPseudonymObservableMap.addListener(changeListenerPseudonym);
     }
 
     public void observeComboBox() {
@@ -111,7 +113,6 @@ public class RegistrarGuiController {
 
             observeCFKey(cateringFacility);
             observeCFPseud(cateringFacility);
-
         });
     }
 
