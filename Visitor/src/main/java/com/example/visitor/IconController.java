@@ -15,7 +15,7 @@ import java.util.ResourceBundle;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class IconController implements Initializable{
+public class IconController{
 
     @FXML
     private HBox center_HBOX;
@@ -36,11 +36,6 @@ public class IconController implements Initializable{
         this.loader = loader;
         Image image_converted = SwingFXUtils.toFXImage(icon, null);
         image.setImage(image_converted);
-    }
-
-
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
         Timer timer = new Timer ();
         TimerTask hourlyTask = new TimerTask () {
             @Override
