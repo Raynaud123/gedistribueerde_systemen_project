@@ -11,6 +11,7 @@ import java.security.*;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Base64;
+import java.util.Date;
 
 public class Visitor {
         private ArrayList<Integer> randomNumbers;
@@ -19,6 +20,7 @@ public class Visitor {
         private ArrayList<Timestamp> timestamps;
         private ArrayList<String> tokens;
         private PublicKey publicKeyMixing;
+        private int currentIndex;
 
         private final MixingProxyInterface mixingProxyInterface;
 
@@ -33,6 +35,7 @@ public class Visitor {
                 publicKeyMixing = mixingProxyInterface.getPublicKey();
                 //Voor test
                 tokens.add("test");
+                currentIndex = -1;
         }
 
         public BufferedImage addCapsuleInformation(int  randomNumber, String cateringFacility, String hashString, Timestamp ts) throws RemoteException, NoSuchAlgorithmException, SignatureException, InvalidKeyException {
@@ -40,8 +43,8 @@ public class Visitor {
                 CFs.add(cateringFacility);
                 hashes.add(hashString);
                 timestamps.add(ts);
-                String token = tokens.get(0);
-                tokens.remove(0);
+                currentIndex++;
+                String token = tokens.get(currentIndex);
                 String signedHash = mixingProxyInterface.receiveCapsule(hashString,ts, token);
                 if (hashStringCheck(signedHash,hashString)){
                        return IconGenVisitor.generateIdenticons(hashString, 300,300);
@@ -60,5 +63,10 @@ public class Visitor {
 
                 signature.update(messageBytes);
                 return signature.verify(signedBytes);
+        }
+
+        public void flushCapsules() throws RemoteException {
+                Date date = new Date();
+                mixingProxyInterface.flushCapsules(hashes.get(currentIndex),tokens.get(currentIndex),new Timestamp(date.getTime()));
         }
 }

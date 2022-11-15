@@ -25,7 +25,7 @@ public class MixingProxyImpl extends UnicastRemoteObject implements MixingProxyI
 
 
     @Override
-    public String flushCapsules() {
+    public String flushCapsules(String s, String s1, Timestamp timestamp) {
         return null;
     }
 

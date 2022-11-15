@@ -10,9 +10,12 @@ import javafx.scene.layout.HBox;
 
 import java.awt.image.BufferedImage;
 import java.net.URL;
+import java.rmi.RemoteException;
 import java.util.ResourceBundle;
+import java.util.Timer;
+import java.util.TimerTask;
 
-public class IconController {
+public class IconController implements Initializable{
 
     @FXML
     private HBox center_HBOX;
@@ -35,9 +38,21 @@ public class IconController {
         image.setImage(image_converted);
     }
 
-//    @Override
-//    public void initialize(URL url, ResourceBundle resourceBundle) {
-//        Image image_converted = SwingFXUtils.toFXImage(icon, null);
-//        image.setImage(image_converted);
-//    }
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        Timer timer = new Timer ();
+        TimerTask hourlyTask = new TimerTask () {
+            @Override
+            public void run () {
+                try {
+                    visitor.flushCapsules();
+                } catch (RemoteException e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+        //flushCapsules from visitor every Hour
+        timer.schedule (hourlyTask, 0l, 1000*60*60);
+    }
 }
