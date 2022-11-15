@@ -1,10 +1,12 @@
 package com.example.mixingproxy;
 
-import java.nio.charset.StandardCharsets;
+//import com.example.matchingservice.MatchingServiceInterface;
+
+import com.example.matchingservice.MatchingServiceInterface;
+
 import java.security.*;
 import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.Base64;
+import java.util.*;
 
 public class MixingProxy {
 
@@ -12,13 +14,30 @@ public class MixingProxy {
     PrivateKey privateKey;
     PublicKey publicKey;
 
+   private final MatchingServiceInterface matchingService;
 
 
-    public MixingProxy() throws NoSuchAlgorithmException {
+    public MixingProxy(MatchingServiceInterface matchingServiceInterface) throws NoSuchAlgorithmException {
         this.capsules = new ArrayList<>();
         KeyPair kp = getKeypair();
         privateKey = kp.getPrivate();
         publicKey = kp.getPublic();
+        this.matchingService = matchingServiceInterface;
+//        Timer timer = new Timer ();
+//        TimerTask hourlyTask = new TimerTask () {
+//            @Override
+//            public void run () {
+//                try {
+//                    Collections.shuffle(capsules);
+//                   // matchingService.flushCapsules(capsules);
+//                    capsules = new ArrayList<>();
+//                } catch (RemoteException e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//        };
+//        //flushCapsules from visitor every Hour
+//        timer.schedule (hourlyTask, 0l, 1000*60*60);
     }
 
 
