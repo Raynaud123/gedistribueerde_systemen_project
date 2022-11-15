@@ -201,10 +201,11 @@ public class QRCodeController implements Initializable {
 
 
         stage.setScene(new Scene(loader.load()));
+
         IconController controller = loader.getController();
         controller.initData(visitor,loader,icon);
-        stage.show();
 
+        stage.show();
 
     }
 }
