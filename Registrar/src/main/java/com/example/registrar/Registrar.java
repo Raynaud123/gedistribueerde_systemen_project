@@ -14,6 +14,7 @@ public class Registrar {
 
     private final SecretKey masterKey;
     private final ObservableMap<String , CateringFacility> cateringFacilityMap;
+    private final ObservableMap<String , Visitor> visitorMap;
 
     public Registrar() {
         KeyGenerator keyGenerator;
@@ -26,6 +27,7 @@ public class Registrar {
         this.masterKey = keyGenerator.generateKey();
 
         this.cateringFacilityMap = FXCollections.observableMap(new HashMap<>());
+        this.visitorMap = FXCollections.observableMap(new HashMap<>());
     }
 
     public void registerCF(String CF, String location) {
@@ -43,5 +45,8 @@ public class Registrar {
 
     public ObservableMap<String, CateringFacility> getCateringFacilityMap() {
         return cateringFacilityMap;
+    }
+
+    public void registerVisitor(String user) {
     }
 }

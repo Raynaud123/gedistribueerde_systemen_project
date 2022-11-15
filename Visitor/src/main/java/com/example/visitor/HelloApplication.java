@@ -17,7 +17,7 @@ import java.util.Objects;
 
 public class HelloApplication extends Application {
 
-    private Visitor visitor = new Visitor();
+    private Visitor visitor;
 
 
     @Override
