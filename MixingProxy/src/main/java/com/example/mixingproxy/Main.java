@@ -10,7 +10,6 @@ import java.rmi.registry.Registry;
 public class Main {
 
     private void startServer(){
-
         Registry matchingService;
         MatchingServiceInterface matchingServiceInterface;
         try {
@@ -20,6 +19,7 @@ public class Main {
         } catch (RemoteException | NotBoundException e) {
             throw new RuntimeException(e);
         }
+
 
         try {
             Registry registry = LocateRegistry.createRegistry(4500);

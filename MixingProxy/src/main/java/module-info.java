@@ -1,4 +1,5 @@
 module com.example.mixingproxy {
+
     requires javafx.controls;
     requires javafx.fxml;
     requires java.rmi;

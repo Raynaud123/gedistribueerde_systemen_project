@@ -1,9 +1,10 @@
 package com.example.matchingservice;
 
 import java.rmi.Remote;
-import java.util.ArrayList;
+import java.rmi.RemoteException;
+import java.sql.Timestamp;
 
 public interface MatchingServiceInterface extends Remote {
 
-    //void flushCapsules(ArrayList<com.example.mixingproxy.Capsule> capsules);
+    void flushCapsules(String hex, Timestamp timeInterval, String userToken) throws RemoteException;
 }

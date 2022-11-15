@@ -14,4 +14,28 @@ public class Capsule {
         this.userToken = userToken;
         this.hex = hex;
     }
+
+    public Timestamp getTimeInterval() {
+        return timeInterval;
+    }
+
+    public void setTimeInterval(Timestamp timeInterval) {
+        this.timeInterval = timeInterval;
+    }
+
+    public String getUserToken() {
+        return userToken;
+    }
+
+    public void setUserToken(String userToken) {
+        this.userToken = userToken;
+    }
+
+    public String getHex() {
+        return hex;
+    }
+
+    public void setHex(String hex) {
+        this.hex = hex;
+    }
 }

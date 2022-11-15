@@ -1,9 +1,9 @@
 package com.example.mixingproxy;
 
-//import com.example.matchingservice.MatchingServiceInterface;
-
 import com.example.matchingservice.MatchingServiceInterface;
 
+import java.nio.charset.StandardCharsets;
+import java.rmi.RemoteException;
 import java.security.*;
 import java.sql.Timestamp;
 import java.util.*;
@@ -23,21 +23,23 @@ public class MixingProxy {
         privateKey = kp.getPrivate();
         publicKey = kp.getPublic();
         this.matchingService = matchingServiceInterface;
-//        Timer timer = new Timer ();
-//        TimerTask hourlyTask = new TimerTask () {
-//            @Override
-//            public void run () {
-//                try {
-//                    Collections.shuffle(capsules);
-//                   // matchingService.flushCapsules(capsules);
-//                    capsules = new ArrayList<>();
-//                } catch (RemoteException e) {
-//                    e.printStackTrace();
-//                }
-//            }
-//        };
-//        //flushCapsules from visitor every Hour
-//        timer.schedule (hourlyTask, 0l, 1000*60*60);
+        Timer timer = new Timer ();
+        TimerTask hourlyTask = new TimerTask () {
+            @Override
+            public void run () {
+                Collections.shuffle(capsules);
+                for (int i = 0; i < capsules.size(); i++){
+                    try {
+                        matchingService.flushCapsules(capsules.get(i).getHex(),capsules.get(i).getTimeInterval(),capsules.get(i).getUserToken());
+                    } catch (RemoteException e) {
+                        e.printStackTrace();
+                    }
+                }
+                capsules = new ArrayList<>();
+            }
+        };
+        //flushCapsules from visitor every Hour
+        timer.schedule (hourlyTask, 0l, 1000*60*60);
     }
 
 
