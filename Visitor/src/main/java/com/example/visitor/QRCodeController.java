@@ -183,8 +183,4 @@ public class QRCodeController implements Initializable {
                 }
         });
     }
-
-
-
-
 }

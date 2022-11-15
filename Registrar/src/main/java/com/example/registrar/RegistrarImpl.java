@@ -22,4 +22,9 @@ public class RegistrarImpl extends UnicastRemoteObject implements RegistrarInter
     public Map<LocalDate, byte[]> getPseudonyms(String CF, String location, LocalDate startDate, LocalDate endDate) throws RemoteException{
         return registrar.getPseudonyms(CF, location, startDate, endDate);
     }
+
+    public void registerVisitor(String user) throws RemoteException {
+        registrar.registerVisitor(user);
+    }
+
 }

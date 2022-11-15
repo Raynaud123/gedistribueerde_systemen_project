@@ -50,14 +50,6 @@ public class HelloApplication extends Application {
             controller.initData(visitor);
 
             primaryStage.show();
-
-
-
-//            Parent root =  FXMLLoader.load(Objects.requireNonNull(HelloApplication.class.getResource("QRcode.fxml")));
-//            primaryStage.setUserData(visitor, mixingProxyInterface);
-//            primaryStage.setTitle("QRcode view");
-//            primaryStage.setScene(new Scene(root, 1000,700));
-//            primaryStage.show();
         }
 
     }
