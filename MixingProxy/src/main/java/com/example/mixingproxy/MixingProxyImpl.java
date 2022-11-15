@@ -2,6 +2,9 @@ package com.example.mixingproxy;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
+import java.security.SignatureException;
 import java.sql.Timestamp;
 
 public class MixingProxyImpl extends UnicastRemoteObject implements MixingProxyInterface {
@@ -14,12 +17,9 @@ public class MixingProxyImpl extends UnicastRemoteObject implements MixingProxyI
 
 
     @Override
-    public String receiveCapsule(int randomNumber, String cateringFacility, String hashString, Timestamp ts, String token) {
-        mixingProxy.receive(randomNumber,cateringFacility,hashString,ts,token);
-        // Decrypt the signed Hash
-        // Check validity
-        // Add capsule
-        return null;
+    public String receiveCapsule(String hashString, Timestamp ts, String token) throws NoSuchAlgorithmException, SignatureException, InvalidKeyException {
+        String signed = mixingProxy.receive(hashString,ts,token);
+        return signed;
     }
 
 

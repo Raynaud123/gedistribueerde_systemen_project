@@ -20,6 +20,9 @@ import javafx.stage.Stage;
 import java.awt.image.BufferedImage;
 import java.net.URL;
 import java.rmi.RemoteException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
+import java.security.SignatureException;
 import java.sql.Timestamp;
 import java.util.Date;
 import java.util.Objects;
@@ -80,13 +83,22 @@ public class QRCodeController implements Initializable {
                 int convertedRandomNumber = Integer.parseInt(randomNumber);
                 Date date = new Date();
                 Timestamp ts = new Timestamp(date.getTime());
-                visitor.addCapsuleInformation(convertedRandomNumber,cateringFacility,hashString,ts);
+                String anwser = visitor.addCapsuleInformation(convertedRandomNumber,cateringFacility,hashString,ts);
+                if (anwser == null){
+                    Alert errorDialog = new Alert(Alert.AlertType.ERROR);
+                    errorDialog.setTitle("Er is iets misgelopen");
+                    errorDialog.setHeaderText("Er is iets misgelopen probeer opnieuw");
+                    errorDialog.show();
+                }
+                else {
+                    System.out.println(anwser);
+                }
             }catch (NumberFormatException e){
                 Alert errorDialog = new Alert(Alert.AlertType.ERROR);
                 errorDialog.setTitle("Random Number is geen getal");
                 errorDialog.setHeaderText("Het random number die u ingegeven hebt is geen getal, probeer opnieuw");
                 errorDialog.show();
-            } catch (RemoteException e) {
+            } catch (RemoteException | NoSuchAlgorithmException | SignatureException | InvalidKeyException e) {
                 e.printStackTrace();
             }
         }
@@ -165,7 +177,7 @@ public class QRCodeController implements Initializable {
                         errorDialog.setTitle("QR-code klopt niet");
                         errorDialog.setHeaderText("De QR code die u gescand heeft klopt niet");
                         errorDialog.show();
-                    } catch (RemoteException e) {
+                    } catch (RemoteException | NoSuchAlgorithmException | SignatureException | InvalidKeyException e) {
                         e.printStackTrace();
                     }
                 }

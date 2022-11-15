@@ -3,6 +3,9 @@ package com.example.visitor;
 import com.example.mixingproxy.MixingProxyInterface;
 
 import java.rmi.RemoteException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
+import java.security.SignatureException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 
@@ -27,13 +30,13 @@ public class Visitor {
                 tokens.add("test");
         }
 
-        public void addCapsuleInformation(int  randomNumber, String cateringFacility, String hashString, Timestamp ts) throws RemoteException {
+        public String addCapsuleInformation(int  randomNumber, String cateringFacility, String hashString, Timestamp ts) throws RemoteException, NoSuchAlgorithmException, SignatureException, InvalidKeyException {
                 randomNumbers.add(randomNumber);
                 CFs.add(cateringFacility);
                 hashes.add(hashString);
                 timestamps.add(ts);
                 String token = tokens.get(0);
                 tokens.remove(0);
-                String visual = mixingProxyInterface.receiveCapsule(randomNumber, cateringFacility,hashString,ts, token);
+                return  mixingProxyInterface.receiveCapsule(hashString,ts, token);
         }
 }
