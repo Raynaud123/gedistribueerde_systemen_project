@@ -7,10 +7,10 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
-public class Main extends Application {
+public class RegistrarMain extends Application {
     @Override
     public void start(Stage stage) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("registrar-view.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(RegistrarMain.class.getResource("registrar-view.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 320, 240);
         stage.setTitle("Registrar");
         stage.setMinWidth(720);
