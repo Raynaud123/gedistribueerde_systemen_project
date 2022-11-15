@@ -1,6 +1,5 @@
 package com.example.visitor;
 
-import com.example.mixingproxy.MixingProxyInterface;
 import com.github.sarxos.webcam.Webcam;
 import javafx.application.Platform;
 import javafx.beans.property.ObjectProperty;
@@ -9,15 +8,20 @@ import javafx.concurrent.Task;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.WritableImage;
+import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 
 import java.awt.image.BufferedImage;
+import java.io.IOException;
 import java.net.URL;
 import java.rmi.RemoteException;
 import java.security.InvalidKeyException;
@@ -46,6 +50,8 @@ public class QRCodeController implements Initializable {
     private Visitor visitor;
    // MixingProxyInterface mixingProxyInterface;
     private Stage stage;
+    private Scene scene;
+    private Parent root;
     private ObjectProperty<Image> imageProperty = new SimpleObjectProperty<>();
     private QRDecoder qrDecoder = new QRDecoder();
     private Webcam webcam;
@@ -55,13 +61,18 @@ public class QRCodeController implements Initializable {
     private String hashString;
 
 
+
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         startCameraInput();
 
     }
-    void initData(Visitor visitor) {
+    void initData(Visitor visitor, FXMLLoader loader, Stage primaryStage) {
         this.visitor = visitor;
+        root = loader.getRoot();
+        stage = primaryStage;
+        scene = stage.getScene();
         //this.mixingProxyInterface = mixingProxyInterface;
     }
 
@@ -83,7 +94,7 @@ public class QRCodeController implements Initializable {
                 int convertedRandomNumber = Integer.parseInt(randomNumber);
                 Date date = new Date();
                 Timestamp ts = new Timestamp(date.getTime());
-                String anwser = visitor.addCapsuleInformation(convertedRandomNumber,cateringFacility,hashString,ts);
+                BufferedImage anwser = visitor.addCapsuleInformation(convertedRandomNumber,cateringFacility,hashString,ts);
                 if (anwser == null){
                     Alert errorDialog = new Alert(Alert.AlertType.ERROR);
                     errorDialog.setTitle("Er is iets misgelopen");
@@ -91,14 +102,14 @@ public class QRCodeController implements Initializable {
                     errorDialog.show();
                 }
                 else {
-                    System.out.println(anwser);
+                    switchToScene2(anwser);
                 }
             }catch (NumberFormatException e){
                 Alert errorDialog = new Alert(Alert.AlertType.ERROR);
                 errorDialog.setTitle("Random Number is geen getal");
                 errorDialog.setHeaderText("Het random number die u ingegeven hebt is geen getal, probeer opnieuw");
                 errorDialog.show();
-            } catch (RemoteException | NoSuchAlgorithmException | SignatureException | InvalidKeyException e) {
+            } catch (NoSuchAlgorithmException | SignatureException | InvalidKeyException | IOException e) {
                 e.printStackTrace();
             }
         }
@@ -182,5 +193,18 @@ public class QRCodeController implements Initializable {
                     }
                 }
         });
+    }
+
+    private void switchToScene2(BufferedImage icon) throws IOException {
+
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("Icon.fxml"));
+
+
+        stage.setScene(new Scene(loader.load()));
+        IconController controller = loader.getController();
+        controller.initData(visitor,loader,icon);
+        stage.show();
+
+
     }
 }

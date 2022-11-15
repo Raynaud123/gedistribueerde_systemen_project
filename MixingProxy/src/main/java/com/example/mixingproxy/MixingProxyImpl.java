@@ -4,6 +4,7 @@ import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
+import java.security.PublicKey;
 import java.security.SignatureException;
 import java.sql.Timestamp;
 
@@ -26,5 +27,10 @@ public class MixingProxyImpl extends UnicastRemoteObject implements MixingProxyI
     @Override
     public String flushCapsules() {
         return null;
+    }
+
+    @Override
+    public PublicKey getPublicKey() {
+        return mixingProxy.getPublicKey();
     }
 }

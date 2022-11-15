@@ -4,6 +4,7 @@ import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
+import java.security.PublicKey;
 import java.security.SignatureException;
 import java.sql.Timestamp;
 
@@ -14,4 +15,5 @@ public interface MixingProxyInterface  extends Remote {
     String flushCapsules() throws RemoteException;
 
 
+    PublicKey getPublicKey() throws RemoteException;
 }

@@ -29,7 +29,7 @@ public class MixingProxy {
         //TODO: functie valid nog implementeren
         if(valid(token)){
             capsules.add(new Capsule(ts,token, hashString));
-            byte[] messageBytes = hashString.getBytes(StandardCharsets.UTF_8);
+            byte[] messageBytes = Base64.getDecoder().decode(hashString);
             Signature signature = Signature.getInstance("NONEwithRSA");
             signature.initSign(privateKey);
             signature.update(messageBytes);
@@ -48,5 +48,9 @@ public class MixingProxy {
     private KeyPair getKeypair() throws NoSuchAlgorithmException {
         KeyPairGenerator kpg = KeyPairGenerator.getInstance("RSA");
         return kpg.genKeyPair();
+    }
+
+    public PublicKey getPublicKey() {
+        return publicKey;
     }
 }
