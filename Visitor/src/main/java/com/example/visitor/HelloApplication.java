@@ -1,27 +1,39 @@
 package com.example.visitor;
 
-import com.github.sarxos.webcam.Webcam;
+import com.example.mixingproxy.MixingProxyInterface;
 import javafx.application.Application;
-import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.SimpleObjectProperty;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.CheckBox;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.rmi.NotBoundException;
+import java.rmi.RemoteException;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
 import java.util.Objects;
 
 public class HelloApplication extends Application {
 
-    private Visitor visitor = new Visitor();
+
 
 
     @Override
     public void start(Stage primaryStage) throws IOException {
+
+        //Voorlopige plaats
+        Registry mixingProxy;
+        MixingProxyInterface mixingProxyInterface;
+        try {
+            mixingProxy = LocateRegistry.getRegistry("localhost", 4500);
+            mixingProxyInterface = (MixingProxyInterface) mixingProxy.lookup("MixingProxyImpl");
+
+        } catch (RemoteException | NotBoundException e) {
+            throw new RuntimeException(e);
+        }
+        Visitor visitor = new Visitor(mixingProxyInterface);
+        //Einde voorlopig
 
         if(visitor==null){
             Parent root =  FXMLLoader.load(Objects.requireNonNull(HelloApplication.class.getResource("Register.fxml")));
@@ -31,11 +43,21 @@ public class HelloApplication extends Application {
             primaryStage.show();
 
         }else{
-            Parent root =  FXMLLoader.load(Objects.requireNonNull(HelloApplication.class.getResource("QRcode.fxml")));
-            primaryStage.setUserData(visitor);
-            primaryStage.setTitle("QRcode view");
-            primaryStage.setScene(new Scene(root, 1000,700));
+
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("Qrcode.fxml"));
+            primaryStage.setScene(new Scene(loader.load()));
+            QRCodeController controller = loader.getController();
+            controller.initData(visitor);
+
             primaryStage.show();
+
+
+
+//            Parent root =  FXMLLoader.load(Objects.requireNonNull(HelloApplication.class.getResource("QRcode.fxml")));
+//            primaryStage.setUserData(visitor, mixingProxyInterface);
+//            primaryStage.setTitle("QRcode view");
+//            primaryStage.setScene(new Scene(root, 1000,700));
+//            primaryStage.show();
         }
 
     }

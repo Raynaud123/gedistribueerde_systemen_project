@@ -1,5 +1,6 @@
 package com.example.visitor;
 
+import com.example.mixingproxy.MixingProxyInterface;
 import com.github.sarxos.webcam.Webcam;
 import javafx.application.Platform;
 import javafx.beans.property.ObjectProperty;
@@ -17,13 +18,11 @@ import javafx.scene.image.WritableImage;
 import javafx.stage.Stage;
 
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
 import java.net.URL;
+import java.rmi.RemoteException;
 import java.sql.Timestamp;
 import java.util.Date;
 import java.util.Objects;
-import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -42,6 +41,7 @@ public class QRCodeController implements Initializable {
     public TextArea hash;
 
     private Visitor visitor;
+   // MixingProxyInterface mixingProxyInterface;
     private Stage stage;
     private ObjectProperty<Image> imageProperty = new SimpleObjectProperty<>();
     private QRDecoder qrDecoder = new QRDecoder();
@@ -57,6 +57,10 @@ public class QRCodeController implements Initializable {
         startCameraInput();
 
     }
+    void initData(Visitor visitor) {
+        this.visitor = visitor;
+        //this.mixingProxyInterface = mixingProxyInterface;
+    }
 
     public void handleButtondEnter(ActionEvent actionEvent) {
         randomNumber = rn.getText();
@@ -65,7 +69,6 @@ public class QRCodeController implements Initializable {
 
         Node node = (Node) actionEvent.getSource();
         stage = (Stage) node.getScene().getWindow();
-        visitor = (Visitor) stage.getUserData();
 
         if(Objects.equals(randomNumber, "") || Objects.equals(cateringFacility, "") || Objects.equals(hashString, "")){
             Alert errorDialog = new Alert(Alert.AlertType.ERROR);
@@ -83,6 +86,8 @@ public class QRCodeController implements Initializable {
                 errorDialog.setTitle("Random Number is geen getal");
                 errorDialog.setHeaderText("Het random number die u ingegeven hebt is geen getal, probeer opnieuw");
                 errorDialog.show();
+            } catch (RemoteException e) {
+                e.printStackTrace();
             }
         }
     }
@@ -157,9 +162,11 @@ public class QRCodeController implements Initializable {
                         visitor.addCapsuleInformation(convertedRandomNumber,cateringFacility,hashString,ts);
                     }catch (NumberFormatException e){
                         Alert errorDialog = new Alert(Alert.AlertType.ERROR);
-                        errorDialog.setTitle("Random Number is geen getal");
-                        errorDialog.setHeaderText("Het random number die u ingegeven hebt is geen getal, probeer opnieuw");
+                        errorDialog.setTitle("QR-code klopt niet");
+                        errorDialog.setHeaderText("De QR code die u gescand heeft klopt niet");
                         errorDialog.show();
+                    } catch (RemoteException e) {
+                        e.printStackTrace();
                     }
                 }
         });

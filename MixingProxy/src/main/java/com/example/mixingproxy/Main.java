@@ -9,7 +9,7 @@ public class Main {
         try {
             Registry registry = LocateRegistry.createRegistry(4500);
 
-            registry.rebind("MixingProxyImpl", new MixingProxyImpl());
+            registry.rebind("MixingProxyImpl", new MixingProxyImpl(new MixingProxy()));
         } catch (Exception e) {
             e.printStackTrace();
         }
