@@ -1,15 +1,14 @@
 package com.example.visitor;
 
+import com.example.registrar.RegistrarInterface;
 import javafx.event.ActionEvent;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 
-import java.net.URL;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
-import java.util.ResourceBundle;
 
 public class RegisterController {
 
