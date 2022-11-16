@@ -17,7 +17,6 @@ import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.WritableImage;
-import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 
 import java.awt.image.BufferedImage;
@@ -76,7 +75,7 @@ public class QRCodeController implements Initializable {
         //this.mixingProxyInterface = mixingProxyInterface;
     }
 
-    public void handleButtondEnter(ActionEvent actionEvent) {
+    public void handleButtonEnter(ActionEvent actionEvent) {
         randomNumber = rn.getText();
         cateringFacility = cf.getText();
         hashString = hash.getText();
@@ -94,17 +93,17 @@ public class QRCodeController implements Initializable {
                 int convertedRandomNumber = Integer.parseInt(randomNumber);
                 Date date = new Date();
                 Timestamp ts = new Timestamp(date.getTime());
-                BufferedImage anwser = visitor.addCapsuleInformation(convertedRandomNumber,cateringFacility,hashString,ts);
-                if (anwser == null){
+                BufferedImage answer = visitor.addCapsuleInformation(convertedRandomNumber,cateringFacility,hashString,ts);
+                if (answer == null) {
                     Alert errorDialog = new Alert(Alert.AlertType.ERROR);
                     errorDialog.setTitle("Er is iets misgelopen");
                     errorDialog.setHeaderText("Er is iets misgelopen probeer opnieuw");
                     errorDialog.show();
                 }
                 else {
-                    switchToScene2(anwser);
+                    switchToScene2(answer);
                 }
-            }catch (NumberFormatException e){
+            } catch (NumberFormatException e) {
                 Alert errorDialog = new Alert(Alert.AlertType.ERROR);
                 errorDialog.setTitle("Random Number is geen getal");
                 errorDialog.setHeaderText("Het random number die u ingegeven hebt is geen getal, probeer opnieuw");

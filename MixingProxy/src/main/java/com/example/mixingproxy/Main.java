@@ -9,7 +9,7 @@ import java.rmi.registry.Registry;
 
 public class Main {
 
-    private void startServer(){
+    private static void startServer(){
         Registry matchingService;
         MatchingServiceInterface matchingServiceInterface;
         try {
@@ -33,8 +33,7 @@ public class Main {
     }
 
     public static void main(String[] args) {
-        Main main = new Main();
-        main.startServer();
+        startServer();
     }
 
 }

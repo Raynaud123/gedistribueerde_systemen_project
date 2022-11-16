@@ -12,8 +12,7 @@ public interface MixingProxyInterface  extends Remote {
 
     String receiveCapsule(String hashString, Timestamp ts, String token) throws RemoteException, NoSuchAlgorithmException, SignatureException, InvalidKeyException;
 
-    String flushCapsules(String s, String s1, Timestamp timestamp) throws RemoteException;
-
+    void flushCapsules(String s, String s1, Timestamp timestamp) throws RemoteException;
 
     PublicKey getPublicKey() throws RemoteException;
 }

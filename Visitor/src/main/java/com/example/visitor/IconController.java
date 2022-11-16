@@ -3,15 +3,12 @@ package com.example.visitor;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 
 import java.awt.image.BufferedImage;
-import java.net.URL;
 import java.rmi.RemoteException;
-import java.util.ResourceBundle;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -31,7 +28,7 @@ public class IconController{
     }
 
 
-    public void initData(Visitor visitor, FXMLLoader loader, BufferedImage icon){
+    public void initData(Visitor visitor, FXMLLoader loader, BufferedImage icon) {
         this.visitor = visitor;
         this.loader = loader;
         Image image_converted = SwingFXUtils.toFXImage(icon, null);
@@ -48,6 +45,6 @@ public class IconController{
             }
         };
         //flushCapsules from visitor every Hour
-        timer.schedule (hourlyTask, 0l, 1000*60*60);
+        timer.schedule (hourlyTask, 0L, 1000*60*60);
     }
 }

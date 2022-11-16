@@ -4,7 +4,7 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 
 public class MatchingService {
-    ArrayList<Capsule> capsules;
+    private final ArrayList<Capsule> capsules;
 
 
     public MatchingService() {

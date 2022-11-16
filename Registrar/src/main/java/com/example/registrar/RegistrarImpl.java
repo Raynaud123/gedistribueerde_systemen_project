@@ -14,7 +14,7 @@ public class RegistrarImpl extends UnicastRemoteObject implements RegistrarInter
     }
 
     @Override
-    public void register(String CF, String location) throws RemoteException{
+    public void registerCF(String CF, String location) throws RemoteException{
         registrar.registerCF(CF, location);
     }
 

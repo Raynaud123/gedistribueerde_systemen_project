@@ -32,7 +32,7 @@ public class BarOwner {
     }
 
     public void register() throws RemoteException {
-        registrarInterface.register(CF, location);
+        registrarInterface.registerCF(CF, location);
     }
 
     public void getPseudonymBatch(LocalDate startDate, LocalDate endDate) throws RemoteException {

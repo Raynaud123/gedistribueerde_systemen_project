@@ -2,7 +2,6 @@ package com.example.mixingproxy;
 
 import com.example.matchingservice.MatchingServiceInterface;
 
-import java.nio.charset.StandardCharsets;
 import java.rmi.RemoteException;
 import java.security.*;
 import java.sql.Timestamp;
@@ -10,11 +9,11 @@ import java.util.*;
 
 public class MixingProxy {
 
-    ArrayList<Capsule> capsules;
-    PrivateKey privateKey;
-    PublicKey publicKey;
+    private ArrayList<Capsule> capsules;
+    private final PrivateKey privateKey;
+    private final PublicKey publicKey;
 
-   private final MatchingServiceInterface matchingService;
+    private final MatchingServiceInterface matchingService;
 
 
     public MixingProxy(MatchingServiceInterface matchingServiceInterface) throws NoSuchAlgorithmException {
@@ -28,9 +27,9 @@ public class MixingProxy {
             @Override
             public void run () {
                 Collections.shuffle(capsules);
-                for (int i = 0; i < capsules.size(); i++){
+                for (Capsule capsule : capsules) {
                     try {
-                        matchingService.flushCapsules(capsules.get(i).getHex(),capsules.get(i).getTimeInterval(),capsules.get(i).getUserToken());
+                        matchingService.flushCapsules(capsule.getHex(), capsule.getTimeInterval(), capsule.getUserToken());
                     } catch (RemoteException e) {
                         e.printStackTrace();
                     }
@@ -39,7 +38,7 @@ public class MixingProxy {
             }
         };
         //flushCapsules from visitor every Hour
-        timer.schedule (hourlyTask, 0l, 1000*60*60);
+        timer.schedule (hourlyTask, 0L, 1000*60*60);
     }
 
 
@@ -61,7 +60,7 @@ public class MixingProxy {
     }
 
     //TODO: implementeren
-    private Boolean valid(String token){
+    private Boolean valid(String token) {
         return true;
     }
 

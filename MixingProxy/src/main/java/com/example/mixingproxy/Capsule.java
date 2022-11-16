@@ -4,9 +4,9 @@ import java.sql.Timestamp;
 
 
 public class Capsule {
-            Timestamp timeInterval;
-            String userToken;
-            String hex;
+    private Timestamp timeInterval;
+    private String userToken;
+    private String hex;
 
 
     public Capsule(Timestamp timeInterval, String userToken, String hex) {

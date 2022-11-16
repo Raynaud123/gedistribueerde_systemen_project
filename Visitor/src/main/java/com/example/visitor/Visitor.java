@@ -2,10 +2,7 @@ package com.example.visitor;
 
 import com.example.mixingproxy.MixingProxyInterface;
 
-import javax.swing.*;
 import java.awt.image.BufferedImage;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
 import java.rmi.RemoteException;
 import java.security.*;
 import java.sql.Timestamp;
@@ -14,12 +11,12 @@ import java.util.Base64;
 import java.util.Date;
 
 public class Visitor {
-        private ArrayList<Integer> randomNumbers;
-        private ArrayList<String> CFs;
-        private ArrayList<String> hashes;
-        private ArrayList<Timestamp> timestamps;
-        private ArrayList<String> tokens;
-        private PublicKey publicKeyMixing;
+        private final ArrayList<Integer> randomNumbers;
+        private final ArrayList<String> CFs;
+        private final ArrayList<String> hashes;
+        private final ArrayList<Timestamp> timestamps;
+        private final ArrayList<String> tokens;
+        private final PublicKey publicKeyMixing;
         private int currentIndex;
 
         private final MixingProxyInterface mixingProxyInterface;
@@ -38,7 +35,7 @@ public class Visitor {
                 currentIndex = -1;
         }
 
-        public BufferedImage addCapsuleInformation(int  randomNumber, String cateringFacility, String hashString, Timestamp ts) throws RemoteException, NoSuchAlgorithmException, SignatureException, InvalidKeyException {
+        public BufferedImage addCapsuleInformation(int randomNumber, String cateringFacility, String hashString, Timestamp ts) throws RemoteException, NoSuchAlgorithmException, SignatureException, InvalidKeyException {
                 randomNumbers.add(randomNumber);
                 CFs.add(cateringFacility);
                 hashes.add(hashString);
