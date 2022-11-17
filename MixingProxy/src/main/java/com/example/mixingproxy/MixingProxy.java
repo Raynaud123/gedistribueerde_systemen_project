@@ -37,7 +37,7 @@ public class MixingProxy {
                 capsules = new ArrayList<>();
             }
         };
-        //flushCapsules from visitor every Hour
+        //flushCapsules from visitors every Hour
         timer.schedule (hourlyTask, 0L, 1000*60*60);
     }
 

@@ -44,7 +44,7 @@ public class HelloApplication extends Application {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("Qrcode.fxml"));
             primaryStage.setScene(new Scene(loader.load()));
             QRCodeController controller = loader.getController();
-            controller.initData(visitor,loader,primaryStage);
+            controller.initData(visitor,primaryStage);
 
             primaryStage.show();
         }

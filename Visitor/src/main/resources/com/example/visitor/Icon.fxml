@@ -9,7 +9,7 @@
    <bottom>
       <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
-            <Button id="button_Logout" fx:id="button_Logout" mnemonicParsing="false" text="Log out" />
+            <Button id="button_Logout" fx:id="button_Logout" mnemonicParsing="false" text="Log out" onAction="#handleLogout" />
          </children>
       </HBox>
    </bottom>

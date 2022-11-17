@@ -49,8 +49,6 @@ public class QRCodeController implements Initializable {
     private Visitor visitor;
    // MixingProxyInterface mixingProxyInterface;
     private Stage stage;
-    private Scene scene;
-    private Parent root;
     private ObjectProperty<Image> imageProperty = new SimpleObjectProperty<>();
     private QRDecoder qrDecoder = new QRDecoder();
     private Webcam webcam;
@@ -67,11 +65,9 @@ public class QRCodeController implements Initializable {
         startCameraInput();
 
     }
-    void initData(Visitor visitor, FXMLLoader loader, Stage primaryStage) {
+    void initData(Visitor visitor, Stage primaryStage) {
         this.visitor = visitor;
-        root = loader.getRoot();
         stage = primaryStage;
-        scene = stage.getScene();
         //this.mixingProxyInterface = mixingProxyInterface;
     }
 
@@ -197,13 +193,9 @@ public class QRCodeController implements Initializable {
     private void switchToScene2(BufferedImage icon) throws IOException {
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource("Icon.fxml"));
-
-
         stage.setScene(new Scene(loader.load()));
-
         IconController controller = loader.getController();
-        controller.initData(visitor,loader,icon);
-
+        controller.initData(visitor,icon, stage);
         stage.show();
 
     }
