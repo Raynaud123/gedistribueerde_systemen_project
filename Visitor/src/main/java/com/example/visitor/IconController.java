@@ -62,8 +62,7 @@ public class IconController{
         FXMLLoader loader = new FXMLLoader(getClass().getResource("QRCode.fxml"));
         stage.setScene(new Scene(loader.load()));
         QRCodeController controller = loader.getController();
-        controller.initData(visitor, stage);
         stage.show();
-
+        controller.initData(visitor, stage);
     }
 }

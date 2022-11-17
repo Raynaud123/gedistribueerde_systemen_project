@@ -9,11 +9,11 @@ import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
 import javafx.scene.Node;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.WritableImage;
@@ -21,7 +21,6 @@ import javafx.stage.Stage;
 
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-import java.net.URL;
 import java.rmi.RemoteException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
@@ -29,10 +28,9 @@ import java.security.SignatureException;
 import java.sql.Timestamp;
 import java.util.Date;
 import java.util.Objects;
-import java.util.ResourceBundle;
 import java.util.concurrent.atomic.AtomicReference;
 
-public class QRCodeController implements Initializable {
+public class QRCodeController{
 
 
     @FXML
@@ -47,28 +45,28 @@ public class QRCodeController implements Initializable {
     public TextArea hash;
 
     private Visitor visitor;
-   // MixingProxyInterface mixingProxyInterface;
     private Stage stage;
-    private ObjectProperty<Image> imageProperty = new SimpleObjectProperty<>();
     private QRDecoder qrDecoder = new QRDecoder();
+    private ObjectProperty<Image> imageProperty;
     private Webcam webcam;
-    private boolean showingDialog = false;
     private String randomNumber;
     private String cateringFacility;
     private String hashString;
+    private Task<Void> webCamTask;
+    private Thread webCamThread;
+    private Task<Void> task;
+    private Thread th;
 
-
-
-
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-        startCameraInput();
-
+    public QRCodeController() {
+        webcam = Webcam.getDefault();
     }
-    void initData(Visitor visitor, Stage primaryStage) {
+
+
+    public void initData(Visitor visitor, Stage primaryStage) {
         this.visitor = visitor;
         stage = primaryStage;
-        //this.mixingProxyInterface = mixingProxyInterface;
+        imageProperty = new SimpleObjectProperty<>();
+        startCameraInput();
     }
 
     public void handleButtonEnter(ActionEvent actionEvent) {
@@ -111,10 +109,9 @@ public class QRCodeController implements Initializable {
     }
 
     private void startCameraInput() {
-        Task<Void> webCamTask = new Task<Void>() {
+        webCamTask = new Task<Void>() {
             @Override
             protected Void call() {
-                webcam = Webcam.getDefault();
                 webcam.open();
                 startWebCamStream();
 
@@ -122,7 +119,7 @@ public class QRCodeController implements Initializable {
             }
         };
 
-        Thread webCamThread = new Thread(webCamTask);
+        webCamThread = new Thread(webCamTask);
         webCamThread.setDaemon(true);
         webCamThread.start();
     }
@@ -130,7 +127,7 @@ public class QRCodeController implements Initializable {
     private void startWebCamStream() {
         boolean stopCamera = false;
 
-        Task<Void> task = new Task<Void>() {
+        task = new Task<Void>() {
 
             @Override
             protected Void call() {
@@ -159,7 +156,7 @@ public class QRCodeController implements Initializable {
             }
         };
 
-        Thread th = new Thread(task);
+        th = new Thread(task);
         th.setDaemon(true);
         th.start();
 
@@ -191,6 +188,10 @@ public class QRCodeController implements Initializable {
     }
 
     private void switchToScene2(BufferedImage icon) throws IOException {
+
+        webcam.close();
+        task.cancel();
+        webCamTask.cancel();
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource("Icon.fxml"));
         stage.setScene(new Scene(loader.load()));
