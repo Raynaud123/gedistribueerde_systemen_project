@@ -2,7 +2,9 @@ package com.example.registrar;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
+import java.security.NoSuchAlgorithmException;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Map;
 
 public class RegistrarImpl extends UnicastRemoteObject implements RegistrarInterface {
@@ -23,8 +25,13 @@ public class RegistrarImpl extends UnicastRemoteObject implements RegistrarInter
         return registrar.getPseudonyms(CF, location, startDate, endDate);
     }
 
-    public void registerVisitor(String user) throws RemoteException {
-        registrar.registerVisitor(user);
+    public void registerVisitor(String phoneNumber) throws RemoteException, NoSuchAlgorithmException {
+        registrar.registerVisitor(phoneNumber);
     }
+
+    public ArrayList<String> getTokensOfToday(String phoneNumber) throws RemoteException {
+        return registrar.getTokensOfToday(phoneNumber);
+    }
+
 
 }

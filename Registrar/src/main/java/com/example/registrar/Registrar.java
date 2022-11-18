@@ -5,8 +5,9 @@ import javafx.collections.ObservableMap;
 
 import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
-import java.security.NoSuchAlgorithmException;
+import java.security.*;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -47,6 +48,12 @@ public class Registrar {
         return cateringFacilityMap;
     }
 
-    public void registerVisitor(String user) {
+    public void registerVisitor(String phoneNumber) throws NoSuchAlgorithmException {
+        visitorMap.put(phoneNumber, new Visitor(phoneNumber));
+        visitorMap.get(phoneNumber).generateTokens();
+    }
+
+    public ArrayList<String> getTokensOfToday(String phoneNumber) {
+        return visitorMap.get(phoneNumber).getTokensOfToday();
     }
 }

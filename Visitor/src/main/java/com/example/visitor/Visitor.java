@@ -15,20 +15,22 @@ public class Visitor {
         private final ArrayList<String> CFs;
         private final ArrayList<String> hashes;
         private final ArrayList<Timestamp> timestamps;
-        private final ArrayList<String> tokens;
+        private ArrayList<String> tokens;
         private final PublicKey publicKeyMixing;
         private int currentIndex;
+        private String phoneNumber;
 
         private final MixingProxyInterface mixingProxyInterface;
 
 
-        public Visitor(MixingProxyInterface mixingProxyInterface) throws RemoteException {
+        public Visitor(String phoneNumber, MixingProxyInterface mixingProxyInterface) throws RemoteException {
                 this.mixingProxyInterface = mixingProxyInterface;
                 this.CFs = new ArrayList<String>();
                 this.hashes = new ArrayList<String>();
                 this.randomNumbers = new ArrayList<Integer>();
                 this.timestamps = new ArrayList<Timestamp>();
                 this.tokens = new ArrayList<String>();
+                this.phoneNumber = phoneNumber;
                 publicKeyMixing = mixingProxyInterface.getPublicKey();
                 //Voor test
                 tokens.add("test");
@@ -66,4 +68,9 @@ public class Visitor {
                 Date date = new Date();
                 mixingProxyInterface.flushCapsules(hashes.get(currentIndex),tokens.get(currentIndex),new Timestamp(date.getTime()));
         }
+
+    public void setTokens(ArrayList<String> tokensOfToday) {
+                tokens = tokensOfToday;
+                System.out.println("Tokens are set");
+    }
 }
