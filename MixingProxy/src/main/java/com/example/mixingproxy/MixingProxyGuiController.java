@@ -1,7 +1,6 @@
 package com.example.mixingproxy;
 
 import com.example.matchingservice.MatchingServiceInterface;
-import javafx.collections.ListChangeListener;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;

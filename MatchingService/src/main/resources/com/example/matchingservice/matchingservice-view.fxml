@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="509.0" prefWidth="719.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.matchingservice.MatchingServiceGuiController">
+    <children>
+        <TableView fx:id="tableCapsules" layoutX="17.0" layoutY="14.0" prefHeight="482.0" prefWidth="685.0">
+            <columns>
+                <TableColumn fx:id="colTimestamp" prefWidth="124.0" text="Timestamp" />
+                <TableColumn fx:id="colUserToken" prefWidth="221.0" text="Usertoken" />
+                <TableColumn fx:id="colHash" prefWidth="339.0" text="Hash" />
+            </columns>
+        </TableView>
+    </children>
+</AnchorPane>

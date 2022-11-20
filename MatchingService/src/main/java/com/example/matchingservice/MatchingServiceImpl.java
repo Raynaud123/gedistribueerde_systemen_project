@@ -6,9 +6,10 @@ import java.sql.Timestamp;
 
 public class MatchingServiceImpl extends UnicastRemoteObject implements MatchingServiceInterface {
 
-    MatchingService matchingService = new MatchingService();
+    MatchingService matchingService;
 
-    protected MatchingServiceImpl() throws RemoteException {
+    protected MatchingServiceImpl(MatchingService matchingService) throws RemoteException {
+        this.matchingService = matchingService;
     }
 
     @Override
