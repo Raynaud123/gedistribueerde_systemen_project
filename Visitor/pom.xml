@@ -127,7 +127,7 @@
                         <!-- Default configuration for running with: mvn clean javafx:run -->
                         <id>default-cli</id>
                         <configuration>
-                            <mainClass>com.example.visitor/com.example.visitor.GUIstarter</mainClass>
+                            <mainClass>com.example.visitor/com.example.visitor.VisitorMain</mainClass>
                             <launcher>app</launcher>
                             <jlinkZipName>app</jlinkZipName>
                             <jlinkImageName>app</jlinkImageName>

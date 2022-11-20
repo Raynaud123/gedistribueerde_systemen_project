@@ -1,8 +1,9 @@
 package com.example.visitor;
 
-public class GUIstarter {
+public class VisitorMain {
+
         public static void main(String[] args) {
-            HelloApplication.main(args);
+            VisitorGui.main(args);
         }
 
 }

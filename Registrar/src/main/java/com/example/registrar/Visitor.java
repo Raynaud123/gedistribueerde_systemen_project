@@ -15,20 +15,19 @@ public class Visitor {
     // Unique ID is a phone number
     private final String phoneNumber;
     private final ObservableMap<LocalDate, ArrayList<String>> tokensMap;
+    private final KeyPair keyPair;
 
 
-    public Visitor(String phoneNumber) {
+    public Visitor(String phoneNumber) throws NoSuchAlgorithmException {
         this.phoneNumber = phoneNumber;
         tokensMap = FXCollections.observableMap(new HashMap<>());
+        KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance("RSA");
+        keyPairGenerator.initialize(2048);
+        this.keyPair = keyPairGenerator.generateKeyPair();
     }
 
     // generates tokens for 30 days
     public void generateTokens() throws NoSuchAlgorithmException {
-
-        KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance("RSA");
-        keyPairGenerator.initialize(1024);
-
-        Signature sr = Signature.getInstance("SHA256withRSA");
 
         for (LocalDate date = LocalDate.now(); date.isBefore(LocalDate.now().plusDays(30)); date = date.plusDays(1)) {
 
@@ -40,11 +39,9 @@ public class Visitor {
                     // Sign(random,dayi)
                     String input = Integer.toString(ThreadLocalRandom.current().nextInt()) + date;
 
-                    // Generate keypair
-                    KeyPair keyPair = keyPairGenerator.generateKeyPair();
-
                     // Create signature
-                    sr.initSign(keyPair.getPrivate());
+                    Signature sr = Signature.getInstance("SHA256withRSA");
+                    sr.initSign(this.keyPair.getPrivate());
                     sr.update(input.getBytes());
                     tokensOfOneDay.add(Arrays.toString(sr.sign()));
                 } catch (InvalidKeyException | SignatureException e) {
@@ -52,7 +49,6 @@ public class Visitor {
                 }
             }
 
-            System.out.println(date + " " + tokensOfOneDay);
             tokensMap.put(date, tokensOfOneDay);
         }
     }

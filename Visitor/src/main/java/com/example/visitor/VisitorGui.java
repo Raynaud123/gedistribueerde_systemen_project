@@ -8,7 +8,7 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.util.Objects;
 
-public class HelloApplication extends Application {
+public class VisitorGui extends Application {
 
     Visitor visitor;
 
@@ -32,7 +32,7 @@ public class HelloApplication extends Application {
 
         // QRcode.fxml wordt nu in RegisterController opgeroepen, maar ik laat de if staan, misschien is hij later nog nodig
         if(visitor==null){
-            FXMLLoader loader = new FXMLLoader((Objects.requireNonNull(HelloApplication.class.getResource("Register.fxml"))));
+            FXMLLoader loader = new FXMLLoader((Objects.requireNonNull(VisitorGui.class.getResource("Register.fxml"))));
             primaryStage.setTitle("Register view");
             primaryStage.setScene(new Scene(loader.load()));
             RegisterController registerController = loader.getController();
