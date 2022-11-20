@@ -14,8 +14,8 @@ import java.util.Map;
 public class Registrar {
 
     private final SecretKey masterKey;
-    private final ObservableMap<String , CateringFacility> cateringFacilityMap;
-    private final ObservableMap<String , Visitor> visitorMap;
+    private final ObservableMap<String, CateringFacility> cateringFacilityMap;
+    private final ObservableMap<String, Visitor> visitorMap;
 
     public Registrar() {
         KeyGenerator keyGenerator;
@@ -55,5 +55,9 @@ public class Registrar {
 
     public ArrayList<String> getTokensOfToday(String phoneNumber) {
         return visitorMap.get(phoneNumber).getTokensOfToday();
+    }
+
+    public ObservableMap<String, Visitor> getVisitorMap() {
+        return visitorMap;
     }
 }

@@ -5,10 +5,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.MapChangeListener;
 import javafx.collections.ObservableList;
 import javafx.collections.ObservableMap;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 
 import javax.crypto.SecretKey;
 import java.rmi.AlreadyBoundException;
@@ -17,8 +14,7 @@ import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.Arrays;
-import java.util.Map;
+import java.util.*;
 
 public class RegistrarGuiController {
 
@@ -28,7 +24,6 @@ public class RegistrarGuiController {
 
     public Label labelCF;
     public Label labelLocation;
-
 
     public ObservableMap<LocalDate, SecretKey> currentSecretObservableMap;
     public ObservableList<Map.Entry<LocalDate, SecretKey>> dataSecret;
@@ -48,10 +43,22 @@ public class RegistrarGuiController {
     public TableColumn<Map.Entry<LocalDate, byte[]>, String> colPseudonymPseudonym;
 
 
+    public ComboBox<String> selectVis = new ComboBox<>();
+    public ComboBox<String> selectVisDate = new ComboBox<>();
+
+    public Label labelPhone;
+
+    public ObservableMap<LocalDate, ArrayList<String>> currentDateObservableMap;
+    public MapChangeListener<LocalDate, ArrayList<String>> changeListenerDate;
+
+    public ListView<String> listTokens;
+
+
     public void initialize() {
         startServer();
         observeRegistrar();
-        observeComboBox();
+        observeComboBoxCF();
+        observeComboBoxVis();
     }
 
     public void startServer() {
@@ -65,8 +72,10 @@ public class RegistrarGuiController {
     }
 
     public void observeRegistrar() {
-        registrar.getCateringFacilityMap().addListener((MapChangeListener<String , CateringFacility>) change -> selectCF.getItems().add(change.getKey()));
+        registrar.getCateringFacilityMap().addListener((MapChangeListener<String, CateringFacility>) change -> selectCF.getItems().add(change.getKey()));
+        registrar.getVisitorMap().addListener((MapChangeListener<String, Visitor>) change -> selectVis.getItems().add(change.getKey()));
     }
+
 
     public void observeCFKey(CateringFacility cateringFacility) {
         if (currentSecretObservableMap != null) {
@@ -105,8 +114,8 @@ public class RegistrarGuiController {
         currentPseudonymObservableMap.addListener(changeListenerPseudonym);
     }
 
-    public void observeComboBox() {
-        selectCF.getSelectionModel().selectedItemProperty().addListener((observableValue) -> {
+    public void observeComboBoxCF() {
+        selectCF.getSelectionModel().selectedItemProperty().addListener((observable) -> {
             CateringFacility cateringFacility = registrar.getCateringFacilityMap().get(String.valueOf(selectCF.getSelectionModel().getSelectedItem()));
             labelCF.setText("Unique info: " + cateringFacility.getCF());
             labelLocation.setText("Location: " + cateringFacility.getLocation());
@@ -117,5 +126,34 @@ public class RegistrarGuiController {
     }
 
 
+    public void observeComboBoxVis() {
+        selectVis.getSelectionModel().selectedItemProperty().addListener((observable -> {
+            Visitor visitor = registrar.getVisitorMap().get(String.valueOf(selectVis.getSelectionModel().getSelectedItem()));
+            labelPhone.setText("Phonenumber: " + visitor.getPhoneNumber());
+
+            observeComboBoxDate(visitor);
+        }));
+    }
+
+    public void observeComboBoxDate(Visitor visitor) {
+        if (changeListenerDate != null) {
+            currentDateObservableMap.removeListener(changeListenerDate);
+        }
+        currentDateObservableMap = visitor.getTokensMap();
+
+        selectVisDate.getItems().clear();
+        Set<LocalDate> keySet = visitor.getTokensMap().keySet();
+        List<String> keyList = new ArrayList<>();
+        keySet.forEach(localDate -> keyList.add(localDate.format(DateTimeFormatter.ISO_DATE)));
+        selectVisDate.getItems().addAll(keyList);
+
+        changeListenerDate = change -> selectVisDate.getItems().add(change.getKey().format(DateTimeFormatter.ISO_DATE));
+        currentDateObservableMap.addListener(changeListenerDate);
+
+        selectVisDate.getSelectionModel().selectedItemProperty().addListener((observable -> {
+            listTokens.getItems().clear();
+            listTokens.getItems().addAll(visitor.getTokensMap().get(LocalDate.parse(String.valueOf(selectVisDate.getSelectionModel().getSelectedItem()), DateTimeFormatter.ISO_DATE)));
+        }));
+    }
 
 }

@@ -2,12 +2,14 @@
 
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="600.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.registrar.RegistrarGuiController">
+<AnchorPane prefHeight="1094.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.registrar.RegistrarGuiController">
    <children>
       <TableView fx:id="tableSecret" layoutX="7.0" layoutY="166.0" prefHeight="200.0" prefWidth="685.0">
         <columns>
@@ -31,6 +33,30 @@
           <TableColumn fx:id="colPseudonymPseudonym" prefWidth="594.0" text="Pseudonym" />
         </columns>
       </TableView>
-      <ComboBox fx:id="selectCF" layoutX="14.0" layoutY="14.0" prefHeight="50.0" prefWidth="200.0" />
+      <ComboBox fx:id="selectCF" layoutX="197.0" layoutY="14.0" prefHeight="50.0" prefWidth="200.0" />
+      <Separator layoutX="9.0" layoutY="583.0" prefHeight="18.0" prefWidth="685.0" />
+      <Label layoutX="14.0" layoutY="14.0" prefHeight="50.0" prefWidth="183.0" text="Catering Facility:">
+         <font>
+            <Font size="25.0" />
+         </font>
+      </Label>
+      <Label layoutX="9.0" layoutY="601.0" prefHeight="50.0" prefWidth="79.0" text="Visitor:">
+         <font>
+            <Font size="25.0" />
+         </font>
+      </Label>
+      <ComboBox fx:id="selectVis" layoutX="88.0" layoutY="601.0" prefHeight="50.0" prefWidth="200.0" />
+      <Label layoutX="347.0" layoutY="601.0" prefHeight="50.0" prefWidth="60.0" text="Date:">
+         <font>
+            <Font size="25.0" />
+         </font>
+      </Label>
+      <ComboBox fx:id="selectVisDate" layoutX="407.0" layoutY="601.0" prefHeight="50.0" prefWidth="200.0" />
+      <ListView fx:id="listTokens" layoutX="8.0" layoutY="692.0" prefHeight="397.0" prefWidth="685.0" />
+      <Label fx:id="labelPhone" layoutX="9.0" layoutY="651.0" prefHeight="41.0" prefWidth="685.0" text="Phonenumber:" wrapText="true">
+         <font>
+            <Font size="25.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>
