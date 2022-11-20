@@ -1,6 +1,8 @@
 package com.example.mixingproxy;
 
 import com.example.matchingservice.MatchingServiceInterface;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 import java.rmi.RemoteException;
 import java.security.*;
@@ -9,7 +11,7 @@ import java.util.*;
 
 public class MixingProxy {
 
-    private ArrayList<Capsule> capsules;
+    private ObservableList<Capsule> capsules;
     private final PrivateKey privateKey;
     private final PublicKey publicKey;
 
@@ -17,7 +19,7 @@ public class MixingProxy {
 
 
     public MixingProxy(MatchingServiceInterface matchingServiceInterface) throws NoSuchAlgorithmException {
-        this.capsules = new ArrayList<>();
+        this.capsules = FXCollections.observableArrayList(new ArrayList<>());
         KeyPair kp = getKeypair();
         privateKey = kp.getPrivate();
         publicKey = kp.getPublic();
@@ -26,15 +28,7 @@ public class MixingProxy {
         TimerTask hourlyTask = new TimerTask () {
             @Override
             public void run () {
-                Collections.shuffle(capsules);
-                for (Capsule capsule : capsules) {
-                    try {
-                        matchingService.flushCapsules(capsule.getHex(), capsule.getTimeInterval(), capsule.getUserToken());
-                    } catch (RemoteException e) {
-                        e.printStackTrace();
-                    }
-                }
-                capsules = new ArrayList<>();
+                flushCapsules();
             }
         };
         //flushCapsules from visitors every Hour
@@ -47,7 +41,7 @@ public class MixingProxy {
     public String receive(String hashString, Timestamp ts, String token) throws NoSuchAlgorithmException, SignatureException, InvalidKeyException {
         //Check validity
         //TODO: functie valid nog implementeren
-        if(valid(token)){
+        if (valid(token)) {
             capsules.add(new Capsule(ts,token, hashString));
             byte[] messageBytes = Base64.getDecoder().decode(hashString);
             Signature signature = Signature.getInstance("NONEwithRSA");
@@ -64,6 +58,18 @@ public class MixingProxy {
         return true;
     }
 
+    public void flushCapsules() {
+        Collections.shuffle(capsules);
+        for (Capsule capsule : capsules) {
+            try {
+                matchingService.flushCapsules(capsule.getHash(), capsule.getTimeInterval(), capsule.getUserToken());
+            } catch (RemoteException e) {
+                e.printStackTrace();
+            }
+        }
+        capsules = FXCollections.observableArrayList(new ArrayList<>());
+    }
+
     //Keypair genereren
     private KeyPair getKeypair() throws NoSuchAlgorithmException {
         KeyPairGenerator kpg = KeyPairGenerator.getInstance("RSA");
@@ -72,5 +78,9 @@ public class MixingProxy {
 
     public PublicKey getPublicKey() {
         return publicKey;
+    }
+
+    public ObservableList<Capsule> getCapsules() {
+        return capsules;
     }
 }

@@ -58,7 +58,7 @@ public class RegistrarGuiController {
         try {
             Registry registry = LocateRegistry.createRegistry(1112);
             registry.bind("RegistrarService", new RegistrarImpl(this.registrar));
-            System.out.println("server started");
+            System.out.println("Registrar server ready");
         } catch (RemoteException | AlreadyBoundException e) {
             throw new RuntimeException(e);
         }

@@ -6,13 +6,13 @@ import java.sql.Timestamp;
 public class Capsule {
     private Timestamp timeInterval;
     private String userToken;
-    private String hex;
+    private String hash;
 
 
-    public Capsule(Timestamp timeInterval, String userToken, String hex) {
+    public Capsule(Timestamp timeInterval, String userToken, String hash) {
         this.timeInterval = timeInterval;
         this.userToken = userToken;
-        this.hex = hex;
+        this.hash = hash;
     }
 
     public Timestamp getTimeInterval() {
@@ -31,11 +31,11 @@ public class Capsule {
         this.userToken = userToken;
     }
 
-    public String getHex() {
-        return hex;
+    public String getHash() {
+        return hash;
     }
 
-    public void setHex(String hex) {
-        this.hex = hex;
+    public void setHash(String hash) {
+        this.hash = hash;
     }
 }

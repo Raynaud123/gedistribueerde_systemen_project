@@ -12,7 +12,7 @@ public class MatchingServiceImpl extends UnicastRemoteObject implements Matching
     }
 
     @Override
-    public void flushCapsules(String hex, Timestamp timeInterval, String userToken) {
-        matchingService.addCapsule(hex,timeInterval,userToken);
+    public void flushCapsules(String hash, Timestamp timeInterval, String userToken) {
+        matchingService.addCapsule(hash,timeInterval,userToken);
     }
 }

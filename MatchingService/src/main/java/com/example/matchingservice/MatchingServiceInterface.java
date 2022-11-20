@@ -6,5 +6,5 @@ import java.sql.Timestamp;
 
 public interface MatchingServiceInterface extends Remote {
 
-    void flushCapsules(String hex, Timestamp timeInterval, String userToken) throws RemoteException;
+    void flushCapsules(String hash, Timestamp timeInterval, String userToken) throws RemoteException;
 }
