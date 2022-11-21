@@ -18,7 +18,7 @@ public class Visitor {
     private ArrayList<String> tokens;
     private final PublicKey publicKeyMixing;
     private int currentIndex;
-    private String phoneNumber;
+    private final String phoneNumber;
 
     private final MixingProxyInterface mixingProxyInterface;
 
@@ -31,10 +31,10 @@ public class Visitor {
         this.timestamps = new ArrayList<>();
         this.tokens = new ArrayList<>();
         this.phoneNumber = phoneNumber;
-        publicKeyMixing = mixingProxyInterface.getPublicKey();
+        this.publicKeyMixing = mixingProxyInterface.getPublicKey();
         //Voor test
-        tokens.add("test");
-        currentIndex = -1;
+        this.tokens.add("test");
+        this.currentIndex = -1;
     }
 
     public BufferedImage addCapsuleInformation(int randomNumber, String cateringFacility, String hashString, Timestamp ts) throws RemoteException, NoSuchAlgorithmException, SignatureException, InvalidKeyException {

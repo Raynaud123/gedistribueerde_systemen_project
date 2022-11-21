@@ -10,50 +10,20 @@ import java.util.Objects;
 
 public class VisitorGui extends Application {
 
-    Visitor visitor;
-
     @Override
-    public void start(Stage primaryStage) throws IOException {
+    public void start(Stage stage) throws IOException {
 
-        // Momenteel verplaatst naar RegisterController
-        //Voorlopige plaats
-/*        Registry mixingProxy;
-        MixingProxyInterface mixingProxyInterface;
-        try {
-            mixingProxy = LocateRegistry.getRegistry("localhost", 4500);
-            mixingProxyInterface = (MixingProxyInterface) mixingProxy.lookup("MixingProxyImpl");
-
-        } catch (RemoteException | NotBoundException e) {
-            throw new RuntimeException(e);
-        }
-        visitor = new Visitor(mixingProxyInterface);*/
-        //Einde voorlopig
-
-
-        // QRcode.fxml wordt nu in RegisterController opgeroepen, maar ik laat de if staan, misschien is hij later nog nodig
-        if(visitor==null){
-            FXMLLoader loader = new FXMLLoader((Objects.requireNonNull(VisitorGui.class.getResource("Register.fxml"))));
-            primaryStage.setTitle("Register view");
-            primaryStage.setScene(new Scene(loader.load()));
-            RegisterController registerController = loader.getController();
-            registerController.initialize();
-            primaryStage.show();
-
-        }else{
-
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("Qrcode.fxml"));
-            primaryStage.setScene(new Scene(loader.load()));
-            QRCodeController controller = loader.getController();
-            controller.initData(visitor,primaryStage);
-
-            primaryStage.show();
-        }
+        FXMLLoader loader = new FXMLLoader((Objects.requireNonNull(VisitorGui.class.getResource("Register.fxml"))));
+        stage.setTitle("Register view");
+        stage.setScene(new Scene(loader.load()));
+        RegisterController registerController = loader.getController();
+        registerController.initialize(stage);
+        stage.show();
 
     }
 
     public static void main(String[] args) {
         launch(args);
     }
-
 
 }

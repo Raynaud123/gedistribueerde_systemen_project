@@ -11,7 +11,7 @@ import java.util.*;
 
 public class MixingProxy {
 
-    private ObservableList<Capsule> capsules;
+    private final ObservableList<Capsule> capsules;
     private final PrivateKey privateKey;
     private final PublicKey publicKey;
 
@@ -67,7 +67,7 @@ public class MixingProxy {
                 e.printStackTrace();
             }
         }
-        capsules = FXCollections.observableArrayList(new ArrayList<>());
+        capsules.clear();
     }
 
     //Keypair genereren

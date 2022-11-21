@@ -10,7 +10,6 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
-import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
@@ -46,16 +45,14 @@ public class QRCodeController{
 
     private Visitor visitor;
     private Stage stage;
-    private QRDecoder qrDecoder = new QRDecoder();
+    private final QRDecoder qrDecoder = new QRDecoder();
     private ObjectProperty<Image> imageProperty;
-    private Webcam webcam;
+    private final Webcam webcam;
     private String randomNumber;
     private String cateringFacility;
     private String hashString;
     private Task<Void> webCamTask;
-    private Thread webCamThread;
     private Task<Void> task;
-    private Thread th;
 
     public QRCodeController() {
         webcam = Webcam.getDefault();
@@ -81,7 +78,8 @@ public class QRCodeController{
             Alert errorDialog = new Alert(Alert.AlertType.ERROR);
             errorDialog.setTitle("Ingegeven waarden kloppen niet");
             errorDialog.setHeaderText("De tekst die u ingegeven hebt is niet volledig, probeer opnieuw");
-            errorDialog.show();}
+            errorDialog.show();
+        }
         else {
             try {
                 int convertedRandomNumber = Integer.parseInt(randomNumber);
@@ -119,7 +117,7 @@ public class QRCodeController{
             }
         };
 
-        webCamThread = new Thread(webCamTask);
+        Thread webCamThread = new Thread(webCamTask);
         webCamThread.setDaemon(true);
         webCamThread.start();
     }
@@ -156,7 +154,7 @@ public class QRCodeController{
             }
         };
 
-        th = new Thread(task);
+        Thread th = new Thread(task);
         th.setDaemon(true);
         th.start();
 
@@ -194,10 +192,11 @@ public class QRCodeController{
         webCamTask.cancel();
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource("Icon.fxml"));
-        stage.setScene(new Scene(loader.load()));
+        stage.getScene().setRoot(loader.load());
+
         IconController controller = loader.getController();
         controller.initData(visitor,icon, stage);
-        stage.show();
 
+        stage.show();
     }
 }
