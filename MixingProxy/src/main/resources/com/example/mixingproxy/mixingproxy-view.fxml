@@ -5,14 +5,13 @@
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
 
-
 <AnchorPane prefHeight="556.0" prefWidth="719.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.mixingproxy.MixingProxyGuiController">
    <children>
       <Button fx:id="buttonFlush" layoutX="297.0" layoutY="14.0" mnemonicParsing="false" onAction="#flushCapsules" prefHeight="34.0" prefWidth="126.0" text="Flush capsules" />
       <TableView fx:id="tableCapsules" layoutX="14.0" layoutY="61.0" prefHeight="481.0" prefWidth="685.0">
         <columns>
-          <TableColumn fx:id="colTimestamp" prefWidth="124.0" text="Timestamp" />
-          <TableColumn fx:id="colUserToken" prefWidth="221.0" text="Usertoken" />
+          <TableColumn fx:id="colTimestamp" prefWidth="150.0" text="Timestamp" />
+          <TableColumn fx:id="colUserToken" prefWidth="191.0" text="Usertoken" />
             <TableColumn fx:id="colHash" prefWidth="339.0" text="Hash" />
         </columns>
       </TableView>

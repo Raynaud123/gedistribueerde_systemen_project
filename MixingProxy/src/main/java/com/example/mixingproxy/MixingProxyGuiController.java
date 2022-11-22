@@ -56,6 +56,7 @@ public class MixingProxyGuiController {
 
     public void flushCapsules() {
         mixingProxy.flushCapsules();
+        tableCapsules.refresh();
     }
 
 }

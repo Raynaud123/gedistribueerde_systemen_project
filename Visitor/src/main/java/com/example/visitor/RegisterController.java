@@ -2,10 +2,7 @@ package com.example.visitor;
 
 import com.example.mixingproxy.MixingProxyInterface;
 import com.example.registrar.RegistrarInterface;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
@@ -23,8 +20,6 @@ import java.util.regex.Pattern;
 public class RegisterController {
 
     private Stage stage;
-    private Scene scene;
-    private Parent root;
 
     public Button signup;
     public TextArea pn;
@@ -33,7 +28,9 @@ public class RegisterController {
     public Visitor visitor;
 
 
-    public void initialize() {
+    public void initialize(Stage stage) {
+
+        this.stage = stage;
         try {
             registrarRegistry = LocateRegistry.getRegistry("localhost", 1112);
             registrarInterface = (RegistrarInterface) registrarRegistry.lookup("RegistrarService");
@@ -43,7 +40,7 @@ public class RegisterController {
         }
     }
 
-    public void handleButtonSignUp(ActionEvent actionEvent) throws IOException, NoSuchAlgorithmException {
+    public void handleButtonSignUp() throws IOException, NoSuchAlgorithmException {
 
         String phoneNumber =  pn.getText();
         if (isValidNumber(phoneNumber)) {
@@ -86,11 +83,10 @@ public class RegisterController {
 
     public void switchToQRScene() throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("Qrcode.fxml"));
-        stage = new Stage();
-        stage.setScene(new Scene(loader.load()));
+        stage.getScene().setRoot(loader.load());
 
         QRCodeController controller = loader.getController();
-        controller.initData(visitor,stage);
+        controller.initData(visitor, stage);
 
         stage.show();
     }

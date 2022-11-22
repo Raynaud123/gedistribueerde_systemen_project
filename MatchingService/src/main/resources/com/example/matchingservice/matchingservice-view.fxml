@@ -10,8 +10,8 @@
       <Button layoutX="297.0" layoutY="14.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="126.0" text="Delete Capsules" fx:id="removeButton" onAction="#removeCapsules"/>
         <TableView fx:id="tableCapsules" layoutX="14.0" layoutY="61.0" prefHeight="482.0" prefWidth="685.0">
             <columns>
-                <TableColumn fx:id="colTimestamp" prefWidth="124.0" text="Timestamp" />
-                <TableColumn fx:id="colUserToken" prefWidth="221.0" text="Usertoken" />
+                <TableColumn fx:id="colTimestamp" prefWidth="150.0" text="Timestamp" />
+                <TableColumn fx:id="colUserToken" prefWidth="214.0" text="Usertoken" />
                 <TableColumn fx:id="colHash" prefWidth="339.0" text="Hash" />
             </columns>
         </TableView>

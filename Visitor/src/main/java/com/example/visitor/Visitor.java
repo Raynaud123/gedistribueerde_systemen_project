@@ -18,7 +18,7 @@ public class Visitor {
     private ArrayList<String> tokens;
     private final PublicKey publicKeyMixing;
     private int currentIndex;
-    private String phoneNumber;
+    private final String phoneNumber;
 
     private final MixingProxyInterface mixingProxyInterface;
 
