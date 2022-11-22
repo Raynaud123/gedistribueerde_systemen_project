@@ -19,7 +19,7 @@ public class MatchingService {
         TimerTask weeklyTask = new TimerTask () {
             @Override
             public void run () {
-                capsules = FXCollections.observableArrayList(new ArrayList<>());
+                removeCapsules();
             }
         };
         timer.schedule (weeklyTask, 0L, 7*24*1000*60*60);
@@ -31,5 +31,9 @@ public class MatchingService {
 
     public ObservableList<Capsule> getCapsules() {
         return capsules;
+    }
+
+    public void removeCapsules(){
+        capsules = FXCollections.observableArrayList(new ArrayList<>());
     }
 }

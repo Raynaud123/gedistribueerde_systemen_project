@@ -3,6 +3,7 @@ package com.example.registrar;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.security.NoSuchAlgorithmException;
+import java.security.PublicKey;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Map;
@@ -32,6 +33,7 @@ public class RegistrarImpl extends UnicastRemoteObject implements RegistrarInter
     public ArrayList<String> getTokensOfToday(String phoneNumber) throws RemoteException {
         return registrar.getTokensOfToday(phoneNumber);
     }
+
 
 
 }

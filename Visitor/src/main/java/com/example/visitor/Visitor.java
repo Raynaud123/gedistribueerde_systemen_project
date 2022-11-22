@@ -32,8 +32,6 @@ public class Visitor {
         this.tokens = new ArrayList<>();
         this.phoneNumber = phoneNumber;
         publicKeyMixing = mixingProxyInterface.getPublicKey();
-        //Voor test
-        tokens.add("test");
         currentIndex = -1;
     }
 

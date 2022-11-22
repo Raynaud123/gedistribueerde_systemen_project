@@ -60,4 +60,5 @@ public class Registrar {
     public ObservableMap<String, Visitor> getVisitorMap() {
         return visitorMap;
     }
+
 }

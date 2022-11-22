@@ -192,7 +192,6 @@ public class QRCodeController{
         webcam.close();
         task.cancel();
         webCamTask.cancel();
-
         FXMLLoader loader = new FXMLLoader(getClass().getResource("Icon.fxml"));
         stage.setScene(new Scene(loader.load()));
         IconController controller = loader.getController();

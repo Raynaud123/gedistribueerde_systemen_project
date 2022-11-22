@@ -65,4 +65,9 @@ public class IconController{
         stage.show();
         controller.initData(visitor, stage);
     }
+
+    public void flushCapsules(ActionEvent actionEvent) throws RemoteException {
+        visitor.flushCapsules();
+    }
+
 }

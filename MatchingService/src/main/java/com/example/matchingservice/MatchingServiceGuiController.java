@@ -1,5 +1,6 @@
 package com.example.matchingservice;
 
+import javafx.event.ActionEvent;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -38,4 +39,9 @@ public class MatchingServiceGuiController {
         colUserToken.setCellValueFactory(new PropertyValueFactory<>("userToken"));
         colHash.setCellValueFactory(new PropertyValueFactory<>("hash"));
     }
+
+    public void removeCapsules(ActionEvent event){
+        matchingService.removeCapsules();
+    }
+
 }
