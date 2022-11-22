@@ -9,7 +9,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public class MatchingService {
-    private ObservableList<Capsule> capsules;
+    private final ObservableList<Capsule> capsules;
 
 
     public MatchingService() {
@@ -34,6 +34,6 @@ public class MatchingService {
     }
 
     public void removeCapsules(){
-        capsules = FXCollections.observableArrayList(new ArrayList<>());
+        capsules.clear();
     }
 }

@@ -107,7 +107,7 @@ public class QRCodeController{
     }
 
     private void startCameraInput() {
-        webCamTask = new Task<Void>() {
+        webCamTask = new Task<>() {
             @Override
             protected Void call() {
                 webcam.open();

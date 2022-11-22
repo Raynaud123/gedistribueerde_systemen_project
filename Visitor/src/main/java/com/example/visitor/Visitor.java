@@ -64,7 +64,7 @@ public class Visitor {
 
     public void flushCapsules() throws RemoteException {
         Date date = new Date();
-        mixingProxyInterface.flushCapsules(hashes.get(currentIndex),tokens.get(currentIndex),new Timestamp(date.getTime()));
+        mixingProxyInterface.flushCapsules(hashes.get(currentIndex), tokens.get(currentIndex), new Timestamp(date.getTime()));
     }
 
     public void setTokens(ArrayList<String> tokensOfToday) {

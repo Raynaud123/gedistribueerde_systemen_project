@@ -1,7 +1,6 @@
 package com.example.mixingproxy;
 
 import com.example.matchingservice.MatchingServiceInterface;
-import com.example.registrar.RegistrarInterface;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -42,7 +41,7 @@ public class MixingProxy {
     public String receive(String hashString, Timestamp ts, String token) throws NoSuchAlgorithmException, SignatureException, InvalidKeyException {
         //Check validity
         //TODO: functie valid nog implementeren
-        if(valid(token)){
+        if (valid(token)) {
             capsules.add(new Capsule(ts,token, hashString));
             byte[] messageBytes = Base64.getDecoder().decode(hashString);
             Signature signature = Signature.getInstance("NONEwithRSA");

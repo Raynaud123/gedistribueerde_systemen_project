@@ -63,7 +63,7 @@ public class IconController{
 
     }
 
-    public void flushCapsules(ActionEvent actionEvent) throws RemoteException {
+    public void flushCapsules() throws RemoteException {
         visitor.flushCapsules();
     }
 
