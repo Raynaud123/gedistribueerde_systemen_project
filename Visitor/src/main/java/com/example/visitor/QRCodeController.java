@@ -106,6 +106,10 @@ public class QRCodeController{
         }
     }
 
+    public void handleButtonReleaseLogs() {
+        visitor.releaseLogs();
+    }
+
     private void startCameraInput() {
         webCamTask = new Task<>() {
             @Override

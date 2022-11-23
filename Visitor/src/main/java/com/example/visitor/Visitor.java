@@ -71,4 +71,8 @@ public class Visitor {
         tokens = tokensOfToday;
         System.out.println("Tokens are set");
     }
+
+    public void releaseLogs() {
+        ReleaseLogsToFile.writeJsonFile(phoneNumber, randomNumbers, hashes, timestamps, tokens);
+    }
 }

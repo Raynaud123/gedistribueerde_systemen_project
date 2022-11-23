@@ -18,6 +18,11 @@
                   <Font name="SansSerif Regular" size="12.0" />
                </font>
             </Button>
+            <Button fx:id="release" alignment="CENTER_RIGHT" mnemonicParsing="false" onAction="#handleButtonReleaseLogs" text="Release the logs to your doctor">
+               <font>
+                  <Font name="SansSerif Regular" size="12.0" />
+               </font>
+            </Button>
          </children>
       </FlowPane>
    </bottom>
