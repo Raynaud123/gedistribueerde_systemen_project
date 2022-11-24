@@ -24,18 +24,29 @@ public class ReadLogsFromFile {
 
     public void readJSONFile() {
         JSONParser parser = new JSONParser();
+        JSONArray randomNumberJSONArray = new JSONArray();
+        JSONArray hashesJSONArray = new JSONArray();
+        JSONArray timestampsJSONArray = new JSONArray();
+        JSONArray tokensJSONArray = new JSONArray();
+
         try {
             Object obj = parser.parse(new FileReader("Doctor\\src\\main\\JSON\\logs-" + phoneNumber + ".json"));
             JSONObject jsonObject = (JSONObject) obj;
             phoneNumber = (String) jsonObject.get("phoneNumber");
-            randomNumbers = (ArrayList<Integer>) jsonObject.get("randomNumbers");
-            hashes = (ArrayList<String>) jsonObject.get("hashes");
-            timestamps = (ArrayList<Timestamp>) jsonObject.get("timestamps");
-            tokens = (ArrayList<String>) jsonObject.get("tokens");
+            randomNumberJSONArray = (JSONArray) jsonObject.get("randomNumbers");
+            hashesJSONArray = (JSONArray) jsonObject.get("hashes");
+            timestampsJSONArray = (JSONArray) jsonObject.get("timestamps");
+            tokensJSONArray = (JSONArray) jsonObject.get("tokens");
 
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+        for (Object o : randomNumberJSONArray) randomNumbers.add(Integer.parseInt(o.toString()));
+        for (Object o : hashesJSONArray) hashes.add(o.toString());
+        for (Object o : timestampsJSONArray) timestamps.add(Timestamp.valueOf(o.toString()));
+        for (Object o : tokensJSONArray) tokens.add(o.toString());
+
     }
 
     public ArrayList<Integer> getRandomNumbers() {

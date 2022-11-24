@@ -4,6 +4,7 @@ module com.example.doctor {
     requires java.rmi;
     requires java.sql;
     requires json.simple;
+    requires com.example.matchingservice;
 
 
     opens com.example.doctor to javafx.fxml;
