@@ -21,4 +21,19 @@ public class MatchingServiceImpl extends UnicastRemoteObject implements Matching
     public void saveLogs(ArrayList<Integer> randomNumbers, ArrayList<String> hashes, ArrayList<Timestamp> timestamps, ArrayList<String> tokens) {
         matchingService.saveInfectedLogs(randomNumbers, hashes, timestamps, tokens);
     }
+
+    @Override
+    public ArrayList<String> fetchCriticalHashes() throws RemoteException {
+        return matchingService.fetchCriticalHashes();
+    }
+
+    @Override
+    public ArrayList<Timestamp> fetchCriticalTimeInterval() throws RemoteException {
+        return matchingService.fetchCriticalTimeInterval();
+    }
+
+    @Override
+    public void sendInformedToken(String token) throws RemoteException {
+        matchingService.setTokenToInformed(token);
+    }
 }

@@ -7,6 +7,7 @@ import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.security.*;
 import java.sql.Timestamp;
+import java.text.ParseException;
 import java.util.ArrayList;
 
 public class Doctor {
@@ -28,7 +29,7 @@ public class Doctor {
         this.keyPair = keyPairGenerator.generateKeyPair();
     }
 
-    public void getLogsFromUser(String phoneNumber) throws RemoteException {
+    public void getLogsFromUser(String phoneNumber) throws RemoteException, ParseException {
         ReadLogsFromFile logsFromFile = new ReadLogsFromFile(phoneNumber);
         logsFromFile.readJSONFile();
         this.randomNumbers = logsFromFile.getRandomNumbers();

@@ -27,7 +27,7 @@ public class Visitor {
     }
 
     // generates tokens for 30 days
-    public void generateTokens() throws NoSuchAlgorithmException {
+    public PublicKey generateTokens() throws NoSuchAlgorithmException {
 
         for (LocalDate date = LocalDate.now(); date.isBefore(LocalDate.now().plusDays(30)); date = date.plusDays(1)) {
 
@@ -51,6 +51,7 @@ public class Visitor {
 
             tokensMap.put(date, tokensOfOneDay);
         }
+        return keyPair.getPublic();
     }
 
     public ArrayList<String> getTokensOfToday() {

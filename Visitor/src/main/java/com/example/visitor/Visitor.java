@@ -1,14 +1,13 @@
 package com.example.visitor;
 
+import com.example.matchingservice.MatchingServiceInterface;
 import com.example.mixingproxy.MixingProxyInterface;
 
 import java.awt.image.BufferedImage;
 import java.rmi.RemoteException;
 import java.security.*;
 import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.Base64;
-import java.util.Date;
+import java.util.*;
 
 public class Visitor {
     private final ArrayList<Integer> randomNumbers;
@@ -16,22 +15,30 @@ public class Visitor {
     private final ArrayList<String> hashes;
     private final ArrayList<Timestamp> timestamps;
     private ArrayList<String> tokens;
+    private ArrayList<String> tokensOfToday;
+    private Map<String,String> mappingResTo;
     private final PublicKey publicKeyMixing;
+    private final PublicKey publicKeyRegistrar;
     private int currentIndex;
     private final String phoneNumber;
 
     private final MixingProxyInterface mixingProxyInterface;
+    private final MatchingServiceInterface matchingServiceInterface;
 
 
-    public Visitor(String phoneNumber, MixingProxyInterface mixingProxyInterface) throws RemoteException {
+    public Visitor(String phoneNumber, MixingProxyInterface mixingProxyInterface, MatchingServiceInterface matchingServiceInterface, PublicKey publicKeyRegistrar) throws RemoteException {
         this.mixingProxyInterface = mixingProxyInterface;
         this.CFs = new ArrayList<>();
         this.hashes = new ArrayList<>();
         this.randomNumbers = new ArrayList<>();
         this.timestamps = new ArrayList<>();
         this.tokens = new ArrayList<>();
+        this.tokensOfToday = new ArrayList<>();
+        mappingResTo = new HashMap<>();
         this.phoneNumber = phoneNumber;
+        this.matchingServiceInterface = matchingServiceInterface;
         publicKeyMixing = mixingProxyInterface.getPublicKey();
+        this.publicKeyRegistrar = publicKeyRegistrar;
         currentIndex = -1;
     }
 
@@ -41,9 +48,10 @@ public class Visitor {
         hashes.add(hashString);
         timestamps.add(ts);
         currentIndex++;
-        String token = tokens.get(currentIndex);
+        String token = tokensOfToday.get(currentIndex);
         String signedHash = mixingProxyInterface.receiveCapsule(hashString, ts, token);
         if (hashStringCheck(signedHash,hashString)){
+            mappingResTo.put(hashString,token);
             return IconGenVisitor.generateIdenticons(hashString, 300,300);
         }
         else {
@@ -68,11 +76,44 @@ public class Visitor {
     }
 
     public void setTokens(ArrayList<String> tokensOfToday) {
-        tokens = tokensOfToday;
+        this.tokensOfToday = tokensOfToday;
+        tokens.addAll(tokensOfToday);
         System.out.println("Tokens are set");
     }
 
     public void releaseLogs() {
         ReleaseLogsToFile.writeJsonFile(phoneNumber, randomNumbers, hashes, timestamps, tokens);
+    }
+
+    public Boolean fetchCritical() throws RemoteException {
+        ArrayList<String> criticalHashes = matchingServiceInterface.fetchCriticalHashes();
+        ArrayList<Timestamp> criticalTimestamps = matchingServiceInterface.fetchCriticalTimeInterval();
+        ArrayList<Integer> indexHashes = new ArrayList<Integer>();
+        ArrayList<Integer> indexCriticalHashes = new ArrayList<Integer>();
+        Boolean gevonden = false;
+
+        for(int i = 0; i < hashes.size(); i++){
+            for(int j = 0; j < criticalHashes.size(); j++){
+                if (hashes.get(i).equals(criticalHashes.get(j))){
+                    indexHashes.add(i);
+                    indexCriticalHashes.add(j);
+                }
+            }
+        }
+
+        for(int i = indexHashes.size() -1; i >= 0; i--){
+            if(!criticalTimestamps.get(indexCriticalHashes.get(i)).toString().equals(timestamps.get(indexHashes.get(i)).toString())){
+                indexHashes.remove(i);
+                indexCriticalHashes.remove(i);
+            }
+        }
+
+        for (int indexHash : indexHashes) {
+            if (mappingResTo.containsKey(hashes.get(indexHash))) {
+                mixingProxyInterface.sendInformedToken(mappingResTo.get(hashes.get(indexHash)));
+                gevonden = true;
+            }
+        }
+        return gevonden;
     }
 }

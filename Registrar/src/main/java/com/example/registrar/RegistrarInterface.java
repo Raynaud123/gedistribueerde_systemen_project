@@ -13,8 +13,9 @@ public interface RegistrarInterface extends Remote {
 
     Map<LocalDate, byte[]> getPseudonyms(String CF, String location, LocalDate startDate, LocalDate endDate) throws RemoteException;
 
-    void registerVisitor(String phoneNumber) throws RemoteException, NoSuchAlgorithmException;
+    PublicKey registerVisitor(String phoneNumber) throws RemoteException, NoSuchAlgorithmException;
 
     ArrayList<String> getTokensOfToday(String phoneNumber) throws RemoteException;
 
+    void sentUninformedTokens(ArrayList<String> temp) throws RemoteException;
 }

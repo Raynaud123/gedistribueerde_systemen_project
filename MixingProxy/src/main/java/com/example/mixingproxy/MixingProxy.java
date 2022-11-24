@@ -95,4 +95,8 @@ public class MixingProxy {
     public ObservableList<Capsule> getCapsules() {
         return capsules;
     }
+
+    public void sendInformedToken(String token) throws RemoteException {
+        matchingService.sendInformedToken(token);
+    }
 }

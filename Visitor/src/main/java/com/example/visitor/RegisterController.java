@@ -1,5 +1,7 @@
 package com.example.visitor;
 
+import com.example.matchingservice.MatchingServiceImpl;
+import com.example.matchingservice.MatchingServiceInterface;
 import com.example.mixingproxy.MixingProxyInterface;
 import com.example.registrar.RegistrarInterface;
 import javafx.fxml.FXMLLoader;
@@ -14,6 +16,7 @@ import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.security.NoSuchAlgorithmException;
+import java.security.PublicKey;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -45,21 +48,26 @@ public class RegisterController {
         String phoneNumber =  pn.getText();
         if (isValidNumber(phoneNumber)) {
             // Register visitor in Registrar
-            registrarInterface.registerVisitor(phoneNumber);
+            PublicKey publicKeyvisitor =  registrarInterface.registerVisitor(phoneNumber);
 
             // RMI mixing proxy
             Registry mixingProxy;
             MixingProxyInterface mixingProxyInterface;
+            Registry matchingService;
+            MatchingServiceInterface matchingServiceInterface;
             try {
                 mixingProxy = LocateRegistry.getRegistry("localhost", 4500);
                 mixingProxyInterface = (MixingProxyInterface) mixingProxy.lookup("MixingProxyImpl");
+
+                matchingService = LocateRegistry.getRegistry("localhost", 5000);
+                matchingServiceInterface = (MatchingServiceInterface) matchingService.lookup("MatchingServiceImpl");
 
             } catch (RemoteException | NotBoundException e) {
                 throw new RuntimeException(e);
             }
 
             // Register visitor in Visitor
-            visitor = new Visitor(phoneNumber, mixingProxyInterface);
+            visitor = new Visitor(phoneNumber, mixingProxyInterface, matchingServiceInterface, publicKeyvisitor);
 
             // Set tokens of today in Visitor\Visitor
             visitor.setTokens(registrarInterface.getTokensOfToday(phoneNumber));

@@ -27,6 +27,8 @@ import java.security.SignatureException;
 import java.sql.Timestamp;
 import java.util.Date;
 import java.util.Objects;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.concurrent.atomic.AtomicReference;
 
 public class QRCodeController{
@@ -64,6 +66,18 @@ public class QRCodeController{
         stage = primaryStage;
         imageProperty = new SimpleObjectProperty<>();
         startCameraInput();
+        TimerTask dailyTask = new TimerTask () {
+            @Override
+            public void run () {
+                try {
+                    fetchCritical();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+        Timer timer = new Timer ();
+        timer.schedule(dailyTask, 0L,1000*60*60*24);
     }
 
     public void handleButtonEnter(ActionEvent actionEvent) {
@@ -201,5 +215,19 @@ public class QRCodeController{
         controller.initData(visitor,icon, stage);
 
         stage.show();
+    }
+
+    public void fetchCritical() throws IOException,RemoteException {
+        boolean gevonden = visitor.fetchCritical();
+
+        if(gevonden){
+            webcam.close();
+            task.cancel();
+            webCamTask.cancel();
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("Infected.fxml"));
+            stage.getScene().setRoot(loader.load());
+
+            stage.show();
+        }
     }
 }

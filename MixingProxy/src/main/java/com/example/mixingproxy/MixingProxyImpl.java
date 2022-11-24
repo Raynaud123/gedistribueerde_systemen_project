@@ -32,4 +32,9 @@ public class MixingProxyImpl extends UnicastRemoteObject implements MixingProxyI
     public PublicKey getPublicKey() {
         return mixingProxy.getPublicKey();
     }
+
+    @Override
+    public void sendInformedToken(String token) throws RemoteException {
+        mixingProxy.sendInformedToken(token);
+    }
 }

@@ -2,6 +2,8 @@ package com.example.doctor;
 
 import java.io.*;
 import java.sql.Timestamp;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 import org.json.simple.*;
 import org.json.simple.parser.*;
@@ -22,7 +24,7 @@ public class ReadLogsFromFile {
         tokens = new ArrayList<>();
     }
 
-    public void readJSONFile() {
+    public void readJSONFile() throws ParseException {
         JSONParser parser = new JSONParser();
         JSONArray randomNumberJSONArray = new JSONArray();
         JSONArray hashesJSONArray = new JSONArray();
@@ -44,7 +46,12 @@ public class ReadLogsFromFile {
 
         for (Object o : randomNumberJSONArray) randomNumbers.add(Integer.parseInt(o.toString()));
         for (Object o : hashesJSONArray) hashes.add(o.toString());
-        for (Object o : timestampsJSONArray) timestamps.add(Timestamp.valueOf(o.toString()));
+        for (Object o : timestampsJSONArray) {
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss.SSS");
+            Date parsedDate = dateFormat.parse((String) o);
+            Timestamp timestamp = new java.sql.Timestamp(parsedDate.getTime());
+            timestamps.add(timestamp);
+        }
         for (Object o : tokensJSONArray) tokens.add(o.toString());
 
     }

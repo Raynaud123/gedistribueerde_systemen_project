@@ -15,4 +15,6 @@ public interface MixingProxyInterface  extends Remote {
     void flushCapsules(String s, String s1, Timestamp timestamp) throws RemoteException;
 
     PublicKey getPublicKey() throws RemoteException;
+
+    void sendInformedToken(String token) throws RemoteException;
 }

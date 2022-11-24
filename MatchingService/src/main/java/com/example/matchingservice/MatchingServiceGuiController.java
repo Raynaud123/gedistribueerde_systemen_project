@@ -1,9 +1,13 @@
 package com.example.matchingservice;
 
+import com.example.registrar.RegistrarInterface;
+import javafx.event.ActionEvent;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 
+import java.rmi.NotBoundException;
+import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.sql.Timestamp;
@@ -12,10 +16,13 @@ public class MatchingServiceGuiController {
 
     MatchingService matchingService = new MatchingService();
 
+
     public TableView<Capsule> tableCapsules;
     public TableColumn<Timestamp, String> colTimestamp;
     public TableColumn<String, String> colUserToken;
     public TableColumn<String, String> colHash;
+
+
 
     public void initialize() {
         startServer();
@@ -43,4 +50,7 @@ public class MatchingServiceGuiController {
         matchingService.removeCapsules();
     }
 
+    public void sentUninformedTokens() throws RemoteException {
+        matchingService.sentUninformedTokens();
+    }
 }

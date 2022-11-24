@@ -26,14 +26,18 @@ public class RegistrarImpl extends UnicastRemoteObject implements RegistrarInter
         return registrar.getPseudonyms(CF, location, startDate, endDate);
     }
 
-    public void registerVisitor(String phoneNumber) throws RemoteException, NoSuchAlgorithmException {
-        registrar.registerVisitor(phoneNumber);
+    public PublicKey registerVisitor(String phoneNumber) throws RemoteException, NoSuchAlgorithmException {
+        return registrar.registerVisitor(phoneNumber);
     }
 
     public ArrayList<String> getTokensOfToday(String phoneNumber) throws RemoteException {
         return registrar.getTokensOfToday(phoneNumber);
     }
 
+    @Override
+    public void sentUninformedTokens(ArrayList<String> temp) throws RemoteException {
+        registrar.sentUninformedTokens(temp);
+    }
 
 
 }

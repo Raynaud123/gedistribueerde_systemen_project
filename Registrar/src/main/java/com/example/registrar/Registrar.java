@@ -1,6 +1,7 @@
 package com.example.registrar;
 
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.collections.ObservableMap;
 
 import javax.crypto.KeyGenerator;
@@ -16,6 +17,7 @@ public class Registrar {
     private final SecretKey masterKey;
     private final ObservableMap<String, CateringFacility> cateringFacilityMap;
     private final ObservableMap<String, Visitor> visitorMap;
+    private final ObservableList<String> uninformedTokens;
 
     public Registrar() {
         KeyGenerator keyGenerator;
@@ -29,6 +31,7 @@ public class Registrar {
 
         this.cateringFacilityMap = FXCollections.observableMap(new HashMap<>());
         this.visitorMap = FXCollections.observableMap(new HashMap<>());
+        this.uninformedTokens = FXCollections.observableList(new ArrayList<>());
     }
 
     public void registerCF(String CF, String location) {
@@ -48,9 +51,9 @@ public class Registrar {
         return cateringFacilityMap;
     }
 
-    public void registerVisitor(String phoneNumber) throws NoSuchAlgorithmException {
+    public PublicKey registerVisitor(String phoneNumber) throws NoSuchAlgorithmException {
         visitorMap.put(phoneNumber, new Visitor(phoneNumber));
-        visitorMap.get(phoneNumber).generateTokens();
+        return visitorMap.get(phoneNumber).generateTokens();
     }
 
     public ArrayList<String> getTokensOfToday(String phoneNumber) {
@@ -61,4 +64,7 @@ public class Registrar {
         return visitorMap;
     }
 
+    public void sentUninformedTokens(ArrayList<String> temp) {
+        uninformedTokens.addAll(temp);
+    }
 }
