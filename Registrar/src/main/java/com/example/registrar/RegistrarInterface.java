@@ -18,4 +18,6 @@ public interface RegistrarInterface extends Remote {
     ArrayList<String> getTokensOfToday(String phoneNumber) throws RemoteException;
 
     void sentUninformedTokens(ArrayList<String> temp) throws RemoteException;
+
+    boolean numberAlreadyExists(String phoneNumber) throws RemoteException;
 }

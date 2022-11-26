@@ -67,4 +67,12 @@ public class Registrar {
     public void sentUninformedTokens(ArrayList<String> temp) {
         uninformedTokens.addAll(temp);
     }
+
+    public boolean numberAlreadyExists(String phoneNumber) {
+        boolean found = false;
+        for (String s : visitorMap.keySet()) {
+            if (s.equals(phoneNumber)) found = true;
+        }
+        return found;
+    }
 }

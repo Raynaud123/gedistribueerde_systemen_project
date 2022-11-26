@@ -39,5 +39,10 @@ public class RegistrarImpl extends UnicastRemoteObject implements RegistrarInter
         registrar.sentUninformedTokens(temp);
     }
 
+    public boolean numberAlreadyExists(String phoneNumber) throws RemoteException {
+        return registrar.numberAlreadyExists(phoneNumber);
+    }
+
+
 
 }
