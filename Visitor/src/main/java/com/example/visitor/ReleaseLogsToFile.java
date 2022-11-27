@@ -11,11 +11,11 @@ public class ReleaseLogsToFile {
 
     public static void writeJsonFile(String phoneNumber, ArrayList<Integer> randomNumbers, ArrayList<String> hashes, ArrayList<Timestamp> timestamps, ArrayList<String> tokens) {
 
-        Map obj = new LinkedHashMap();
+        Map obj = new HashMap<>();
         ArrayList<String> stringTimeStamps = new ArrayList<>();
 
         for (Timestamp timestamp : timestamps) {
-            stringTimeStamps.add(timestamp.toString());
+            stringTimeStamps.add("\"" + timestamp.toString() + "\"");
         }
 
         // adding value of objective function

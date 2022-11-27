@@ -1,6 +1,5 @@
 package com.example.visitor;
 
-import com.example.matchingservice.MatchingServiceImpl;
 import com.example.matchingservice.MatchingServiceInterface;
 import com.example.mixingproxy.MixingProxyInterface;
 import com.example.registrar.RegistrarInterface;
@@ -96,7 +95,7 @@ public class RegisterController {
     }
 
     private boolean isValidNumber(String phoneNumber) {
-        Pattern p = Pattern.compile("^\\d{10}$");
+        Pattern p = Pattern.compile("^[\\+]?[(]?[0-9]{3}[)]?[-\\s\\.]?[0-9]{3}[-\\s\\.]?[0-9]{4,6}$");
         Matcher m = p.matcher(phoneNumber);
         return (m.matches());
     }

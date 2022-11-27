@@ -96,8 +96,7 @@ public class BarOwner {
             throw new RuntimeException(e);
         }
 
-        IdenticonGenerator.saveImage(IdenticonGenerator.generateIdenticons(base64Hash, 300, 300), "Identicon-" + CF + "-" + location + date);
+        IdenticonGenerator.saveImage(IdenticonGenerator.generateIdenticons(base64Hash, 300, 300), "Identicon-" + CF + "-" + location + "-" + date);
 
     }
-
 }

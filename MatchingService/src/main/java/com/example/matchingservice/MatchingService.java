@@ -1,20 +1,18 @@
 package com.example.matchingservice;
 
 import com.example.registrar.RegistrarInterface;
-import javafx.beans.InvalidationListener;
 import javafx.collections.FXCollections;
-import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
-import javafx.collections.ObservableMap;
 
-import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.sql.Timestamp;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class MatchingService {
 
@@ -26,7 +24,6 @@ public class MatchingService {
     public MatchingService()  {
         this.capsules = FXCollections.observableArrayList(new ArrayList<>());
 
-
         try {
             registrarRegistry = LocateRegistry.getRegistry("localhost", 1112);
             registrarInterface = (RegistrarInterface) registrarRegistry.lookup("RegistrarService");
@@ -36,25 +33,18 @@ public class MatchingService {
 
         // Capsules need to be deleted after predefined interval(in this case 7 days)
         Timer timer = new Timer ();
-        TimerTask weeklyTask = new TimerTask () {
-            @Override
-            public void run () {
-                removeCapsules();
-            }
-        };
         TimerTask dailyTask =  new TimerTask () {
             @Override
             public void run () {
                 try {
                     sentUninformedTokens();
+                    removeOldCapsules();
                 } catch (RemoteException e) {
                     e.printStackTrace();
                 }
             }
         };
-        timer.schedule (weeklyTask, 0L, 7*24*1000*60*60);
         timer.schedule(dailyTask,0L, 24*1000*60*60);
-
 
     }
 
@@ -69,6 +59,16 @@ public class MatchingService {
 
     public void removeCapsules(){
         capsules.clear();
+    }
+
+    public void removeOldCapsules() {
+        List<Capsule> capsulesToRemove = new ArrayList<>();
+        for (Capsule capsule : capsules) {
+            if (capsule.getTimeInterval().before(Timestamp.valueOf(LocalDateTime.now().minusDays(7)))) {
+                capsulesToRemove.add(capsule);
+            }
+        }
+        capsules.removeAll(capsulesToRemove);
     }
 
     public void saveInfectedLogs(ArrayList<Integer> randomNumbers, ArrayList<String> hashes, ArrayList<Timestamp> timestamps, ArrayList<String> tokens) {

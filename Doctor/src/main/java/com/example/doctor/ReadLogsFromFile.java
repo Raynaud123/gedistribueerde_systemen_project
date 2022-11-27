@@ -11,10 +11,10 @@ import org.json.simple.parser.*;
 public class ReadLogsFromFile {
 
     private String phoneNumber;
-    private ArrayList<Integer> randomNumbers;
-    private ArrayList<String> hashes;
-    private ArrayList<Timestamp> timestamps;
-    private ArrayList<String> tokens;
+    private final ArrayList<Integer> randomNumbers;
+    private final ArrayList<String> hashes;
+    private final ArrayList<Timestamp> timestamps;
+    private final ArrayList<String> tokens;
 
     public ReadLogsFromFile(String phoneNumber) {
         this.phoneNumber = phoneNumber;
@@ -32,7 +32,8 @@ public class ReadLogsFromFile {
         JSONArray tokensJSONArray = new JSONArray();
 
         try {
-            Object obj = parser.parse(new FileReader("Doctor\\src\\main\\JSON\\logs-" + phoneNumber + ".json"));
+            FileReader fileReader = new FileReader("Doctor\\src\\main\\JSON\\logs-" + phoneNumber + ".json");
+            Object obj = parser.parse(fileReader);
             JSONObject jsonObject = (JSONObject) obj;
             phoneNumber = (String) jsonObject.get("phoneNumber");
             randomNumberJSONArray = (JSONArray) jsonObject.get("randomNumbers");
@@ -40,6 +41,7 @@ public class ReadLogsFromFile {
             timestampsJSONArray = (JSONArray) jsonObject.get("timestamps");
             tokensJSONArray = (JSONArray) jsonObject.get("tokens");
 
+            fileReader.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
