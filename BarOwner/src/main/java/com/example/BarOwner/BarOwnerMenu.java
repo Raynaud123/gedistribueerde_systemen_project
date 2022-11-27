@@ -16,10 +16,9 @@ public class BarOwnerMenu {
         int userChoice = 0;
         while (userChoice != 9) {
             System.out.println();
-            System.out.println("1: Create catering facility");
-            System.out.println("2: Enroll catering facility");
-            System.out.println("3: Get pseudonym batch");
-            System.out.println("4: Get QR code");
+            System.out.println("1: Create and enroll catering facility");
+            System.out.println("2: Get pseudonym batch");
+            System.out.println("3: Get QR code");
             System.out.println("9: Exit");
 
             userChoice = sc.nextInt();
@@ -31,16 +30,10 @@ public class BarOwnerMenu {
                     System.out.println("Please type the cf's location");
                     String location = sc.next();
                     barOwner = new BarOwner(CF, location, registrarInterface);
-                }
-                case 2 -> {
-                    if (barOwner == null) {
-                        System.out.println("Please create catering facility first");
-                        break;
-                    }
                     barOwner.register();
                     System.out.println("Registration complete");
                 }
-                case 3 -> {
+                case 2 -> {
                     if (barOwner == null) {
                         System.out.println("Please create catering facility first");
                         break;
@@ -51,7 +44,7 @@ public class BarOwnerMenu {
                     LocalDate endDate = LocalDate.parse(sc.next(), dateFormat);
                     barOwner.getPseudonymBatch(startDate, endDate);
                 }
-                case 4 -> {
+                case 3 -> {
                     if (barOwner == null) {
                         System.out.println("Please create catering facility first");
                         System.out.println();
