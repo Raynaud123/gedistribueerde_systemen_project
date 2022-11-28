@@ -65,6 +65,7 @@ public class QRCodeController{
         this.visitor = visitor;
         stage = primaryStage;
         imageProperty = new SimpleObjectProperty<>();
+        //TO-DO checken camera
         startCameraInput();
         TimerTask dailyTask = new TimerTask () {
             @Override

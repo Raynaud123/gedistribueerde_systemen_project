@@ -24,8 +24,8 @@ public class MixingProxyImpl extends UnicastRemoteObject implements MixingProxyI
 
 
     @Override
-    public void flushCapsules(String s, String s1, Timestamp timestamp) {
-        //TODO implement
+    public void flushCapsules(String hash, String token, Timestamp timestamp) throws NoSuchAlgorithmException, SignatureException, InvalidKeyException {
+        mixingProxy.receive(hash,timestamp,token);
     }
 
     @Override

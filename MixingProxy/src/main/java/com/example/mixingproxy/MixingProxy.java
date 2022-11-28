@@ -57,14 +57,7 @@ public class MixingProxy {
     private Boolean valid(String token) throws NoSuchAlgorithmException {
 
 
-//        Signature signature = Signature.getInstance("SHA256withRSA");
-//        signature.initVerify(publicKeyMixing);
-//        byte[] messageBytes = Base64.getDecoder().decode(hashString);
-//        byte[] signedBytes  = Base64.getDecoder().decode(signedHash);
-//
-//
-//        signature.update(messageBytes);
-//        return signature.verify(signedBytes);
+
 
         return true;
 
