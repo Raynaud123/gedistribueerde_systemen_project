@@ -100,7 +100,7 @@ public class QRCodeController{
                 int convertedRandomNumber = Integer.parseInt(randomNumber);
                 Date date = new Date();
                 Timestamp ts = new Timestamp(date.getTime());
-                BufferedImage answer = visitor.addCapsuleInformation(convertedRandomNumber,cateringFacility,hashString,ts);
+                BufferedImage answer = visitor.addCapsuleInformation(convertedRandomNumber, cateringFacility, hashString, ts);
                 if (answer == null) {
                     Alert errorDialog = new Alert(Alert.AlertType.ERROR);
                     errorDialog.setTitle("Er is iets misgelopen");
@@ -191,7 +191,7 @@ public class QRCodeController{
                         int convertedRandomNumber = Integer.parseInt(randomNumber);
                         Date date = new Date();
                         Timestamp ts = new Timestamp(date.getTime());
-                        visitor.addCapsuleInformation(convertedRandomNumber,cateringFacility,hashString,ts);
+                        visitor.addCapsuleInformation(convertedRandomNumber, cateringFacility, hashString, ts);
                     }catch (NumberFormatException e){
                         Alert errorDialog = new Alert(Alert.AlertType.ERROR);
                         errorDialog.setTitle("QR-code klopt niet");

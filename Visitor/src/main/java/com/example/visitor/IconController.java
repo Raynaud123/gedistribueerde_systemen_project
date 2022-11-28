@@ -41,13 +41,7 @@ public class IconController{
             public void run () {
                 try {
                     visitor.flushCapsules();
-                } catch (RemoteException e) {
-                    e.printStackTrace();
-                } catch (NoSuchAlgorithmException e) {
-                    e.printStackTrace();
-                } catch (SignatureException e) {
-                    e.printStackTrace();
-                } catch (InvalidKeyException e) {
+                } catch (RemoteException | NoSuchAlgorithmException | SignatureException | InvalidKeyException e) {
                     e.printStackTrace();
                 }
             }

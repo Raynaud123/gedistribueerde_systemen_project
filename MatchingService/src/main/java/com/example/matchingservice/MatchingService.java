@@ -17,13 +17,13 @@ import java.util.TimerTask;
 public class MatchingService {
 
     private final ObservableList<Capsule> capsules;
-    public Registry registrarRegistry;
     public RegistrarInterface registrarInterface;
 
 
     public MatchingService()  {
         this.capsules = FXCollections.observableArrayList(new ArrayList<>());
 
+        Registry registrarRegistry;
         try {
             registrarRegistry = LocateRegistry.getRegistry("localhost", 1112);
             registrarInterface = (RegistrarInterface) registrarRegistry.lookup("RegistrarService");

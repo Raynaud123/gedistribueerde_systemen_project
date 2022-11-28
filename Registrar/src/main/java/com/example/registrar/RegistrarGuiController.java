@@ -86,7 +86,7 @@ public class RegistrarGuiController {
         dataSecret = FXCollections.observableArrayList(cateringFacility.getSecretKeyMap().entrySet());
         tableSecret.setItems(dataSecret);
         colSecretDate.setCellValueFactory((TableColumn.CellDataFeatures<Map.Entry<LocalDate, SecretKey>, String> p ) -> new SimpleStringProperty(p.getValue().getKey().format(DateTimeFormatter.ISO_DATE)));
-        colSecretKey.setCellValueFactory((TableColumn.CellDataFeatures<Map.Entry<LocalDate, SecretKey>, String> p ) -> new SimpleStringProperty(p.getValue().getValue().toString()));
+        colSecretKey.setCellValueFactory((TableColumn.CellDataFeatures<Map.Entry<LocalDate, SecretKey>, String> p ) -> new SimpleStringProperty(Arrays.toString(p.getValue().getValue().getEncoded())));
 
 
         changeListenerSecret = change -> {

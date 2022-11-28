@@ -14,11 +14,13 @@ public class Visitor {
     private final ArrayList<String> CFs;
     private final ArrayList<String> hashes;
     private final ArrayList<Timestamp> timestamps;
-    private ArrayList<String> tokens;
+    private final ArrayList<String> tokens;
     private ArrayList<String> tokensOfToday;
-    private Map<String,String> mappingResTo;
+    private final ArrayList<String> signatures;
+    private ArrayList<String> signaturesOfToday;
+    private final Map<String,String> mappingResTo;
     private final PublicKey publicKeyMixing;
-    private final PublicKey publicKeyRegistrar;
+    //TODO: currentIndex wordt soms gebruikt op tokens en soms op tokensOfToday. Is dat de bedoeling en ok?
     private int currentIndex;
     private final String phoneNumber;
 
@@ -34,11 +36,12 @@ public class Visitor {
         this.timestamps = new ArrayList<>();
         this.tokens = new ArrayList<>();
         this.tokensOfToday = new ArrayList<>();
+        this.signatures = new ArrayList<>();
+        this.signaturesOfToday = new ArrayList<>();
         mappingResTo = new HashMap<>();
         this.phoneNumber = phoneNumber;
         this.matchingServiceInterface = matchingServiceInterface;
         publicKeyMixing = mixingProxyInterface.getPublicKey();
-        this.publicKeyRegistrar = publicKeyRegistrar;
         currentIndex = -1;
     }
 
@@ -49,8 +52,9 @@ public class Visitor {
         timestamps.add(ts);
         currentIndex++;
         String token = tokensOfToday.get(currentIndex);
-        String signedHash = mixingProxyInterface.receiveCapsule(hashString, ts, token);
-        if (hashStringCheck(signedHash,hashString)){
+        String signature = signaturesOfToday.get(currentIndex);
+        String signedHash = mixingProxyInterface.receiveCapsule(hashString, ts, token, signature);
+        if (hashStringCheck(signedHash, hashString)) {
             mappingResTo.put(hashString,token);
             return IconGenVisitor.generateIdenticons(hashString, 300,300);
         }
@@ -72,12 +76,16 @@ public class Visitor {
 
     public void flushCapsules() throws RemoteException, NoSuchAlgorithmException, SignatureException, InvalidKeyException {
         Date date = new Date();
-        mixingProxyInterface.flushCapsules(hashes.get(currentIndex), tokens.get(currentIndex), new Timestamp(date.getTime()));
+        mixingProxyInterface.flushCapsules(hashes.get(currentIndex), tokens.get(currentIndex), new Timestamp(date.getTime()), signatures.get(currentIndex));
     }
 
-    public void setTokens(ArrayList<String> tokensOfToday) {
-        this.tokensOfToday = tokensOfToday;
+    public void setTokens(Map<String, ArrayList<String>> tokensAndSignaturesOfToday) {
+        this.tokensOfToday = tokensAndSignaturesOfToday.get("tokens");
         tokens.addAll(tokensOfToday);
+
+        this.signaturesOfToday = tokensAndSignaturesOfToday.get("signatures");
+        signatures.addAll(signaturesOfToday);
+
         System.out.println("Tokens are set");
     }
 
@@ -88,9 +96,9 @@ public class Visitor {
     public Boolean fetchCritical() throws RemoteException {
         ArrayList<String> criticalHashes = matchingServiceInterface.fetchCriticalHashes();
         ArrayList<Timestamp> criticalTimestamps = matchingServiceInterface.fetchCriticalTimeInterval();
-        ArrayList<Integer> indexHashes = new ArrayList<Integer>();
-        ArrayList<Integer> indexCriticalHashes = new ArrayList<Integer>();
-        Boolean gevonden = false;
+        ArrayList<Integer> indexHashes = new ArrayList<>();
+        ArrayList<Integer> indexCriticalHashes = new ArrayList<>();
+        boolean gevonden = false;
 
         for(int i = 0; i < hashes.size(); i++){
             for(int j = 0; j < criticalHashes.size(); j++){

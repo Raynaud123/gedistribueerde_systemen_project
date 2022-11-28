@@ -1,6 +1,7 @@
 package com.example.mixingproxy;
 
 import com.example.matchingservice.MatchingServiceInterface;
+import com.example.registrar.RegistrarInterface;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -29,12 +30,17 @@ public class MixingProxyGuiController {
 
     public void startServer() {
         Registry matchingService;
+        Registry registrar;
         MatchingServiceInterface matchingServiceInterface;
+        RegistrarInterface registrarInterface;
         try {
             matchingService = LocateRegistry.getRegistry("localhost", 5000);
             matchingServiceInterface = (MatchingServiceInterface) matchingService.lookup("MatchingServiceImpl");
 
-            this.mixingProxy = new MixingProxy(matchingServiceInterface);
+            registrar = LocateRegistry.getRegistry("localhost", 1112);
+            registrarInterface = (RegistrarInterface) registrar.lookup("RegistrarService");
+
+            this.mixingProxy = new MixingProxy(matchingServiceInterface, registrarInterface);
 
             Registry registry = LocateRegistry.createRegistry(4500);
             registry.rebind("MixingProxyImpl", new MixingProxyImpl(this.mixingProxy));

@@ -1,6 +1,7 @@
 package com.example.mixingproxy;
 
 import com.example.matchingservice.MatchingServiceInterface;
+import com.example.registrar.RegistrarInterface;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -15,15 +16,20 @@ public class MixingProxy {
     private final PrivateKey privateKey;
     private final PublicKey publicKey;
 
+    private final PublicKey registrarPublicKey;
+
     private final MatchingServiceInterface matchingService;
+    private final RegistrarInterface registrarInterface;
 
 
-    public MixingProxy(MatchingServiceInterface matchingServiceInterface) throws NoSuchAlgorithmException {
+    public MixingProxy(MatchingServiceInterface matchingServiceInterface, RegistrarInterface registrarInterface) throws NoSuchAlgorithmException, RemoteException {
         this.capsules = FXCollections.observableArrayList(new ArrayList<>());
         KeyPair kp = getKeypair();
         privateKey = kp.getPrivate();
         publicKey = kp.getPublic();
         this.matchingService = matchingServiceInterface;
+        this.registrarInterface = registrarInterface;
+        this.registrarPublicKey = this.registrarInterface.getPublicKey();
         Timer timer = new Timer ();
         TimerTask hourlyTask = new TimerTask () {
             @Override
@@ -36,31 +42,27 @@ public class MixingProxy {
     }
 
 
-
-
-    public String receive(String hashString, Timestamp ts, String token) throws NoSuchAlgorithmException, SignatureException, InvalidKeyException {
+    public String receive(String hashString, Timestamp ts, String token, String signature) throws NoSuchAlgorithmException, SignatureException, InvalidKeyException {
         //Check validity
-        //TODO: functie valid nog implementeren
-        if (valid(token)) {
+        if (valid(token, signature)) {
+            System.out.println("Token valid");
             capsules.add(new Capsule(ts,token, hashString));
             byte[] messageBytes = Base64.getDecoder().decode(hashString);
-            Signature signature = Signature.getInstance("NONEwithRSA");
-            signature.initSign(privateKey);
-            signature.update(messageBytes);
-            byte[] digitalSignature = signature.sign();
+            Signature sig = Signature.getInstance("NONEwithRSA");
+            sig.initSign(privateKey);
+            sig.update(messageBytes);
+            byte[] digitalSignature = sig.sign();
             return Base64.getEncoder().encodeToString(digitalSignature);
         }
         else return null;
     }
 
-    //TODO: implementeren
-    private Boolean valid(String token) throws NoSuchAlgorithmException {
 
-
-
-
-        return true;
-
+    private Boolean valid(String token, String signature) throws NoSuchAlgorithmException, InvalidKeyException, SignatureException {
+        Signature sig = Signature.getInstance("SHA256withRSA");
+        sig.initVerify(this.registrarPublicKey);
+        sig.update(token.getBytes());
+        return sig.verify(Base64.getDecoder().decode(signature));
     }
 
     public void flushCapsules() {

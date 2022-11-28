@@ -55,9 +55,4 @@ public class IdenticonGenerator {
             e.printStackTrace();
         }
     }
-
-    public static void main(String[] args) {
-        String text = "lTZMsz7gOkETXodn3leFRXV0VWwyWLND9UTWEU7vPII=";
-        saveImage(generateIdenticons(text, 500, 500), "test");
-    }
 }

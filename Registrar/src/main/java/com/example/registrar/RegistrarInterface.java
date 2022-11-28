@@ -15,9 +15,11 @@ public interface RegistrarInterface extends Remote {
 
     PublicKey registerVisitor(String phoneNumber) throws RemoteException, NoSuchAlgorithmException;
 
-    ArrayList<String> getTokensOfToday(String phoneNumber) throws RemoteException;
+    Map<String, ArrayList<String>> getTokensOfToday(String phoneNumber) throws RemoteException;
 
     void sentUninformedTokens(ArrayList<String> temp) throws RemoteException;
 
     boolean numberAlreadyExists(String phoneNumber) throws RemoteException;
+
+    PublicKey getPublicKey() throws RemoteException;
 }

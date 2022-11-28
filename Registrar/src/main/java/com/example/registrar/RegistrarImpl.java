@@ -30,7 +30,7 @@ public class RegistrarImpl extends UnicastRemoteObject implements RegistrarInter
         return registrar.registerVisitor(phoneNumber);
     }
 
-    public ArrayList<String> getTokensOfToday(String phoneNumber) throws RemoteException {
+    public Map<String, ArrayList<String>> getTokensOfToday(String phoneNumber) throws RemoteException {
         return registrar.getTokensOfToday(phoneNumber);
     }
 
@@ -43,6 +43,9 @@ public class RegistrarImpl extends UnicastRemoteObject implements RegistrarInter
         return registrar.numberAlreadyExists(phoneNumber);
     }
 
-
+    @Override
+    public PublicKey getPublicKey() throws RemoteException {
+        return registrar.getPublicKey();
+    }
 
 }

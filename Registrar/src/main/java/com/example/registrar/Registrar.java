@@ -15,6 +15,7 @@ import java.util.Map;
 public class Registrar {
 
     private final SecretKey masterKey;
+    private final KeyPair keyPair;
     private final ObservableMap<String, CateringFacility> cateringFacilityMap;
     private final ObservableMap<String, Visitor> visitorMap;
     private final ObservableList<String> uninformedTokens;
@@ -28,6 +29,15 @@ public class Registrar {
         }
         keyGenerator.init(256);
         this.masterKey = keyGenerator.generateKey();
+
+        KeyPairGenerator keyPairGenerator;
+        try {
+            keyPairGenerator = KeyPairGenerator.getInstance("RSA");
+        } catch (NoSuchAlgorithmException e) {
+            throw new RuntimeException(e);
+        }
+        keyPairGenerator.initialize(2048);
+        this.keyPair = keyPairGenerator.generateKeyPair();
 
         this.cateringFacilityMap = FXCollections.observableMap(new HashMap<>());
         this.visitorMap = FXCollections.observableMap(new HashMap<>());
@@ -52,11 +62,11 @@ public class Registrar {
     }
 
     public PublicKey registerVisitor(String phoneNumber) throws NoSuchAlgorithmException {
-        visitorMap.put(phoneNumber, new Visitor(phoneNumber));
+        visitorMap.put(phoneNumber, new Visitor(phoneNumber, this.keyPair));
         return visitorMap.get(phoneNumber).generateTokens();
     }
 
-    public ArrayList<String> getTokensOfToday(String phoneNumber) {
+    public Map<String, ArrayList<String>> getTokensOfToday(String phoneNumber) {
         return visitorMap.get(phoneNumber).getTokensOfToday();
     }
 
@@ -71,8 +81,15 @@ public class Registrar {
     public boolean numberAlreadyExists(String phoneNumber) {
         boolean found = false;
         for (String s : visitorMap.keySet()) {
-            if (s.equals(phoneNumber)) found = true;
+            if (s.equals(phoneNumber)) {
+                found = true;
+                break;
+            }
         }
         return found;
+    }
+
+    public PublicKey getPublicKey() {
+        return this.keyPair.getPublic();
     }
 }
