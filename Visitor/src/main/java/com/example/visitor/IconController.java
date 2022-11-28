@@ -10,6 +10,9 @@ import javafx.stage.Stage;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.rmi.RemoteException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
+import java.security.SignatureException;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -40,6 +43,12 @@ public class IconController{
                     visitor.flushCapsules();
                 } catch (RemoteException e) {
                     e.printStackTrace();
+                } catch (NoSuchAlgorithmException e) {
+                    e.printStackTrace();
+                } catch (SignatureException e) {
+                    e.printStackTrace();
+                } catch (InvalidKeyException e) {
+                    e.printStackTrace();
                 }
             }
         };
@@ -63,7 +72,7 @@ public class IconController{
 
     }
 
-    public void flushCapsules() throws RemoteException {
+    public void flushCapsules() throws RemoteException, NoSuchAlgorithmException, SignatureException, InvalidKeyException {
         visitor.flushCapsules();
     }
 

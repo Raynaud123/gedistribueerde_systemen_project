@@ -70,7 +70,7 @@ public class Visitor {
         return signature.verify(signedBytes);
     }
 
-    public void flushCapsules() throws RemoteException {
+    public void flushCapsules() throws RemoteException, NoSuchAlgorithmException, SignatureException, InvalidKeyException {
         Date date = new Date();
         mixingProxyInterface.flushCapsules(hashes.get(currentIndex), tokens.get(currentIndex), new Timestamp(date.getTime()));
     }
