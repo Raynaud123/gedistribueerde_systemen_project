@@ -57,9 +57,6 @@ public class MatchingService {
         return capsules;
     }
 
-    public void removeCapsules(){
-        capsules.clear();
-    }
 
     public void removeOldCapsules() {
         List<Capsule> capsulesToRemove = new ArrayList<>();

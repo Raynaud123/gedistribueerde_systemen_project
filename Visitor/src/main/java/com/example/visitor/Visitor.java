@@ -103,29 +103,32 @@ public class Visitor {
     public Boolean fetchCritical() throws RemoteException {
         ArrayList<String> criticalHashes = matchingServiceInterface.fetchCriticalHashes();
         ArrayList<Timestamp> criticalTimestamps = matchingServiceInterface.fetchCriticalTimeInterval();
-        ArrayList<Integer> indexHashes = new ArrayList<>();
-        ArrayList<Integer> indexCriticalHashes = new ArrayList<>();
+        ArrayList<Capsule> criticalCapsules = new ArrayList<>();
+
         boolean gevonden = false;
 
-        for(int i = 0; i < hashes.size(); i++){
-            for(int j = 0; j < criticalHashes.size(); j++){
-                if (hashes.get(i).equals(criticalHashes.get(j))){
-                    indexHashes.add(i);
-                    indexCriticalHashes.add(j);
+        for(int i = 0; i < criticalHashes.size(); i++){
+            String hash = criticalHashes.get(i);
+            Timestamp ts = criticalTimestamps.get(i);
+
+            criticalCapsules.add(new Capsule(hash,ts));
+        }
+
+        ArrayList<Capsule> myCriticalCapsules = new ArrayList<>();
+
+        for (Capsule c: criticalCapsules){
+            for (int j = 0; j < hashes.size(); j++) {
+                if (c.getHash().equals(hashes.get(j)) && c.getTs().equals(timestamps.get(j))) {
+                    myCriticalCapsules.add(c);
                 }
             }
         }
 
-        for(int i = indexHashes.size() -1; i >= 0; i--){
-            if(!criticalTimestamps.get(indexCriticalHashes.get(i)).toString().equals(timestamps.get(indexHashes.get(i)).toString())){
-                indexHashes.remove(i);
-                indexCriticalHashes.remove(i);
-            }
-        }
-
-        for (int indexHash : indexHashes) {
-            if (mappingResTo.containsKey(hashes.get(indexHash))) {
-                mixingProxyInterface.sendInformedToken(mappingResTo.get(hashes.get(indexHash)));
+        ArrayList<String> foundHashes = new ArrayList<>();
+        for (Capsule c : myCriticalCapsules) {
+            if (mappingResTo.containsKey(c.getHash()) && !foundHashes.contains(c.getHash())) {
+                foundHashes.add(c.getHash());
+                mixingProxyInterface.sendInformedToken(mappingResTo.get(c.getHash()));
                 gevonden = true;
             }
         }

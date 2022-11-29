@@ -46,8 +46,8 @@ public class MatchingServiceGuiController {
         colHash.setCellValueFactory(new PropertyValueFactory<>("hash"));
     }
 
-    public void removeCapsules(){
-        matchingService.removeCapsules();
+    public void removeOldCapsules(){
+        matchingService.removeOldCapsules();
     }
 
     public void sentUninformedTokens() throws RemoteException {

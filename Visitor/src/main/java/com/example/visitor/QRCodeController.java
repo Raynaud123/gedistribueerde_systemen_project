@@ -223,9 +223,11 @@ public class QRCodeController{
         boolean gevonden = visitor.fetchCritical();
 
         if(gevonden){
-            webcam.close();
-            task.cancel();
-            webCamTask.cancel();
+            if(webcam != null){
+                webcam.close();
+                task.cancel();
+                webCamTask.cancel();
+            }
             FXMLLoader loader = new FXMLLoader(getClass().getResource("Infected.fxml"));
             stage.getScene().setRoot(loader.load());
 
