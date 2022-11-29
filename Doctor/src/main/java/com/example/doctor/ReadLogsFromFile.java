@@ -50,7 +50,7 @@ public class ReadLogsFromFile {
         for (Object o : hashesJSONArray) hashes.add(o.toString());
         for (Object o : timestampsJSONArray) {
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss.SSS");
-            Date parsedDate = dateFormat.parse((String) o);
+            Date parsedDate = dateFormat.parse(o.toString().replace("\"", ""));
             Timestamp timestamp = new java.sql.Timestamp(parsedDate.getTime());
             timestamps.add(timestamp);
         }

@@ -40,6 +40,7 @@ public class IconController{
             @Override
             public void run () {
                 try {
+                    System.out.println("test");
                     visitor.flushCapsules();
                 } catch (RemoteException | NoSuchAlgorithmException | SignatureException | InvalidKeyException e) {
                     e.printStackTrace();
@@ -55,12 +56,13 @@ public class IconController{
         //Stop Tasks
         hourlyTask.cancel();
         timer.cancel();
-
+        visitor.logout();
         //Switch scenes
         FXMLLoader loader = new FXMLLoader(getClass().getResource("QRCode.fxml"));
         stage.getScene().setRoot(loader.load());
 
         QRCodeController controller = loader.getController();
+
         controller.initData(visitor, stage);
         stage.show();
 

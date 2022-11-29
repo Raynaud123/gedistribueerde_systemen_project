@@ -20,9 +20,11 @@ public class Visitor {
     private ArrayList<String> signaturesOfToday;
     private final Map<String,String> mappingResTo;
     private final PublicKey publicKeyMixing;
-    //TODO: currentIndex wordt soms gebruikt op tokens en soms op tokensOfToday. Is dat de bedoeling en ok?
-    private int currentIndex;
+    private final PublicKey publicKeyRegistrar;
+    private String currentHash;
+    private String currentToken;
     private final String phoneNumber;
+    private int currentIndex;
 
     private final MixingProxyInterface mixingProxyInterface;
     private final MatchingServiceInterface matchingServiceInterface;
@@ -42,20 +44,24 @@ public class Visitor {
         this.phoneNumber = phoneNumber;
         this.matchingServiceInterface = matchingServiceInterface;
         publicKeyMixing = mixingProxyInterface.getPublicKey();
+        this.publicKeyRegistrar = publicKeyRegistrar;
         currentIndex = -1;
     }
 
     public BufferedImage addCapsuleInformation(int randomNumber, String cateringFacility, String hashString, Timestamp ts) throws RemoteException, NoSuchAlgorithmException, SignatureException, InvalidKeyException {
         randomNumbers.add(randomNumber);
         CFs.add(cateringFacility);
+        currentHash = hashString;
         hashes.add(hashString);
         timestamps.add(ts);
+        currentToken = tokensOfToday.get(0);
+        tokensOfToday.remove(currentToken);
+        tokens.add(currentToken);
         currentIndex++;
-        String token = tokensOfToday.get(currentIndex);
         String signature = signaturesOfToday.get(currentIndex);
-        String signedHash = mixingProxyInterface.receiveCapsule(hashString, ts, token, signature);
-        if (hashStringCheck(signedHash, hashString)) {
-            mappingResTo.put(hashString,token);
+        String signedHash = mixingProxyInterface.receiveCapsule(hashString, ts, currentToken, signature);
+        if (hashStringCheck(signedHash,hashString)){
+            mappingResTo.put(hashString,currentToken);
             return IconGenVisitor.generateIdenticons(hashString, 300,300);
         }
         else {
@@ -76,13 +82,14 @@ public class Visitor {
 
     public void flushCapsules() throws RemoteException, NoSuchAlgorithmException, SignatureException, InvalidKeyException {
         Date date = new Date();
-        mixingProxyInterface.flushCapsules(hashes.get(currentIndex), tokens.get(currentIndex), new Timestamp(date.getTime()), signatures.get(currentIndex));
+        Timestamp ts = new Timestamp(date.getTime());
+        timestamps.add(ts);
+        mixingProxyInterface.flushCapsules(currentHash, currentToken, ts, signatures.get(currentIndex));
     }
 
     public void setTokens(Map<String, ArrayList<String>> tokensAndSignaturesOfToday) {
         this.tokensOfToday = tokensAndSignaturesOfToday.get("tokens");
-        tokens.addAll(tokensOfToday);
-
+        currentIndex=-1;
         this.signaturesOfToday = tokensAndSignaturesOfToday.get("signatures");
         signatures.addAll(signaturesOfToday);
 
@@ -123,5 +130,10 @@ public class Visitor {
             }
         }
         return gevonden;
+    }
+
+    public void logout() {
+        currentHash=null;
+        currentToken=null;
     }
 }

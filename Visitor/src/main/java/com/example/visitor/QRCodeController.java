@@ -49,23 +49,19 @@ public class QRCodeController{
     private Stage stage;
     private final QRDecoder qrDecoder = new QRDecoder();
     private ObjectProperty<Image> imageProperty;
-    private final Webcam webcam;
+    private Webcam webcam;
     private String randomNumber;
     private String cateringFacility;
     private String hashString;
     private Task<Void> webCamTask;
     private Task<Void> task;
 
-    public QRCodeController() {
-        webcam = Webcam.getDefault();
-    }
 
 
     public void initData(Visitor visitor, Stage primaryStage) {
         this.visitor = visitor;
         stage = primaryStage;
         imageProperty = new SimpleObjectProperty<>();
-        //TO-DO checken camera
         startCameraInput();
         TimerTask dailyTask = new TimerTask () {
             @Override
@@ -126,19 +122,24 @@ public class QRCodeController{
     }
 
     private void startCameraInput() {
-        webCamTask = new Task<>() {
-            @Override
-            protected Void call() {
-                webcam.open();
-                startWebCamStream();
+        webcam = Webcam.getDefault();
 
-                return null;
-            }
-        };
 
-        Thread webCamThread = new Thread(webCamTask);
-        webCamThread.setDaemon(true);
-        webCamThread.start();
+        if(webcam != null){
+            webCamTask = new Task<>() {
+                @Override
+                protected Void call() {
+                    webcam.open();
+                    startWebCamStream();
+
+                    return null;
+                }
+            };
+
+            Thread webCamThread = new Thread(webCamTask);
+            webCamThread.setDaemon(true);
+            webCamThread.start();
+        }
     }
 
     private void startWebCamStream() {
