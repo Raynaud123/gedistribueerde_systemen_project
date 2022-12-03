@@ -74,7 +74,7 @@ public class QRCodeController{
             }
         };
         Timer timer = new Timer ();
-        timer.schedule(dailyTask, 0L,1000*60*60*24);
+        timer.schedule(dailyTask, 1000*60*60*24, 1000*60*60*24);
     }
 
     public void handleButtonEnter(ActionEvent actionEvent) {

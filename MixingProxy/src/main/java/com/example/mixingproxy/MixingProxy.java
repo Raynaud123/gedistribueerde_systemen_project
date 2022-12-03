@@ -38,7 +38,7 @@ public class MixingProxy {
             }
         };
         //flushCapsules from visitors every Hour
-        timer.schedule (hourlyTask, 0L, 1000*60*60);
+        timer.schedule (hourlyTask, 1000*60*60, 1000*60*60);
     }
 
 

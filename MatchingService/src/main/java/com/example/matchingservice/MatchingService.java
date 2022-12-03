@@ -44,7 +44,7 @@ public class MatchingService {
                 }
             }
         };
-        timer.schedule(dailyTask,0L, 24*1000*60*60);
+        timer.schedule(dailyTask,24*1000*60*60, 24*1000*60*60);
 
     }
 

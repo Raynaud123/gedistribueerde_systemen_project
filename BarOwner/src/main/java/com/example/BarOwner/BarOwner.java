@@ -81,15 +81,16 @@ public class BarOwner {
 
         byte[] hash = digest.digest(outputStream.toByteArray());
         String base64Hash = Base64.getEncoder().encodeToString(hash);
-        System.out.println("Base 64 hash: " + base64Hash);
-        System.out.println("randomNum: " + randomNum);
-        System.out.println("CF: " + CF);
+        System.out.println("QR Code content:");
+        System.out.println("Base 64 of Hash: " + base64Hash);
+        System.out.println("Random Number: " + randomNum);
+        System.out.println("Unique info: " + CF);
 
         String QRContent = randomNum + " " + CF + " " + base64Hash;
 
         try {
             byte[] QRCode = QRCodeGenerator.getQRCodeImage(QRContent, 300, 300);
-            System.out.println("Base 64 of byte array of QR code: " + Base64.getEncoder().encodeToString(QRCode));
+            System.out.println("Base 64 of byte array of QR code image: " + Base64.getEncoder().encodeToString(QRCode));
 
             QRCodeGenerator.generateQRCodeImage(QRContent, 300, 300, "BarOwner/src/main/resources/QR-" + CF + "-" + location + "-" + date+ ".png");
         } catch (WriterException | IOException e) {

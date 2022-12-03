@@ -89,7 +89,7 @@ public class Visitor {
 
     public void setTokens(Map<String, ArrayList<String>> tokensAndSignaturesOfToday) {
         this.tokensOfToday = tokensAndSignaturesOfToday.get("tokens");
-        currentIndex=-1;
+        currentIndex= -1;
         this.signaturesOfToday = tokensAndSignaturesOfToday.get("signatures");
         signatures.addAll(signaturesOfToday);
 
