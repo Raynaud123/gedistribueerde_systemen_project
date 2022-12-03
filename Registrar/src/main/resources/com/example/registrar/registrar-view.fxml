@@ -8,14 +8,15 @@
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 
 <AnchorPane prefHeight="1094.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.registrar.RegistrarGuiController">
    <children>
       <TableView fx:id="tableSecret" layoutX="7.0" layoutY="166.0" prefHeight="200.0" prefWidth="685.0">
-        <columns>
-          <TableColumn fx:id="colSecretDate" prefWidth="90.0" text="Date" />
-          <TableColumn fx:id="colSecretKey" prefWidth="594.0" text="Secret key" />
-        </columns>
+         <columns>
+            <TableColumn fx:id="colSecretDate" prefWidth="90.0" text="Date" />
+            <TableColumn fx:id="colSecretKey" prefWidth="594.0" text="Secret key" />
+         </columns>
       </TableView>
       <Label fx:id="labelLocation" layoutX="386.0" layoutY="64.0" prefHeight="75.0" prefWidth="300.0" text="Location:">
          <font>
@@ -28,10 +29,10 @@
          </font>
       </Label>
       <TableView fx:id="tablePseudonym" layoutX="9.0" layoutY="383.0" prefHeight="200.0" prefWidth="685.0">
-        <columns>
-          <TableColumn fx:id="colPseudonymDate" prefWidth="90.0" text="Date" />
-          <TableColumn fx:id="colPseudonymPseudonym" prefWidth="594.0" text="Pseudonym" />
-        </columns>
+         <columns>
+            <TableColumn fx:id="colPseudonymDate" prefWidth="90.0" text="Date" />
+            <TableColumn fx:id="colPseudonymPseudonym" prefWidth="594.0" text="Pseudonym" />
+         </columns>
       </TableView>
       <ComboBox fx:id="selectCF" layoutX="197.0" layoutY="14.0" prefHeight="50.0" prefWidth="200.0" />
       <Separator layoutX="9.0" layoutY="583.0" prefHeight="18.0" prefWidth="685.0" />
@@ -52,11 +53,22 @@
          </font>
       </Label>
       <ComboBox fx:id="selectVisDate" layoutX="407.0" layoutY="601.0" prefHeight="50.0" prefWidth="200.0" />
-      <ListView fx:id="listTokens" layoutX="8.0" layoutY="692.0" prefHeight="397.0" prefWidth="685.0" />
+      <ListView fx:id="listTokens" layoutX="8.0" layoutY="716.0" prefHeight="373.0" prefWidth="342.0" />
       <Label fx:id="labelPhone" layoutX="9.0" layoutY="651.0" prefHeight="41.0" prefWidth="685.0" text="Phonenumber:" wrapText="true">
          <font>
             <Font size="25.0" />
          </font>
       </Label>
+      <ListView fx:id="listSign" layoutX="352.0" layoutY="716.0" prefHeight="373.0" prefWidth="342.0" />
+      <Text layoutX="8.0" layoutY="710.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Tokens" wrappingWidth="342.0">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Text>
+      <Text layoutX="352.0" layoutY="709.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Signatures" wrappingWidth="342.0">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Text>
    </children>
 </AnchorPane>

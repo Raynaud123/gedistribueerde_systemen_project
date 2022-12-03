@@ -52,6 +52,7 @@ public class RegistrarGuiController {
     public MapChangeListener<LocalDate, ArrayList<String>> changeListenerDate;
 
     public ListView<String> listTokens;
+    public ListView<String> listSign;
 
 
     public void initialize() {
@@ -152,7 +153,12 @@ public class RegistrarGuiController {
 
         selectVisDate.getSelectionModel().selectedItemProperty().addListener((observable -> {
             listTokens.getItems().clear();
+            listSign.getItems().clear();
             listTokens.getItems().addAll(visitor.getTokensMap().get(LocalDate.parse(String.valueOf(selectVisDate.getSelectionModel().getSelectedItem()), DateTimeFormatter.ISO_DATE)));
+            List<String> signBase64 = visitor.getSignatureMap().get(LocalDate.parse(String.valueOf(selectVisDate.getSelectionModel().getSelectedItem()), DateTimeFormatter.ISO_DATE));
+            List<String> decodedSign = new ArrayList<>();
+            signBase64.forEach(s -> decodedSign.add(Arrays.toString(Base64.getDecoder().decode(s))));
+            listSign.getItems().addAll(decodedSign);
         }));
     }
 

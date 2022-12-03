@@ -36,7 +36,7 @@ public class Visitor {
             for (int i = 0; i < 48; i++) {
                 try {
                     // Sign(random,dayi)
-                    String token = Integer.toString(ThreadLocalRandom.current().nextInt()) + date;
+                    String token = ThreadLocalRandom.current().nextInt() + ";" + date;
                     tokensOfOneDay.add(token);
 
                     // Create signature
@@ -72,5 +72,9 @@ public class Visitor {
 
     public ObservableMap<LocalDate, ArrayList<String>> getTokensMap() {
         return tokensMap;
+    }
+
+    public ObservableMap<LocalDate, ArrayList<String>> getSignatureMap() {
+        return signatureMap;
     }
 }
