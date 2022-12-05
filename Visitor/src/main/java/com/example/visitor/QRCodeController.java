@@ -25,6 +25,7 @@ import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.security.SignatureException;
 import java.sql.Timestamp;
+import java.text.ParseException;
 import java.util.Date;
 import java.util.Objects;
 import java.util.Timer;
@@ -68,7 +69,7 @@ public class QRCodeController{
             public void run () {
                 try {
                     fetchCritical();
-                } catch (IOException e) {
+                } catch (IOException | ParseException e) {
                     e.printStackTrace();
                 }
             }
@@ -122,6 +123,7 @@ public class QRCodeController{
     }
 
     private void startCameraInput() {
+
         webcam = Webcam.getDefault();
 
 
@@ -135,7 +137,6 @@ public class QRCodeController{
                     return null;
                 }
             };
-
             Thread webCamThread = new Thread(webCamTask);
             webCamThread.setDaemon(true);
             webCamThread.start();
@@ -207,8 +208,10 @@ public class QRCodeController{
 
     private void switchToScene2(BufferedImage icon) throws IOException {
 
-        webcam.close();
-        task.cancel();
+
+        if(task != null){
+            task.cancel();
+        }
         webCamTask.cancel();
         FXMLLoader loader = new FXMLLoader(getClass().getResource("Icon.fxml"));
         stage.getScene().setRoot(loader.load());
@@ -219,14 +222,19 @@ public class QRCodeController{
         stage.show();
     }
 
-    public void fetchCritical() throws IOException,RemoteException {
+    public void fetchCritical() throws IOException, RemoteException, ParseException {
         boolean gevonden = visitor.fetchCritical();
 
         if(gevonden){
-            if(webcam != null){
-                webcam.close();
-                task.cancel();
-                webCamTask.cancel();
+            if(webcam.isOpen() && webcam != null){
+                if(task != null){
+                    task.cancel();
+                }
+                //webcam.close();
+                if(webCamTask != null){
+                    webCamTask.cancel();
+                }
+
             }
             FXMLLoader loader = new FXMLLoader(getClass().getResource("Infected.fxml"));
             stage.getScene().setRoot(loader.load());

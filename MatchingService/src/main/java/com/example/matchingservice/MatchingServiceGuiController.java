@@ -49,6 +49,9 @@ public class MatchingServiceGuiController {
     public void removeOldCapsules(){
         matchingService.removeOldCapsules();
     }
+    public void removeCapsules(){
+        matchingService.removeCapsules();
+    }
 
     public void sentUninformedTokens() throws RemoteException {
         matchingService.sentUninformedTokens();

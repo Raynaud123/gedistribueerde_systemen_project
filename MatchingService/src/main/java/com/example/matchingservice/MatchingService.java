@@ -69,7 +69,7 @@ public class MatchingService {
     }
 
     public void saveInfectedLogs(ArrayList<Integer> randomNumbers, ArrayList<String> hashes, ArrayList<Timestamp> timestamps, ArrayList<String> tokens) {
-        for(int i = 0 ; i < randomNumbers.size(); i++){
+        for(int i = 0 ; i < tokens.size(); i++){
             Capsule temp = new Capsule(timestamps.get(i), tokens.get(i),hashes.get(i));
             for (Capsule capsule : capsules) {
                 if (temp.equals(capsule)) {
@@ -134,5 +134,9 @@ public class MatchingService {
 
         registrarInterface.sentUninformedTokens(temp);
 
+    }
+
+    public void removeCapsules() {
+        capsules.clear();
     }
 }

@@ -7,6 +7,8 @@ import java.awt.image.BufferedImage;
 import java.rmi.RemoteException;
 import java.security.*;
 import java.sql.Timestamp;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 public class Visitor {
@@ -18,7 +20,7 @@ public class Visitor {
     private ArrayList<String> tokensOfToday;
     private final ArrayList<String> signatures;
     private ArrayList<String> signaturesOfToday;
-    private final Map<String,String> mappingResTo;
+    private final Map<String,ArrayList<String>> mappingResTo;
     private final PublicKey publicKeyMixing;
     private final PublicKey publicKeyRegistrar;
     private String currentHash;
@@ -61,7 +63,12 @@ public class Visitor {
         String signature = signaturesOfToday.get(currentIndex);
         String signedHash = mixingProxyInterface.receiveCapsule(hashString, ts, currentToken, signature);
         if (hashStringCheck(signedHash,hashString)){
-            mappingResTo.put(hashString,currentToken);
+            if(mappingResTo.containsKey(hashString)){
+                mappingResTo.get(hashString).add(currentToken);
+            }else {
+                mappingResTo.put(hashString,new ArrayList<String>());
+                mappingResTo.get(hashString).add(currentToken);
+            }
             return IconGenVisitor.generateIdenticons(hashString, 300,300);
         }
         else {
@@ -83,8 +90,20 @@ public class Visitor {
     public void flushCapsules() throws RemoteException, NoSuchAlgorithmException, SignatureException, InvalidKeyException {
         Date date = new Date();
         Timestamp ts = new Timestamp(date.getTime());
+        currentToken = tokensOfToday.get(0);
+        tokensOfToday.remove(currentToken);
+        tokens.add(currentToken);
+        hashes.add(currentHash);
+        if(mappingResTo.containsKey(currentHash)){
+            mappingResTo.get(currentHash).add(currentToken);
+        }else {
+            mappingResTo.put(currentHash,new ArrayList<String>());
+            mappingResTo.get(currentHash).add(currentToken);
+        }
         timestamps.add(ts);
-        mixingProxyInterface.flushCapsules(currentHash, currentToken, ts, signatures.get(currentIndex));
+        currentIndex++;
+        String signature = signaturesOfToday.get(currentIndex);
+        mixingProxyInterface.flushCapsules(currentHash, currentToken, ts, signature);
     }
 
     public void setTokens(Map<String, ArrayList<String>> tokensAndSignaturesOfToday) {
@@ -100,7 +119,7 @@ public class Visitor {
         ReleaseLogsToFile.writeJsonFile(phoneNumber, randomNumbers, hashes, timestamps, tokens);
     }
 
-    public Boolean fetchCritical() throws RemoteException {
+    public Boolean fetchCritical() throws RemoteException, ParseException {
         ArrayList<String> criticalHashes = matchingServiceInterface.fetchCriticalHashes();
         ArrayList<Timestamp> criticalTimestamps = matchingServiceInterface.fetchCriticalTimeInterval();
         ArrayList<Capsule> criticalCapsules = new ArrayList<>();
@@ -118,8 +137,9 @@ public class Visitor {
 
         for (Capsule c: criticalCapsules){
             for (int j = 0; j < hashes.size(); j++) {
-                if (c.getHash().equals(hashes.get(j)) && c.getTs().equals(timestamps.get(j))) {
+                if (c.getHash().equals(hashes.get(j)) && isWithinRange(c.getTs(), timestamps.get(j))) {
                     myCriticalCapsules.add(c);
+                    break;
                 }
             }
         }
@@ -128,12 +148,23 @@ public class Visitor {
         for (Capsule c : myCriticalCapsules) {
             if (mappingResTo.containsKey(c.getHash()) && !foundHashes.contains(c.getHash())) {
                 foundHashes.add(c.getHash());
-                mixingProxyInterface.sendInformedToken(mappingResTo.get(c.getHash()));
+                System.out.println();
+                for (int i = 0; i < mappingResTo.get(c.getHash()).size(); i++){
+                    mixingProxyInterface.sendInformedToken(mappingResTo.get(c.getHash()).get(i));
+                }
                 gevonden = true;
             }
         }
         return gevonden;
     }
+
+    boolean isWithinRange(Timestamp firstTimestamp, Timestamp secondTimestamp) throws ParseException {
+        long diff = firstTimestamp.getTime() - secondTimestamp.getTime();
+        if(diff<=900000 && diff>=-900000){
+            return true;
+        }else return false;
+    }
+
 
     public void logout() {
         currentHash=null;
