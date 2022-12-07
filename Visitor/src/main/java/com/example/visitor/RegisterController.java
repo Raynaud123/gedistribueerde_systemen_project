@@ -26,7 +26,7 @@ public class RegisterController {
     public Button signup;
     public TextArea pn;
     public Registry registrarRegistry;
-    public RegistrarInterface registrarInterface;
+    public static RegistrarInterface registrarInterface;
     public Visitor visitor;
 
 
@@ -34,7 +34,7 @@ public class RegisterController {
 
         this.stage = stage;
         try {
-            registrarRegistry = LocateRegistry.getRegistry("localhost", 1112);
+            registrarRegistry = LocateRegistry.getRegistry("localhost", 1113);
             registrarInterface = (RegistrarInterface) registrarRegistry.lookup("RegistrarService");
 
         } catch (RemoteException | NotBoundException e) {

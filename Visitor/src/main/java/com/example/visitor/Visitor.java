@@ -8,7 +8,6 @@ import java.rmi.RemoteException;
 import java.security.*;
 import java.sql.Timestamp;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 public class Visitor {
@@ -169,5 +168,9 @@ public class Visitor {
     public void logout() {
         currentHash=null;
         currentToken=null;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
     }
 }

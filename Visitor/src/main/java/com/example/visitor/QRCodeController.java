@@ -1,5 +1,6 @@
 package com.example.visitor;
 
+import com.example.registrar.RegistrarInterface;
 import com.github.sarxos.webcam.Webcam;
 import javafx.application.Platform;
 import javafx.beans.property.ObjectProperty;
@@ -20,7 +21,9 @@ import javafx.stage.Stage;
 
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
+import java.rmi.registry.LocateRegistry;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.security.SignatureException;
@@ -45,6 +48,8 @@ public class QRCodeController{
     public TextArea cf;
     @FXML
     public TextArea hash;
+
+    public Button tokensOfNewDay;
 
     private Visitor visitor;
     private Stage stage;
@@ -121,6 +126,11 @@ public class QRCodeController{
     public void handleButtonReleaseLogs() {
         visitor.releaseLogs();
     }
+
+    public void handleButtonTokensOfToday() throws RemoteException {
+        visitor.setTokens(RegisterController.registrarInterface.getTokensOfToday(visitor.getPhoneNumber()));
+    }
+
 
     private void startCameraInput() {
 

@@ -14,7 +14,7 @@ public class VisitorGui extends Application {
     public void start(Stage stage) throws IOException {
 
         FXMLLoader loader = new FXMLLoader((Objects.requireNonNull(VisitorGui.class.getResource("Register.fxml"))));
-        stage.setTitle("Register view");
+        stage.setTitle("Visitor");
         stage.setScene(new Scene(loader.load()));
         RegisterController registerController = loader.getController();
         registerController.initialize(stage);

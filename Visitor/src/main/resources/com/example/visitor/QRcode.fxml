@@ -24,6 +24,11 @@
                </font>
             </Button>
             <Button fx:id="Fetch" mnemonicParsing="false" text="Fetch crititcal tuples" onAction="#fetchCritical"/>
+            <Button fx:id="tokensOfNewDay" alignment="CENTER" mnemonicParsing="false" onAction="#handleButtonTokensOfToday" text="Set tokens of today">
+               <font>
+                  <Font name="SansSerif Regular" size="12.0" />
+               </font>
+            </Button>
          </children>
       </FlowPane>
    </bottom>
