@@ -16,8 +16,8 @@ public class DoctorGui extends Application {
         FXMLLoader loader = new FXMLLoader((Objects.requireNonNull(DoctorGui.class.getResource("doctor-view.fxml"))));
         stage.setTitle("Doctor view");
         stage.setScene(new Scene(loader.load()));
-        DoctorController doctorController = loader.getController();
-        doctorController.initialize(stage);
+        DoctorGuiController doctorGuiController = loader.getController();
+        doctorGuiController.initialize(stage);
         stage.show();
 
     }

@@ -25,10 +25,11 @@ public class MatchingService {
 
         Registry registrarRegistry;
         try {
-            registrarRegistry = LocateRegistry.getRegistry("localhost", 3000);
+            SslClientSocketFactory csf = new SslClientSocketFactory("client", "clientpw");
+
+            registrarRegistry = LocateRegistry.getRegistry("localhost", 3000, csf);
             registrarInterface = (RegistrarInterface) registrarRegistry.lookup("RegistrarService");
         } catch (Exception e){
-            System.out.println("error connecting to registrar");
             throw new RuntimeException(e);
         }
 

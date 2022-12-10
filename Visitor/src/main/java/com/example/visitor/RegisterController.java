@@ -10,7 +10,6 @@ import javafx.scene.control.TextArea;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
@@ -34,10 +33,12 @@ public class RegisterController {
 
         this.stage = stage;
         try {
-            registrarRegistry = LocateRegistry.getRegistry("localhost", 3000);
+            SslClientSocketFactory csf = new SslClientSocketFactory("client", "clientpw");
+
+            registrarRegistry = LocateRegistry.getRegistry("localhost", 3000, csf);
             registrarInterface = (RegistrarInterface) registrarRegistry.lookup("RegistrarService");
 
-        } catch (RemoteException | NotBoundException e) {
+        } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
@@ -62,13 +63,15 @@ public class RegisterController {
                 Registry matchingService;
                 MatchingServiceInterface matchingServiceInterface;
                 try {
-                    mixingProxy = LocateRegistry.getRegistry("localhost", 3002);
+                    SslClientSocketFactory csf = new SslClientSocketFactory("client", "clientpw");
+
+                    mixingProxy = LocateRegistry.getRegistry("localhost", 3002, csf);
                     mixingProxyInterface = (MixingProxyInterface) mixingProxy.lookup("MixingProxyService");
 
-                    matchingService = LocateRegistry.getRegistry("localhost", 3001);
+                    matchingService = LocateRegistry.getRegistry("localhost", 3001, csf);
                     matchingServiceInterface = (MatchingServiceInterface) matchingService.lookup("MatchingServiceService");
 
-                } catch (RemoteException | NotBoundException e) {
+                } catch (Exception e) {
                     throw new RuntimeException(e);
                 }
 

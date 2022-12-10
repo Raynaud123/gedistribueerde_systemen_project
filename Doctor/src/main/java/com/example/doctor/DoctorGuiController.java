@@ -9,7 +9,7 @@ import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 
 
-public class DoctorController {
+public class DoctorGuiController {
 
     private Stage stage;
     private Doctor doctor;
@@ -28,7 +28,9 @@ public class DoctorController {
         Registry matchingService;
         MatchingServiceInterface matchingServiceInterface;
         try {
-            matchingService = LocateRegistry.getRegistry("localhost", 3001);
+            SslClientSocketFactory csf = new SslClientSocketFactory("client", "clientpw");
+
+            matchingService = LocateRegistry.getRegistry("localhost", 3001, csf);
             matchingServiceInterface = (MatchingServiceInterface) matchingService.lookup("MatchingServiceService");
 
             this.doctor = new Doctor(matchingServiceInterface);

@@ -12,15 +12,15 @@ import java.security.cert.CertificateException;
 
 public class SslClientSocketFactory implements RMIClientSocketFactory, Serializable {
 
-    private SSLSocketFactory sf = null;
+    private final SSLSocketFactory sf;
 
     public SslClientSocketFactory(String filename, String password) throws IOException, NoSuchAlgorithmException, CertificateException, KeyStoreException, UnrecoverableKeyException, KeyManagementException {
         KeyStore ks = KeyStore.getInstance("jks");
-        ks.load(new FileInputStream(new File(filename + ".ks")), password.toCharArray());
+        ks.load(new FileInputStream(filename + ".ks"), password.toCharArray());
         KeyManagerFactory kmf = KeyManagerFactory.getInstance(KeyManagerFactory.getDefaultAlgorithm());
         kmf.init(ks, password.toCharArray());
         KeyStore ts = KeyStore.getInstance("jks");
-        ts.load(new FileInputStream(new File(filename + ".ts")), password.toCharArray());
+        ts.load(new FileInputStream(filename + ".ts"), password.toCharArray());
         TrustManagerFactory tmf = TrustManagerFactory.getInstance(TrustManagerFactory.getDefaultAlgorithm());
         tmf.init(ts);
         SSLContext sslContext = SSLContext.getInstance("TLS");
@@ -30,8 +30,7 @@ public class SslClientSocketFactory implements RMIClientSocketFactory, Serializa
 
     @Override
     public Socket createSocket(String host, int port) throws IOException {
-        SSLSocket sslSock = (SSLSocket) sf.createSocket(host, port);
-        return sslSock;
+        return sf.createSocket(host, port);
     }
 
 }

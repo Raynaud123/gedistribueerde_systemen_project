@@ -1,20 +1,17 @@
-package com.example.BarOwner;
+package com.example.mixingproxy;
 
 import javax.net.ssl.*;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.Serializable;
-import java.net.Socket;
-import java.rmi.server.RMIClientSocketFactory;
+import java.io.*;
+import java.net.ServerSocket;
+import java.rmi.server.RMIServerSocketFactory;
 import java.security.*;
 import java.security.cert.CertificateException;
 
-public class SslClientSocketFactory implements RMIClientSocketFactory, Serializable {
+public class SslServerSocketFactory implements RMIServerSocketFactory, Serializable {
 
-    private final SSLSocketFactory sf;
+    private final SSLServerSocketFactory ssf;
 
-    public SslClientSocketFactory(String filename, String password) throws IOException, NoSuchAlgorithmException, CertificateException, KeyStoreException, UnrecoverableKeyException, KeyManagementException {
+    public SslServerSocketFactory(String filename, String password) throws IOException, NoSuchAlgorithmException, CertificateException, KeyStoreException, UnrecoverableKeyException, KeyManagementException {
         KeyStore ks = KeyStore.getInstance("jks");
         ks.load(new FileInputStream(filename + ".ks"), password.toCharArray());
         KeyManagerFactory kmf = KeyManagerFactory.getInstance(KeyManagerFactory.getDefaultAlgorithm());
@@ -25,12 +22,14 @@ public class SslClientSocketFactory implements RMIClientSocketFactory, Serializa
         tmf.init(ts);
         SSLContext sslContext = SSLContext.getInstance("TLS");
         sslContext.init(kmf.getKeyManagers(), tmf.getTrustManagers(), new SecureRandom());
-        sf = sslContext.getSocketFactory();
+        ssf = sslContext.getServerSocketFactory();
     }
 
     @Override
-    public Socket createSocket(String host, int port) throws IOException {
-        return sf.createSocket(host, port);
+    public ServerSocket createServerSocket(int port) throws IOException {
+        SSLServerSocket sslSock = (SSLServerSocket) ssf.createServerSocket(port);
+        sslSock.setNeedClientAuth(true);
+        return sslSock;
     }
 
 }

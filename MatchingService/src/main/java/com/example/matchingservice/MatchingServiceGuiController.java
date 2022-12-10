@@ -28,7 +28,10 @@ public class MatchingServiceGuiController {
 
     public void startServer() {
         try {
-            Registry registry = LocateRegistry.createRegistry(3001);
+            SslClientSocketFactory csf = new SslClientSocketFactory("client", "clientpw");
+            SslServerSocketFactory ssf = new SslServerSocketFactory("registry", "registrypw");
+
+            Registry registry = LocateRegistry.createRegistry(3001, csf, ssf);
             registry.bind("MatchingServiceService", new MatchingServiceImpl(matchingService));
         } catch (Exception e) {
             throw new RuntimeException(e);

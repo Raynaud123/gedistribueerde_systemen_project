@@ -34,15 +34,18 @@ public class MixingProxyGuiController {
         MatchingServiceInterface matchingServiceInterface;
         RegistrarInterface registrarInterface;
         try {
-            matchingService = LocateRegistry.getRegistry("localhost", 3001);
+            SslClientSocketFactory csf = new SslClientSocketFactory("client", "clientpw");
+            SslServerSocketFactory ssf = new SslServerSocketFactory("registry", "registrypw");
+
+            matchingService = LocateRegistry.getRegistry("localhost", 3001, csf);
             matchingServiceInterface = (MatchingServiceInterface) matchingService.lookup("MatchingServiceService");
 
-            registrar = LocateRegistry.getRegistry("localhost", 3000);
+            registrar = LocateRegistry.getRegistry("localhost", 3000, csf);
             registrarInterface = (RegistrarInterface) registrar.lookup("RegistrarService");
 
             this.mixingProxy = new MixingProxy(matchingServiceInterface, registrarInterface);
 
-            Registry registry = LocateRegistry.createRegistry(3002);
+            Registry registry = LocateRegistry.createRegistry(3002, csf, ssf);
             registry.bind("MixingProxyService", new MixingProxyImpl(this.mixingProxy));
             System.out.println("Mixing proxy server ready");
         } catch (Exception e) {
