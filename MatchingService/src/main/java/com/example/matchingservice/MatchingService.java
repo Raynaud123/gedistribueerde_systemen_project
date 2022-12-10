@@ -1,6 +1,5 @@
 package com.example.matchingservice;
 
-import com.example.registrar.RegistrarInterface;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -25,7 +24,7 @@ public class MatchingService {
 
         Registry registrarRegistry;
         try {
-            registrarRegistry = LocateRegistry.getRegistry("localhost", 1112);
+            registrarRegistry = LocateRegistry.getRegistry("localhost", 3000);
             registrarInterface = (RegistrarInterface) registrarRegistry.lookup("RegistrarService");
         }catch (Exception e){
             System.out.println("error connecting to registrar");
@@ -77,23 +76,7 @@ public class MatchingService {
                 }
             }
         }
-
-//        this.randomNumbers.add(randomNumbers);
-//        this.hashes.add(hashes);
-//        this.timestamps.add(timestamps);
-//        addTokens(tokens);
     }
-
-//    private void addTokens(ArrayList<String> tokens) {
-//        ArrayList<Token> temp = new ArrayList<>();
-//        for (String token : tokens) {
-//            Token t = new Token(token, "uninformed", LocalDateTime.now());
-//            temp.add(t);
-//        }
-//
-//        this.tokens.add(temp);
-//    }
-
 
     public ArrayList<String> fetchCriticalHashes() {
         ArrayList<String> temp = new ArrayList<>();

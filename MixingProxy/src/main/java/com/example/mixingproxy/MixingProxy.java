@@ -1,7 +1,5 @@
 package com.example.mixingproxy;
 
-import com.example.matchingservice.MatchingServiceInterface;
-import com.example.registrar.RegistrarInterface;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 

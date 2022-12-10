@@ -1,6 +1,5 @@
 package com.example.visitor;
 
-import com.example.registrar.RegistrarInterface;
 import com.github.sarxos.webcam.Webcam;
 import javafx.application.Platform;
 import javafx.beans.property.ObjectProperty;
@@ -21,9 +20,7 @@ import javafx.stage.Stage;
 
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
-import java.rmi.registry.LocateRegistry;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.security.SignatureException;
@@ -156,7 +153,7 @@ public class QRCodeController{
     private void startWebCamStream() {
         boolean stopCamera = false;
 
-        task = new Task<Void>() {
+        task = new Task<>() {
 
             @Override
             protected Void call() {
@@ -232,7 +229,7 @@ public class QRCodeController{
         stage.show();
     }
 
-    public void fetchCritical() throws IOException, RemoteException, ParseException {
+    public void fetchCritical() throws IOException, ParseException {
         boolean gevonden = visitor.fetchCritical();
 
         if(gevonden){

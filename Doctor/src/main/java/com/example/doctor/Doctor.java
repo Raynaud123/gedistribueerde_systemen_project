@@ -1,11 +1,9 @@
 package com.example.doctor;
 
-import com.example.matchingservice.MatchingServiceInterface;
-
-import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
-import java.rmi.registry.LocateRegistry;
-import java.security.*;
+import java.security.KeyPair;
+import java.security.KeyPairGenerator;
+import java.security.NoSuchAlgorithmException;
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.util.ArrayList;

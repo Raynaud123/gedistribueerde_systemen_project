@@ -1,7 +1,5 @@
 package com.example.BarOwner;
 
-import com.example.registrar.RegistrarInterface;
-
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
@@ -12,7 +10,7 @@ public class BarOwnerMain {
         Registry registrarRegistry;
         RegistrarInterface registrarInterface;
         try {
-            registrarRegistry = LocateRegistry.getRegistry("localhost", 1112);
+            registrarRegistry = LocateRegistry.getRegistry("localhost", 3000);
             registrarInterface = (RegistrarInterface) registrarRegistry.lookup("RegistrarService");
 
         } catch (RemoteException | NotBoundException e) {

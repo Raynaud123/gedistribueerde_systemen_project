@@ -1,8 +1,5 @@
 package com.example.visitor;
 
-import com.example.matchingservice.MatchingServiceInterface;
-import com.example.mixingproxy.MixingProxyInterface;
-
 import java.awt.image.BufferedImage;
 import java.rmi.RemoteException;
 import java.security.*;
@@ -21,7 +18,6 @@ public class Visitor {
     private ArrayList<String> signaturesOfToday;
     private final Map<String,ArrayList<String>> mappingResTo;
     private final PublicKey publicKeyMixing;
-    private final PublicKey publicKeyRegistrar;
     private String currentHash;
     private String currentToken;
     private final String phoneNumber;
@@ -45,7 +41,6 @@ public class Visitor {
         this.phoneNumber = phoneNumber;
         this.matchingServiceInterface = matchingServiceInterface;
         publicKeyMixing = mixingProxyInterface.getPublicKey();
-        this.publicKeyRegistrar = publicKeyRegistrar;
         currentIndex = -1;
     }
 
@@ -65,7 +60,7 @@ public class Visitor {
             if(mappingResTo.containsKey(hashString)){
                 mappingResTo.get(hashString).add(currentToken);
             }else {
-                mappingResTo.put(hashString,new ArrayList<String>());
+                mappingResTo.put(hashString, new ArrayList<>());
                 mappingResTo.get(hashString).add(currentToken);
             }
             return IconGenVisitor.generateIdenticons(hashString, 300,300);
@@ -96,7 +91,7 @@ public class Visitor {
         if(mappingResTo.containsKey(currentHash)){
             mappingResTo.get(currentHash).add(currentToken);
         }else {
-            mappingResTo.put(currentHash,new ArrayList<String>());
+            mappingResTo.put(currentHash, new ArrayList<>());
             mappingResTo.get(currentHash).add(currentToken);
         }
         timestamps.add(ts);
@@ -157,11 +152,9 @@ public class Visitor {
         return gevonden;
     }
 
-    boolean isWithinRange(Timestamp firstTimestamp, Timestamp secondTimestamp) throws ParseException {
+    boolean isWithinRange(Timestamp firstTimestamp, Timestamp secondTimestamp) {
         long diff = firstTimestamp.getTime() - secondTimestamp.getTime();
-        if(diff<=900000 && diff>=-900000){
-            return true;
-        }else return false;
+        return diff <= 900000 && diff >= -900000;
     }
 
 

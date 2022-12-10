@@ -1,12 +1,9 @@
 package com.example.matchingservice;
 
-import com.example.registrar.RegistrarInterface;
-import javafx.event.ActionEvent;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 
-import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
@@ -31,8 +28,8 @@ public class MatchingServiceGuiController {
 
     public void startServer() {
         try {
-            Registry registry = LocateRegistry.createRegistry(5001);
-            registry.rebind("MatchingServiceImpl", new MatchingServiceImpl(matchingService));
+            Registry registry = LocateRegistry.createRegistry(3001);
+            registry.rebind("MatchingServiceServiceService", new MatchingServiceImpl(matchingService));
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

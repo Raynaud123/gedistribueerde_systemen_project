@@ -1,8 +1,5 @@
 package com.example.visitor;
 
-import com.example.matchingservice.MatchingServiceInterface;
-import com.example.mixingproxy.MixingProxyInterface;
-import com.example.registrar.RegistrarInterface;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -34,7 +31,7 @@ public class RegisterController {
 
         this.stage = stage;
         try {
-            registrarRegistry = LocateRegistry.getRegistry("localhost", 1113);
+            registrarRegistry = LocateRegistry.getRegistry("localhost", 3000);
             registrarInterface = (RegistrarInterface) registrarRegistry.lookup("RegistrarService");
 
         } catch (RemoteException | NotBoundException e) {
@@ -62,11 +59,11 @@ public class RegisterController {
                 Registry matchingService;
                 MatchingServiceInterface matchingServiceInterface;
                 try {
-                    mixingProxy = LocateRegistry.getRegistry("localhost", 4500);
-                    mixingProxyInterface = (MixingProxyInterface) mixingProxy.lookup("MixingProxyImpl");
+                    mixingProxy = LocateRegistry.getRegistry("localhost", 3002);
+                    mixingProxyInterface = (MixingProxyInterface) mixingProxy.lookup("MixingProxyService");
 
-                    matchingService = LocateRegistry.getRegistry("localhost", 5000);
-                    matchingServiceInterface = (MatchingServiceInterface) matchingService.lookup("MatchingServiceImpl");
+                    matchingService = LocateRegistry.getRegistry("localhost", 3001);
+                    matchingServiceInterface = (MatchingServiceInterface) matchingService.lookup("MatchingServiceService");
 
                 } catch (RemoteException | NotBoundException e) {
                     throw new RuntimeException(e);

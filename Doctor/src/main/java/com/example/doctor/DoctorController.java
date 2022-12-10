@@ -4,14 +4,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.stage.Stage;
 
-import java.io.IOException;
-import java.rmi.NotBoundException;
-import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
-import java.security.NoSuchAlgorithmException;
-
-import com.example.matchingservice.MatchingServiceInterface;
 
 
 public class DoctorController {
@@ -33,8 +27,8 @@ public class DoctorController {
         Registry matchingService;
         MatchingServiceInterface matchingServiceInterface;
         try {
-            matchingService = LocateRegistry.getRegistry("localhost", 5000);
-            matchingServiceInterface = (MatchingServiceInterface) matchingService.lookup("MatchingServiceImpl");
+            matchingService = LocateRegistry.getRegistry("localhost", 3001);
+            matchingServiceInterface = (MatchingServiceInterface) matchingService.lookup("MatchingServiceService");
 
             this.doctor = new Doctor(matchingServiceInterface);
         } catch (Exception e) {
@@ -42,8 +36,7 @@ public class DoctorController {
         }
     }
 
-    public void handleButtonGetLogs() throws IOException, NoSuchAlgorithmException {
-
+    public void handleButtonGetLogs() {
         String phoneNumber =  pn.getText();
         try {
             doctor.getLogsFromUser(phoneNumber);
@@ -51,6 +44,5 @@ public class DoctorController {
             e.printStackTrace();
         }
     }
-
 
 }

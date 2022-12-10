@@ -1,6 +1,5 @@
 package com.example.BarOwner;
 
-import com.example.registrar.RegistrarInterface;
 import com.google.zxing.WriterException;
 
 import java.io.ByteArrayOutputStream;
@@ -52,7 +51,7 @@ public class BarOwner {
 
     public void generateQRCode(LocalDate date) {
         if (!pseudonymMap.containsKey(date)) {
-            System.out.println("No pseudonymn available for this date");
+            System.out.println("No pseudonym available for this date");
             return;
         }
 
