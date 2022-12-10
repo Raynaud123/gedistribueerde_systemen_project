@@ -7,6 +7,7 @@ import javafx.collections.ObservableList;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
+import java.security.*;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -17,6 +18,7 @@ import java.util.TimerTask;
 public class MatchingService {
 
     private final ObservableList<Capsule> capsules;
+    private PublicKey publicKey;
     public RegistrarInterface registrarInterface;
 
 
@@ -70,16 +72,42 @@ public class MatchingService {
         capsules.removeAll(capsulesToRemove);
     }
 
-    public void saveInfectedLogs(ArrayList<Integer> randomNumbers, ArrayList<String> hashes, ArrayList<Timestamp> timestamps, ArrayList<String> tokens) {
-        for(int i = 0 ; i < tokens.size(); i++){
-            Capsule temp = new Capsule(timestamps.get(i), tokens.get(i),hashes.get(i));
-            for (Capsule capsule : capsules) {
-                if (temp.equals(capsule)) {
-                    capsule.setCritical(true);
+    public void saveInfectedLogs(ArrayList<Integer> randomNumbers, byte[] randomNumbersSigned, ArrayList<String> hashes, byte[] hashesSigned, ArrayList<Timestamp> timestamps, byte[] timestampsSigned, ArrayList<String> tokens, byte[] tokensSigned) throws NoSuchAlgorithmException, SignatureException, InvalidKeyException {
+
+        boolean validateOK = validateSignature(randomNumbers.toString(), randomNumbersSigned);
+        if (!validateSignature(hashes.toString(), hashesSigned)) validateOK = false;
+        else if (!validateSignature(timestamps.toString(), timestampsSigned)) validateOK = false;
+        else if (!validateSignature(tokens.toString(), tokensSigned)) validateOK = false;
+
+        if (validateOK) {
+            for(int i = 0 ; i < tokens.size(); i++){
+                Capsule temp = new Capsule(timestamps.get(i), tokens.get(i),hashes.get(i));
+                for (Capsule capsule : capsules) {
+                    if (temp.equals(capsule)) {
+                        capsule.setCritical(true);
+                    }
                 }
             }
         }
     }
+
+    private boolean validateSignature(String toValidateToString, byte[] signed) throws NoSuchAlgorithmException, InvalidKeyException, SignatureException {
+        Signature sign = Signature.getInstance("SHA256withRSA");
+        sign.initVerify(publicKey);
+        sign.update(toValidateToString.getBytes());
+        return sign.verify(signed);
+    }
+
+//    private void addTokens(ArrayList<String> tokens) {
+//        ArrayList<Token> temp = new ArrayList<>();
+//        for (String token : tokens) {
+//            Token t = new Token(token, "uninformed", LocalDateTime.now());
+//            temp.add(t);
+//        }
+//
+//        this.tokens.add(temp);
+//    }
+
 
     public ArrayList<String> fetchCriticalHashes() {
         ArrayList<String> temp = new ArrayList<>();
@@ -124,5 +152,9 @@ public class MatchingService {
 
     public void removeCapsules() {
         capsules.clear();
+    }
+
+    public void setPublicKey(PublicKey publicKey) {
+        this.publicKey = publicKey;
     }
 }
