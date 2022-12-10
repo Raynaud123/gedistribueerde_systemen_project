@@ -1,5 +1,6 @@
 package com.example.matchingservice;
 
+import com.example.registrar.RegistrarInterface;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -19,15 +20,16 @@ public class MatchingService {
     public RegistrarInterface registrarInterface;
 
 
-    public MatchingService()  {
+    public MatchingService() {
         this.capsules = FXCollections.observableArrayList(new ArrayList<>());
 
         Registry registrarRegistry;
         try {
             registrarRegistry = LocateRegistry.getRegistry("localhost", 3000);
             registrarInterface = (RegistrarInterface) registrarRegistry.lookup("RegistrarService");
-        }catch (Exception e){
+        } catch (Exception e){
             System.out.println("error connecting to registrar");
+            throw new RuntimeException(e);
         }
 
         // Capsules need to be deleted after predefined interval(in this case 7 days)

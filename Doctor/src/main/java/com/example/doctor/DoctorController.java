@@ -1,5 +1,6 @@
 package com.example.doctor;
 
+import com.example.matchingservice.MatchingServiceInterface;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.stage.Stage;

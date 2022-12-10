@@ -1,5 +1,8 @@
 package com.example.visitor;
 
+import com.example.matchingservice.MatchingServiceInterface;
+import com.example.mixingproxy.MixingProxyInterface;
+import com.example.registrar.RegistrarInterface;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;

@@ -1,5 +1,7 @@
 package com.example.BarOwner;
 
+import com.example.registrar.RegistrarInterface;
+
 import java.rmi.RemoteException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;

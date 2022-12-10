@@ -1,5 +1,8 @@
 package com.example.visitor;
 
+import com.example.matchingservice.MatchingServiceInterface;
+import com.example.mixingproxy.MixingProxyInterface;
+
 import java.awt.image.BufferedImage;
 import java.rmi.RemoteException;
 import java.security.*;

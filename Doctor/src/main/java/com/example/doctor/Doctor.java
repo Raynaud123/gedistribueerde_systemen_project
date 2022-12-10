@@ -1,5 +1,7 @@
 package com.example.doctor;
 
+import com.example.matchingservice.MatchingServiceInterface;
+
 import java.rmi.RemoteException;
 import java.security.KeyPair;
 import java.security.KeyPairGenerator;

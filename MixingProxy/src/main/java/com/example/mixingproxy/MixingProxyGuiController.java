@@ -1,5 +1,7 @@
 package com.example.mixingproxy;
 
+import com.example.matchingservice.MatchingServiceInterface;
+import com.example.registrar.RegistrarInterface;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -41,7 +43,7 @@ public class MixingProxyGuiController {
             this.mixingProxy = new MixingProxy(matchingServiceInterface, registrarInterface);
 
             Registry registry = LocateRegistry.createRegistry(3002);
-            registry.rebind("MixingProxyService", new MixingProxyImpl(this.mixingProxy));
+            registry.bind("MixingProxyService", new MixingProxyImpl(this.mixingProxy));
             System.out.println("Mixing proxy server ready");
         } catch (Exception e) {
            throw new RuntimeException(e);

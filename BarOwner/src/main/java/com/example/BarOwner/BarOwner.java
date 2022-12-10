@@ -1,5 +1,6 @@
 package com.example.BarOwner;
 
+import com.example.registrar.RegistrarInterface;
 import com.google.zxing.WriterException;
 
 import java.io.ByteArrayOutputStream;

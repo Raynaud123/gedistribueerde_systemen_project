@@ -29,7 +29,7 @@ public class MatchingServiceGuiController {
     public void startServer() {
         try {
             Registry registry = LocateRegistry.createRegistry(3001);
-            registry.rebind("MatchingServiceServiceService", new MatchingServiceImpl(matchingService));
+            registry.bind("MatchingServiceService", new MatchingServiceImpl(matchingService));
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

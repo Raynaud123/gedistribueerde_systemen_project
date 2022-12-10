@@ -1,5 +1,7 @@
 package com.example.BarOwner;
 
+import com.example.registrar.RegistrarInterface;
+
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
