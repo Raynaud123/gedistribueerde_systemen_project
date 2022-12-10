@@ -8,11 +8,19 @@ import javafx.collections.ObservableMap;
 import javafx.scene.control.*;
 
 import javax.crypto.SecretKey;
+import javax.rmi.ssl.SslRMIClientSocketFactory;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.rmi.AlreadyBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
+import java.security.KeyManagementException;
+import java.security.KeyStoreException;
+import java.security.NoSuchAlgorithmException;
+import java.security.UnrecoverableKeyException;
+import java.security.cert.CertificateException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
@@ -65,10 +73,15 @@ public class RegistrarGuiController {
 
     public void startServer() {
         try {
-            Registry registry = LocateRegistry.createRegistry(3000);
+
+            SslClientSocketFactory csf = new SslClientSocketFactory("client", "clientpw");
+            SslServerSocketFactory ssf = new SslServerSocketFactory("registry", "registrypw");
+
+            Registry registry = LocateRegistry.createRegistry(3000, csf, ssf);
             registry.bind("RegistrarService", new RegistrarImpl(this.registrar));
             System.out.println("Registrar server ready");
-        } catch (RemoteException | AlreadyBoundException e) {
+        } catch (AlreadyBoundException | UnrecoverableKeyException | CertificateException | IOException |
+                 NoSuchAlgorithmException | KeyStoreException | KeyManagementException e) {
             throw new RuntimeException(e);
         }
     }
