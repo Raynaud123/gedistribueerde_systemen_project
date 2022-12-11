@@ -5,22 +5,21 @@
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.FlowPane?>
-<?import javafx.scene.layout.Region?>
 
-<AnchorPane prefHeight="556.0" prefWidth="719.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.matchingservice.MatchingServiceGuiController">
+<AnchorPane prefHeight="556.0" prefWidth="834.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.matchingservice.MatchingServiceGuiController">
     <children>
-      <FlowPane alignment="CENTER" prefHeight="60.0" prefWidth="700.0">
+      <FlowPane alignment="CENTER" layoutX="14.0" prefHeight="60.0" prefWidth="806.0">
          <children>
-            <Button fx:id="removeButton" mnemonicParsing="false" onAction="#removeOldCapsules" prefHeight="34.0" prefWidth="126.0" text="Delete Capsules" />
-            <Region prefHeight="34.0" prefWidth="200.0" />
             <Button mnemonicParsing="false" onAction="#sentUninformedTokens" prefHeight="34.0" text="Flush Uninformed Capsules" />
          </children>
       </FlowPane>
-        <TableView fx:id="tableCapsules" layoutX="14.0" layoutY="61.0" prefHeight="482.0" prefWidth="685.0">
+        <TableView fx:id="tableCapsules" layoutX="14.0" layoutY="61.0" prefHeight="482.0" prefWidth="806.0">
             <columns>
-                <TableColumn fx:id="colTimestamp" prefWidth="150.0" text="Timestamp" />
-                <TableColumn fx:id="colUserToken" prefWidth="214.0" text="Usertoken" />
-                <TableColumn fx:id="colHash" prefWidth="339.0" text="Hash" />
+                <TableColumn fx:id="colTimestamp" prefWidth="145.0" text="Timestamp" />
+                <TableColumn fx:id="colUserToken" prefWidth="182.0" text="Usertoken" />
+                <TableColumn fx:id="colHash" prefWidth="352.0" text="Hash" />
+            <TableColumn fx:id="colCrit" prefWidth="63.0" text="Critical" />
+            <TableColumn fx:id="colInform" prefWidth="63.0" text="Informed" />
             </columns>
         </TableView>
     </children>

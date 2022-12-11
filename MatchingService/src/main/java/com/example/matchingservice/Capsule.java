@@ -15,7 +15,7 @@ public class Capsule {
         this.userToken = userToken;
         this.hash = hash;
         this.critical = false;
-        this.informed = true;
+        this.informed = false;
     }
 
     public Timestamp getTimeInterval() {

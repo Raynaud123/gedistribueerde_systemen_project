@@ -18,7 +18,8 @@ public class MatchingServiceGuiController {
     public TableColumn<Timestamp, String> colTimestamp;
     public TableColumn<String, String> colUserToken;
     public TableColumn<String, String> colHash;
-
+    public TableColumn<String, Boolean> colCrit;
+    public TableColumn<String, Boolean> colInform;
 
 
     public void initialize() {
@@ -44,13 +45,8 @@ public class MatchingServiceGuiController {
         colTimestamp.setCellValueFactory(new PropertyValueFactory<>("timeInterval"));
         colUserToken.setCellValueFactory(new PropertyValueFactory<>("userToken"));
         colHash.setCellValueFactory(new PropertyValueFactory<>("hash"));
-    }
-
-    public void removeOldCapsules(){
-        matchingService.removeOldCapsules();
-    }
-    public void removeCapsules(){
-        matchingService.removeCapsules();
+        colCrit.setCellValueFactory(new PropertyValueFactory<>("critical"));
+        colInform.setCellValueFactory(new PropertyValueFactory<>("informed"));
     }
 
     public void sentUninformedTokens() throws RemoteException {

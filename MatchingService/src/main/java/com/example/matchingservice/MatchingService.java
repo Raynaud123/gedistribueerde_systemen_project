@@ -150,10 +150,6 @@ public class MatchingService {
 
     }
 
-    public void removeCapsules() {
-        capsules.clear();
-    }
-
     public void setPublicKey(PublicKey publicKey) {
         this.publicKey = publicKey;
     }
