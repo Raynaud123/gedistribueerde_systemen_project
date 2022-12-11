@@ -21,7 +21,7 @@ public class IconController{
     @FXML
     private ImageView image;
 
-    private TimerTask hourlyTask;
+    private TimerTask halfHourlyTask;
     private Stage stage;
     private Visitor visitor;
     private Timer timer;
@@ -36,7 +36,7 @@ public class IconController{
         Image image_converted = SwingFXUtils.toFXImage(icon, null);
         image.setImage(image_converted);
         timer = new Timer ();
-        hourlyTask = new TimerTask () {
+        halfHourlyTask = new TimerTask () {
             @Override
             public void run () {
                 try {
@@ -47,14 +47,14 @@ public class IconController{
                 }
             }
         };
-        //flushCapsules from visitor every Hour
-        timer.schedule(hourlyTask, 1000*60*60, 1000*60*60);
+        //flushCapsules from visitor every half hour
+        timer.schedule(halfHourlyTask, 1000*60*30, 1000*60*30);
     }
 
 
     public void handleLogout() throws IOException {
         //Stop Tasks
-        hourlyTask.cancel();
+        halfHourlyTask.cancel();
         timer.cancel();
         visitor.logout();
         //Switch scenes

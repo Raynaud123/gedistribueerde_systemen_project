@@ -91,9 +91,10 @@ public class Visitor {
         tokensOfToday.remove(currentToken);
         tokens.add(currentToken);
         hashes.add(currentHash);
-        if(mappingResTo.containsKey(currentHash)){
+        if (mappingResTo.containsKey(currentHash)) {
             mappingResTo.get(currentHash).add(currentToken);
-        }else {
+        }
+        else {
             mappingResTo.put(currentHash, new ArrayList<>());
             mappingResTo.get(currentHash).add(currentToken);
         }
